@@ -1,6 +1,5 @@
 # Flipbase Documentation
 
-- 
 - Reads intro Jekyell & generate page
 - Include external repositories
 - Publish using Gitbook
