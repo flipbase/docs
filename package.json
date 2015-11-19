@@ -2,7 +2,7 @@
   "name": "docs",
   "version": "0.0.1",
   "scripts": {
-    "serve": "node_modules/.bin/gitbook serve ./"
+    "serve": "./node_modules/.bin/gitbook serve ./"
   },
   "devDependencies": {
     "gitbook": "*",
