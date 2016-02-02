@@ -1,0 +1,480 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>API | Flipbase documentation</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.5.2">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-versions/plugin.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox-buttons.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-comment/plugin.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    
+    <link rel="prev" href="../player/docs.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book" data-level="3" data-chapter-title="API" data-filepath="api/api.md" data-basepath=".." data-revision="Tue Feb 02 2016 11:08:16 GMT+0100 (CET)">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="recorder/docs.html">
+            
+                
+                    <a href="../recorder/docs.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        recorder.js
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="player/docs.html">
+            
+                
+                    <a href="../player/docs.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        player.js
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="3" data-path="api/api.html">
+            
+                
+                    <a href="../api/api.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        API
+                    </a>
+            
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Flipbase documentation</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="flipbase-api">Flipbase API</h1>
+<p>The Flipbase API enables access to resource like <code>apps</code> and <code>videos</code>. Authentication and authorization of the API is modeled after Amazon&apos;s signed URL framework. The API utilizes <a href="https://tools.ietf.org/html/rfc2104" target="_blank">RFC 2104</a> and <a href="https://tools.ietf.org/html/rfc4868" target="_blank">RFC 4868</a> compliant HMAC&apos;s.</p>
+<h2 id="create-a-signed-request">Create a signed request</h2>
+<p>The Flipbase API will deny all non-authorized requests by default. You can authorize a request using the <code>Authorization</code> header in the following format: <code>&lt;FlipbaseClientId&gt;:&lt;Signature&gt;</code></p>
+<h3 id="create-a-signature">Create a signature</h3>
+<pre><code>StringToSign = HTTP-Verb + &quot;\n&quot; +
+     URI-encode( &lt;Path&gt; ) + &quot;\n&quot; +
+     URI-encode ( Base64( &lt;Payload&gt; ) ) + &quot;\n&quot;
+     Date;
+
+Signature = Base64( HMAC-SHA256( &lt;FLIPBASE_CLIENT_SECRET&gt;, UTF-8-Encoding-Of( &lt;StringToSign&gt; ) ) ); 
+
+DELETE /api/videos/&lt;VIDEO_ID&gt; HTTP/1.1
+Host: app.flipbase.com
+Date: Date
+Authorization: FLIPBASE Base64( &lt;FLIPBASE_CLIENT_ID&gt; ):&lt;Signature&gt;
+</code></pre><p><strong>StringToSign attributes</strong></p>
+<p>The string to sign that is used to create the signature is build using 4 attributes: the verb, path, payload and date</p>
+<table>
+<thead>
+<tr>
+<th>Attributes</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP-Verb</td>
+<td>Uppercase plain-text (e.g GET, POST, PUT or DELETE)</td>
+</tr>
+<tr>
+<td>Path</td>
+<td>URI path and query paramaters (excluding hostname) </td>
+</tr>
+<tr>
+<td>Payload</td>
+<td>Any JSON payload you want to send along with a POST or PUT request. URL-encoded data is not supported. Encode the JSON payload using Base64 and URI-encoding. When body is empty, only then use <code>URI-encode ( Base64( {} ) )</code></td>
+</tr>
+<tr>
+<td>Date</td>
+<td>The date value should be identitcal to the value provided in the Date or X-Flipbase-Date header. The Date is the current UTC time in <a href="https://www.ietf.org/rfc/rfc3339.txt" target="_blank">ISO 8601</a> format (for example, 20130524T000000Z).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="headers">Headers</h3>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Required</th>
+<th>Descriptions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Date</td>
+<td>only if &apos;X-Flipbase-Date&apos; is omitted</td>
+<td>Some HTTP client libraries do not expose the ability to set the Date header for a request. If you have trouble including the value of the &#x2018;Date&#x2019; header in the headers, you can set the timestamp for the request by using an &#x2018;x-flipbase-date&#x2018; header instead.</td>
+</tr>
+<tr>
+<td>X-Flipbase-Date</td>
+<td>only if <code>Date</code> header is omitted</td>
+<td>The value of the x-flipbase-date header must be in one of the RFC 2616 formats (<a href="http://www.ietf.org/rfc/rfc2616.txt" target="_blank">http://www.ietf.org/rfc/rfc2616.txt</a>). When an x-flipbase-date header is present in a request, the system will ignore any Date header when computing the request signature.</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>yes</td>
+<td>Prepend the Base64( FlipbaseClientId ):Signature string with <code>FLIPBASE</code>. The FlipbaseClientId needs to be Base64 encoded</td>
+</tr>
+</tbody>
+</table>
+<h2 id="resources">Resources</h2>
+<h2 id="get--apps">GET  /apps</h2>
+<p>Each application holds a reference to 1 recorder and 1 player instance.</p>
+<table>
+<thead>
+<tr>
+<th>Attributes</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>yes</td>
+<td>Name of the application, usually refers to the company or to a particular department.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>no</td>
+<td>Explanation what kind of video&apos;s the application holds, or where the video&apos;s are used for.</td>
+</tr>
+<tr>
+<td>domains</td>
+<td>yes</td>
+<td>The <code>domains</code> attributes should hold all the domains were video&apos;s will be recorded and played. By default video&apos;s MUST always contain the domain <code>app.flipbase.com</code> since the recorder uses CORS. You can include root domains (example.com) and wildcard domains (<em>.example.com). Wildcard domains refer to all subdomains of the root domain. If you want to record video&apos;s at record.example.com and play the video&apos;s at example.com, you need to include both like this `domains: [&quot;</em>.example.com&quot;, example.com&quot;, &quot;*.flipbase.com&quot;]`</td>
+</tr>
+<tr>
+<td>player_id</td>
+<td>no</td>
+<td>The player_id will be always available and cannot be updated</td>
+</tr>
+<tr>
+<td>recorder_id</td>
+<td>no</td>
+<td>The recorder_id will be always available and cannot be updated</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request">Request</h3>
+<pre><code>GET /api/apps
+Host: app.flipbase.com
+Content-Type: application/json
+Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+</code></pre><h3 id="response">Response</h3>
+<pre><code>{
+  data: [{
+    type: &quot;apps&quot;,
+    id: &quot;5370df982b2779cf60e03217&quot;,
+    attributes: {
+      name: &quot;KPN Telecom&quot;,
+      description: &quot;KPN corporate recruitment related videos&quot;,
+      domains: [&quot;*.flipbase.com&quot;, &quot;careers.kpn.com&quot;],
+      player_id: &quot;2419b1eb-fcfc-45b0-bde8-9a3c4d43c804&quot;
+      recorder_id: &quot;1a4ba320-7a4c-4040-9b67-c02490809cf1&quot;
+    }
+  }, {
+    type: &quot;apps&quot;,
+    id: &quot;23d10d0fe4b4f2b53d967c24&quot;,
+    attributes: {
+      name: &quot;PricewaterhouseCoopers&quot;,
+      description: &quot;PWC employer branding&quot;,
+      domains: [&quot;*.flipbase.com&quot;, &quot;careers.pwc.com&quot;, &quot;*.pwc.com&quot;],
+      player_id: &quot;5819b1eb-fcfc-45b0-bde8-9a3c4d43c985&quot;
+      recorder_id: &quot;994ba320-7a4c-4040-9b67-c02490809a59&quot;
+    }      
+  }]
+}
+</code></pre><h2 id="post-apps">POST /apps</h2>
+<p><strong>Request</strong></p>
+<pre><code>POST /api/apps
+Host: app.flipbase.com
+Content-Type: application/json
+Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+
+{
+  data: {
+    type: &quot;apps&quot;,
+    attributes: {
+      name: &quot;KPN Telecom&quot;,
+      description: &quot;KPN corporate recruitment related videos&quot;,
+      domains: [&quot;*.flipbase.com&quot;, &quot;careers.kpn.com&quot;]
+    }
+  }
+}
+</code></pre><p><strong>Response</strong></p>
+<pre><code>{
+  data: {
+    type: &quot;apps&quot;,
+    id: &quot;5370df982b2779cf60e03217&quot;,
+    attributes: {
+      name: &quot;KPN Telecom&quot;,
+      description: &quot;KPN corporate recruitment related videos&quot;,
+      domains: [&quot;*.flipbase.com&quot;, &quot;careers.kpn.com&quot;],
+      player_id: &quot;2419b1eb-fcfc-45b0-bde8-9a3c4d43c804&quot;
+      recorder_id: &quot;1a4ba320-7a4c-4040-9b67-c02490809cf1&quot;
+    }
+  }
+}
+</code></pre><h2 id="get-appsid">GET /apps/:id</h2>
+<p><strong>Request</strong></p>
+<pre><code>GET /api/apps/5370df982b2779cf60e03217
+Host: app.flipbase.com
+Content-Type: application/json
+Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+</code></pre><p><strong>Response</strong></p>
+<pre><code>{
+  data: {
+    type: &quot;apps&quot;,
+    id: &quot;5370df982b2779cf60e03217&quot;,
+    attributes: {
+      name: &quot;KPN Telecom&quot;,
+      description: &quot;KPN corporate recruitment related videos&quot;,
+      domains: [&quot;*.flipbase.com&quot;, &quot;careers.kpn.com&quot;],
+      player_id: &quot;2419b1eb-fcfc-45b0-bde8-9a3c4d43c804&quot;,
+      recorder_id: &quot;1a4ba320-7a4c-4040-9b67-c02490809cf1&quot;
+    }
+  }
+}
+</code></pre><h2 id="put--appsid">PUT  /apps/:id</h2>
+<p><strong>Request</strong></p>
+<pre><code>PUT /api/apps/5370df982b2779cf60e03217
+Host: app.flipbase.com
+Content-Type: application/json
+Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+
+
+{
+  data: {
+    type: &quot;apps&quot;,
+    id: &quot;11223344556677&quot;,
+    attributes: {
+      name: &quot;KPN Telecom&quot;,
+      description: &quot;KPN corporate recruitment related videos&quot;,
+      domains: [&quot;*.flipbase.com&quot;, &quot;*.kpn.com&quot;, &quot;hroffice.com&quot;],
+      player_id: &quot;2419b1eb-fcfc-45b0-bde8-9a3c4d43c804&quot;,
+      recorder_id: &quot;1a4ba320-7a4c-4040-9b67-c02490809cf1&quot;
+    }
+  }
+}
+</code></pre><p><strong>Response</strong></p>
+<pre><code>{
+  data: {
+    type: &quot;apps&quot;,
+    id: &quot;11223344556677&quot;,
+    attributes: {
+      name: &quot;KPN Telecom&quot;,
+      description: &quot;KPN corporate recruitment related videos&quot;,
+      domains: [&quot;*.flipbase.com&quot;, &quot;*.kpn.com&quot;, &quot;hroffice.com&quot;],
+      player_id: &quot;2419b1eb-fcfc-45b0-bde8-9a3c4d43c804&quot;,
+      recorder_id: &quot;1a4ba320-7a4c-4040-9b67-c02490809cf1&quot;
+    }
+  }
+}
+</code></pre><h2 id="delete-appsid">DELETE /apps/:id</h2>
+<p><strong>Request</strong></p>
+<pre><code>DELETE /api/apps/5370df982b2779cf60e03217
+Host: app.flipbase.com
+Content-Type: application/json
+Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+</code></pre><p><strong>Response</strong></p>
+<p>No response body, just a 200 (= successfully deleted), 404 (= not found / already deleted), 401 (= not authorized)</p>
+<h2 id="delete-videosid">DELETE /videos/:id</h2>
+<pre><code>DELETE /api/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
+Host: app.flipbase.com
+Content-Type: application/json
+Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+</code></pre><p><strong>Response</strong></p>
+<p>No response body, just a 200 (= successfully deleted), 404 (= not found / already deleted), 401 (= not authorized)</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../player/docs.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: player.js"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-ga/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-versions/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fancybox/jquery.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox.pack.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox-buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-comment/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"ga":{"token":"UA-45440989-1","configuration":"auto"},"versions":{"gitbookConfigURL":"https://raw.githubusercontent.com/flipbase/docs/book.json","options":[{"value":"https://rackt.github.io/history/v1.3.0/","text":"Version 1.3.0"},{"value":"https://rackt.github.io/history/v1.4.0/","text":"Version 1.0.0","selected":true}],"type":"branches"},"fancybox":{"helpers":{"buttons":{}}},"comment":{},"highlight":{},"search":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        <script>$(".fancybox").fancybox(JSON.parse('{"helpers":{"buttons":{}}}'));</script>
+    </body>
+    
+</html>

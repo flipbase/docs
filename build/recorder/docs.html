@@ -1,0 +1,428 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>recorder.js | Flipbase documentation</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.5.2">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-versions/plugin.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox-buttons.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-comment/plugin.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="../player/docs.html" />
+    
+    
+    <link rel="prev" href="../index.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book" data-level="1" data-chapter-title="recorder.js" data-filepath="recorder/docs.md" data-basepath=".." data-revision="Tue Feb 02 2016 11:08:16 GMT+0100 (CET)">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="1" data-path="recorder/docs.html">
+            
+                
+                    <a href="../recorder/docs.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        recorder.js
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="player/docs.html">
+            
+                
+                    <a href="../player/docs.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        player.js
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="api/api.html">
+            
+                
+                    <a href="../api/api.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        API
+                    </a>
+            
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Flipbase documentation</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="flipbase-recorder">Flipbase recorder</h1>
+<p>In order to use the Recorder app, place the HTML-code in your code, as shown below. The recorder.js application is based on a HTML <code>&lt;input type=&quot;flipbase&quot;/&gt;</code> element and the JavaScript recorder.js library.</p>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!--  Load the JavaScript Recorder library  --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">&quot;//app.flipbase.com/recorder.js&quot;</span> &gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Place an HTML input element at the spot were you would like to show the Recorder --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">form</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;flipbase&quot;</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!--  Initialize the Recorder and provide your &apos;recorderId&apos; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="actionscript">
+      Flipbase.recorder({
+          recorderId: <span class="hljs-string">&quot;your_unique_recorderId&quot;</span>
+      });
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</code></pre>
+<p>When the user has succesfully saved the video, the <code>input</code> node will be provided with a videoId, like shown below:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">form</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;flipbase&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">&quot;63341990-a44e-11e3-bdf9-891861f38674&quot;</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span>
+`
+</code></pre>
+<p>To playback video&#x2019;s you will need to store the videoId in your database. The videoId is an <a href="https://www.ietf.org/rfc/rfc4122.txt" target="_blank">&apos;Universally Unique IDentifier&apos;</a>, better known as UUID. Using the videoId and the Player application you will be able to playback to recorded video.</p>
+<h2 id="settings">Settings</h2>
+<p>Except the <code>recorderId</code> options, all parameters listed below are optional. </p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>recorderId</td>
+<td>String</td>
+<td>UUID provided by Flipbase. This is the only mandatory setting.</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>Number</td>
+<td>Maximum duration in seconds of a single take. <code>30</code> is default. </td>
+</tr>
+<tr>
+<td>primaryColor</td>
+<td>String</td>
+<td>Change the color of most prominent buttons. Color in HEX format.</td>
+</tr>
+<tr>
+<td>secondaryColor</td>
+<td>String</td>
+<td>Color in HEX format.</td>
+</tr>
+<tr>
+<td>backgroundColor</td>
+<td>String</td>
+<td>Change the background color of the application. Color in HEX format.</td>
+</tr>
+<tr>
+<td>textColor</td>
+<td>String</td>
+<td>Change the color of the text. Color in HEX format.</td>
+</tr>
+<tr>
+<td>locale</td>
+<td>String</td>
+<td>Supported locales are <code>en-US</code> and <code>nl-NL</code>. The values <code>nl_nl</code> and <code>en_us</code> are deprecated, but will work until the next release in 2016. </td>
+</tr>
+<tr>
+<td>maxWidth</td>
+<td>Number</td>
+<td>By default the recorder application will fill up it&apos;s parentNode. However, if you want to make sure the height or width of the interface does not exceed a certain number of pixels you can provide it using these 2 properties. Please note, that the recorder ALWAYS keep the 16:9 aspect ratio, even if you provide other dimensions using the maxWidth and maxHeight properties. The application will always choose to most conservative width and height dimension.</td>
+</tr>
+<tr>
+<td>maxHeight</td>
+<td>Number</td>
+<td>See <code>maxWidth</code> description.</td>
+</tr>
+<tr>
+<td>output</td>
+<td>String</td>
+<td>Using the output property you can change what the application will output and insert into the input element. Leaving the output undefined will make sure the application inserts a UUID into the <code>&lt;input type=&quot;flipbase&quot; /&gt;</code> element. However, if you set it embedCode the application will 1) set a embedCode as value of the <code>&lt;input type=&quot;flipbase&quot; /&gt;</code> element and 2) will provide the embed code as second argument when invoking the callback function (if provided). Change the default output (the video id) to <code>embedCode</code> to receive an actual iframe which can be embedded on an external page.</td>
+</tr>
+<tr>
+<td>outputOptions</td>
+<td>Object</td>
+<td>Object literal with <code>pageName</code> as mandatory property. Flipbase will provide you with the proper <code>pageName</code> value.</td>
+</tr>
+<tr>
+<td>callback</td>
+<td>Function</td>
+<td>Once the user saves a video this callback will be triggered. The callback function will be invoked with 2 arguments: the videoId and the output (depending on)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example">Example</h2>
+<pre><code class="lang-JavaScript">Flipbase.recorder({
+  recorderId: <span class="hljs-string">&apos;xxxxxxxx-xxxxx-xxxxx-xxxxx-xxxxxxxxx&apos;</span>,
+  primaryColor: <span class="hljs-string">&apos;#aeb00a&apos;</span>, <span class="hljs-comment">// green button background color</span>
+  secondaryColor: <span class="hljs-string">&apos;#e0e0e0&apos;</span>, <span class="hljs-comment">// ligt grayish text color of the button</span>
+  backgroundColor: <span class="hljs-string">&apos;#242b3c&apos;</span>, <span class="hljs-comment">// dark blueish interface background</span>
+  textColor: <span class="hljs-string">&apos;#FFFFFF&apos;</span>, <span class="hljs-comment">// text color</span>
+  locale: navigator.language || navigator.userLanguage, <span class="hljs-comment">// Change thelanguage based on the users&apos; browser default language</span>
+  showFAQButton: <span class="hljs-literal">false</span>, <span class="hljs-comment">// Hides the default FAQ button</span>
+  maxWidth: <span class="hljs-number">500</span>,
+  callback: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">id, output</span>) </span>{
+    alert(<span class="hljs-string">&apos;The video has been saved to our server. The video UUID you should store in your database is: &apos;</span> + id);
+    <span class="hljs-built_in">console</span> &amp;&amp; <span class="hljs-built_in">console</span>.info &amp;&amp; <span class="hljs-built_in">console</span>.info(<span class="hljs-string">&apos;The video UUID you should store in your database is: &apos;</span> + id);
+  }
+});
+</code></pre>
+<p><div>
+  <input type="flipbase" style="display:none;">
+</div></p>
+<script src="//app.flipbase.com/recorder.js"></script>
+<script>
+  Flipbase.recorder({
+    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+    primaryColor: '#aeb00a',
+    showFAQButton: false,
+    locale: getLanguage(),
+    secondaryColor: '#e0e0e0',
+    backgroundColor: '#242b3c',
+    textColor: '#FFFFFF',
+    maxWidth: 500,
+    callback: function (id, output) {
+      alert('The video has been saved to our server. The video UUID you should store in your database is: ' + id);
+      console && console.info && console.info('The video UUID you should store in your database is: ' + id);
+    }
+  });
+
+  function getLanguage() {
+    var lang = (navigator.language || navigator.userLanguage);
+    console && console.info && console.info('Recorder language will be changed to: ' + lang);
+    return lang;
+  }
+</script>
+
+
+<h2 id="limitations">Limitations</h2>
+<p>What you should know before implementating the recorder interface:</p>
+<ul>
+<li><p>We strongly advice you to make sure that in in all cases (even on mobile phones), the recorder interface is not smaller then <strong>244 pixels</strong> wide.</p>
+</li>
+<li><p>The recorder is fully responsive and automatically fills up the parent element node. If you do not want this, please use a <a href="settings.md"><code>maxWidth</code> setting</a>. </p>
+</li>
+<li><p>Caution: if the <code>parentNode</code> element of the recorder is a <code>table</code> node, this <code>table</code> needs to have a minimum width. Otherwise, it&#x2019;s not possible to record a video using the webcam.</p>
+</li>
+</ul>
+<p><strong> Why a minimum width of 244 pixels?!</strong>
+Well, that&apos;s because of Flash. The Flash Player will automatically deny all access to the microphone and webcam if the interface is smaller then 244 pixels wide. If the interface is smaller than 244 pixels wide, there is not enough room for the Flash Player to show the access dialogue to the user to accept microphone and webcam access. Therefore Flash will automatically block all access and it is not possible to record a video using the webcam. This access dialogue looks something like this:</p>
+<p>     <a href="../assets/images/flash-access-dialogue.png" title="Flash access dialogue" class="fancybox">
+       <img src="../assets/images/flash-access-dialogue.png" alt="Flash access dialogue">
+     </a></p>
+<p><strong> Responsive by design</strong></p>
+<p>The recorder application interface will always keep a 16:9 aspect ratio. By default the recorder.js interface will always fill up it&apos;s parent element. Besides the recorder interface is fully responsive.</p>
+<h2 id="browser-support">Browser support</h2>
+<p>Flipbase is supported in the browsers listed below. We differentiate recording functionality using the webcam (which requires Flash) and video upload functionality (which is used on smartphones and tablets, when Flash is not supported). Video upload functionality uses HTML5 and therefore is not supported on older browsers.</p>
+<h5 id="webcam">Webcam</h5>
+<ul>
+<li>IE7 +</li>
+<li>Chrome 24.0+</li>
+<li>Firefox 16.0+</li>
+<li>Safari 4+</li>
+<li>Opera 10.6+</li>
+</ul>
+<h5 id="mobile">Mobile</h5>
+<ul>
+<li>Android browser 4.1+</li>
+<li>Chrome for Android 46+</li>
+<li>iOS safari 7.1+</li>
+</ul>
+<h5 id="upload">Upload</h5>
+<ul>
+<li>Safari iOS 7.1+</li>
+<li>Android 4.0+</li>
+<li>Internet Explorer 10+</li>
+<li>Chrome 35.0+</li>
+<li>Firefox 31.0+</li>
+<li>Safari 5.1+</li>
+<li>Opera 25+</li>
+</ul>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../index.html" class="navigation navigation-prev " aria-label="Previous page: Introduction"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../player/docs.html" class="navigation navigation-next " aria-label="Next page: player.js"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-ga/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-versions/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fancybox/jquery.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox.pack.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox-buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-comment/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"ga":{"token":"UA-45440989-1","configuration":"auto"},"versions":{"gitbookConfigURL":"https://raw.githubusercontent.com/flipbase/docs/book.json","options":[{"value":"https://rackt.github.io/history/v1.3.0/","text":"Version 1.3.0"},{"value":"https://rackt.github.io/history/v1.4.0/","text":"Version 1.0.0","selected":true}],"type":"branches"},"fancybox":{"helpers":{"buttons":{}}},"comment":{},"highlight":{},"search":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        <script>$(".fancybox").fancybox(JSON.parse('{"helpers":{"buttons":{}}}'));</script>
+    </body>
+    
+</html>

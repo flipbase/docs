@@ -1,6 +1,6 @@
 # Summary
 
 [Introduction](README.md)
-* [Recorder](recorder/introduction.md)
-* [Player](recorder/introduction.md)
-* [API](recorder/introduction.md)
+* [recorder.js](recorder/docs.md)
+* [player.js](player/docs.md)
+* [API](api/api.md)
