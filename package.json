@@ -2,10 +2,17 @@
   "name": "docs",
   "version": "0.0.1",
   "scripts": {
-    "serve": "./node_modules/.bin/gitbook serve ./"
+    "serve": "./node_modules/.bin/gitbook serve ./",
+    "setup": "./node_modules/.bin/gitbook install"
   },
   "devDependencies": {
     "gitbook": "*",
     "gitbook-cli": "*"
+  },
+  "dependencies": {
+    "gitbook-plugin-comment": "^0.2.0",
+    "gitbook-plugin-fancybox": "^1.0.2",
+    "gitbook-plugin-ga": "^1.0.1",
+    "gitbook-plugin-versions": "^2.0.1"
   }
 }
