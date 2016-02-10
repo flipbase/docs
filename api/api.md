@@ -17,7 +17,7 @@ The Flipbase API will deny all non-authorized requests by default. You can autho
     DELETE /api/videos/<VIDEO_ID> HTTP/1.1
     Host: app.flipbase.com
     Date: Date
-    Authorization: Signature <Signature>
+    Authorization: Signature Base64( <FLIPBASE_CLIENT_ID> ):<Signature>
 
 **StringToSign attributes**
 
