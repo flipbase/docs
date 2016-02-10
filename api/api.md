@@ -35,7 +35,7 @@ Header |  Required | Descriptions
 --- | ---- | ----
 Date | only if 'X-Flipbase-Date' is omitted | Some HTTP client libraries do not expose the ability to set the Date header for a request. If you have trouble including the value of the ‘Date’ header in the headers, you can set the timestamp for the request by using an ‘x-flipbase-date‘ header instead.
 X-Flipbase-Date | only if `Date` header is omitted | The value of the x-flipbase-date header must be in one of the RFC 2616 formats (http://www.ietf.org/rfc/rfc2616.txt). When an x-flipbase-date header is present in a request, the system will ignore any Date header when computing the request signature.
-Authorization | yes | Prepend the Base64( FlipbaseClientId ):Signature string with `FLIPBASE`. The FlipbaseClientId needs to be Base64 encoded
+Authorization | yes | Prepend the Base64( FlipbaseClientId ):Signature string with `Signature`. The Flipbase ClientId needs to be Base64 encoded
 
 ## Resources
 
@@ -56,7 +56,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     GET /api/apps
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
 
 ### Response
 
@@ -91,7 +91,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     POST /api/apps
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
 
     {
       data: {
@@ -126,7 +126,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     GET /api/apps/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
 
 **Response**
 
@@ -150,7 +150,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     PUT /api/apps/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
 
 
     {
@@ -189,7 +189,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     DELETE /api/apps/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
 
 
 **Response**
@@ -201,7 +201,7 @@ No response body, just a 200 (= successfully deleted), 404 (= not found / alread
     DELETE /api/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: FLIPBASE e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
 
 
 **Response**
