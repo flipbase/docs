@@ -10,7 +10,6 @@ The Flipbase API will deny all non-authorized requests by default. You can autho
 
     StringToSign = HTTP-Verb + "\n" +
          URI-encode( <Path> ) + "\n" +
-         URI-encode ( Base64( <Payload> ) ) + "\n"
          Date;
 
     Signature = Base64( HMAC-SHA256( <FLIPBASE_CLIENT_SECRET>, UTF-8-Encoding-Of( <StringToSign> ) ) ); 
@@ -18,7 +17,7 @@ The Flipbase API will deny all non-authorized requests by default. You can autho
     DELETE /api/videos/<VIDEO_ID> HTTP/1.1
     Host: app.flipbase.com
     Date: Date
-    Authorization: FLIPBASE Base64( <FLIPBASE_CLIENT_ID> ):<Signature>
+    Authorization: Signature <Signature>
 
 **StringToSign attributes**
 
@@ -28,7 +27,6 @@ Attributes |  Description
 --- |  ----
 HTTP-Verb | Uppercase plain-text (e.g GET, POST, PUT or DELETE)
 Path | URI path and query paramaters (excluding hostname) 
-Payload | Any JSON payload you want to send along with a POST or PUT request. URL-encoded data is not supported. Encode the JSON payload using Base64 and URI-encoding. When body is empty, only then use `URI-encode ( Base64( {} ) )`
 Date | The date value should be identitcal to the value provided in the Date or X-Flipbase-Date header. The Date is the current UTC time in [ISO 8601](https://www.ietf.org/rfc/rfc3339.txt) format (for example, 20130524T000000Z).
 
 ### Headers
