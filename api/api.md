@@ -14,7 +14,7 @@ The Flipbase API will deny all non-authorized requests by default. You can autho
 
     Signature = Base64( HMAC-SHA256( <FLIPBASE_CLIENT_SECRET>, UTF-8-Encoding-Of( <StringToSign> ) ) ); 
 
-    DELETE /api/videos/<VIDEO_ID> HTTP/1.1
+    DELETE /v1/api/videos/<VIDEO_ID> HTTP/1.1
     Host: app.flipbase.com
     Date: Date
     Authorization: Signature Base64( <FLIPBASE_CLIENT_ID> ):<Signature>
@@ -53,7 +53,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
 ### Request
 
-    GET /api/apps
+    GET /v1/api/apps
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
@@ -88,7 +88,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
 **Request**
 
-    POST /api/apps
+    POST /v1/api/apps
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
@@ -123,7 +123,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 ## GET /apps/:id
 **Request**
 
-    GET /api/apps/5370df982b2779cf60e03217
+    GET /v1/api/apps/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
@@ -147,7 +147,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 ## PUT  /apps/:id
 **Request**
 
-    PUT /api/apps/5370df982b2779cf60e03217
+    PUT /v1/api/apps/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
@@ -186,7 +186,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 ## DELETE /apps/:id
 **Request**
 
-    DELETE /api/apps/5370df982b2779cf60e03217
+    DELETE /v1/api/apps/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
@@ -198,7 +198,7 @@ No response body, just a 200 (= successfully deleted), 404 (= not found / alread
 
 ## DELETE /videos/:id
 
-    DELETE /api/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
+    DELETE /v1/api/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
