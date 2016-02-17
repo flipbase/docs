@@ -17,11 +17,11 @@ The Flipbase API will deny all non-authorized requests by default. You can autho
     DELETE /v1/api/videos/<VIDEO_ID> HTTP/1.1
     Host: app.flipbase.com
     Date: Date
-    Authorization: Signature Base64( <FLIPBASE_CLIENT_ID> ):<Signature>
+    Authorization: Signature <FLIPBASE_CLIENT_ID>:<Signature>
 
 **StringToSign attributes**
 
-The string to sign that is used to create the signature is build using 4 attributes: the verb, path, payload and date
+The string to sign that is used to create the signature is build using 3 attributes: the verb, path and date
 
 Attributes |  Description
 --- |  ----
@@ -33,27 +33,27 @@ Date | The date value should be identitcal to the value provided in the Date or 
 
 Header |  Required | Descriptions
 --- | ---- | ----
-Date | only if 'X-Flipbase-Date' is omitted | Some HTTP client libraries do not expose the ability to set the Date header for a request. If you have trouble including the value of the ‘Date’ header in the headers, you can set the timestamp for the request by using an ‘x-flipbase-date‘ header instead.
-X-Flipbase-Date | only if `Date` header is omitted | The value of the x-flipbase-date header must be in one of the RFC 2616 formats (http://www.ietf.org/rfc/rfc2616.txt). When an x-flipbase-date header is present in a request, the system will ignore any Date header when computing the request signature.
-Authorization | yes | Prepend the Base64( FlipbaseClientId ):Signature string with `Signature`. The Flipbase ClientId needs to be Base64 encoded
+Date | only if `X-Flipbase-Date` is omitted | The value of the `Date` header must be in one of the [RFC 2616](http://www.ietf.org/rfc/rfc2616.txt) formats. Some HTTP client libraries do not expose the ability to set the Date header for a request. If you have trouble including the value of the `Date` header in the headers, you can set the timestamp for the request by using an `X-Flipbase-Date` header instead. 
+X-Flipbase-Date | only if `Date` header is omitted | The value of the `X-Flipbase-Date` header must be in one of the [RFC 2616](http://www.ietf.org/rfc/rfc2616.txt) formats. When an `X-Flipbase-Date` header is present in a request, the system will ignore any `Date` header when computing the request signature.
+Authorization | yes | Prepend the <FlipbaseClientId>:<Signature> string with `Signature`.
 
 ## Resources
 
-## GET  /apps
+## GET  /accounts
 
-Each application holds a reference to 1 recorder and 1 player instance.
+Each account holds a reference to 1 recorder and 1 player instance.
 
 Attributes | Required | Description
 --- | --- | ----
-name | yes | Name of the application, usually refers to the company or to a particular department.
-description | no | Explanation what kind of video's the application holds, or where the video's are used for.
-domains | yes | The `domains` attributes should hold all the domains were video's will be recorded and played. By default video's MUST always contain the domain `app.flipbase.com` since the recorder uses CORS. You can include root domains (example.com) and wildcard domains (*.example.com). Wildcard domains refer to all subdomains of the root domain. If you want to record video's at record.example.com and play the video's at example.com, you need to include both like this `domains: ["*.example.com", example.com", "*.flipbase.com"]`
+name | yes | Name of the account, usually refers to the company or to a particular department.
+description | no | Explanation what kind of video's the account holds, or where the video's are used for.
+domains | yes | The `domains` attributes should hold all the domains were video's will be recorded and played. By default the domains MUST always contain the domain `*.flipbase.com` since the recorder uses CORS. You can include root domains (example.com) and wildcard domains (*.example.com). Wildcard domains refer to all subdomains of the root domain. If you want to record video's at record.example.com and play the video's at example.com, you need to include both like this `domains: ["*.example.com", example.com", "*.flipbase.com"]`
 player_id | no | The player_id will be always available and cannot be updated
 recorder_id | no | The recorder_id will be always available and cannot be updated
 
 ### Request
 
-    GET /v1/api/apps
+    GET /v1/api/accounts
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
@@ -62,7 +62,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
     {
       data: [{
-        type: "apps",
+        type: "accounts",
         id: "5370df982b2779cf60e03217",
         attributes: {
           name: "KPN Telecom",
@@ -72,7 +72,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
       }, {
-        type: "apps",
+        type: "accounts",
         id: "23d10d0fe4b4f2b53d967c24",
         attributes: {
           name: "PricewaterhouseCoopers",
@@ -84,18 +84,18 @@ recorder_id | no | The recorder_id will be always available and cannot be update
       }]
     }
 
-## POST /apps
+## POST /accounts
 
 **Request**
 
-    POST /v1/api/apps
+    POST /v1/api/accounts
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
 
     {
       data: {
-        type: "apps",
+        type: "accounts",
         attributes: {
           name: "KPN Telecom",
           description: "KPN corporate recruitment related videos",
@@ -108,7 +108,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
     {
       data: {
-        type: "apps",
+        type: "accounts",
         id: "5370df982b2779cf60e03217",
         attributes: {
           name: "KPN Telecom",
@@ -120,10 +120,10 @@ recorder_id | no | The recorder_id will be always available and cannot be update
       }
     }
 
-## GET /apps/:id
+## GET /accounts/:id
 **Request**
 
-    GET /v1/api/apps/5370df982b2779cf60e03217
+    GET /v1/api/accounts/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
@@ -132,7 +132,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
     {
       data: {
-        type: "apps",
+        type: "accounts",
         id: "5370df982b2779cf60e03217",
         attributes: {
           name: "KPN Telecom",
@@ -144,10 +144,10 @@ recorder_id | no | The recorder_id will be always available and cannot be update
       }
     }
 
-## PUT  /apps/:id
+## PUT  /accounts/:id
 **Request**
 
-    PUT /v1/api/apps/5370df982b2779cf60e03217
+    PUT /v1/api/accounts/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
@@ -155,7 +155,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
     {
       data: {
-        type: "apps",
+        type: "accounts",
         id: "11223344556677",
         attributes: {
           name: "KPN Telecom",
@@ -171,7 +171,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
     {
       data: {
-        type: "apps",
+        type: "accounts",
         id: "11223344556677",
         attributes: {
           name: "KPN Telecom",
@@ -183,10 +183,10 @@ recorder_id | no | The recorder_id will be always available and cannot be update
       }
     }
 
-## DELETE /apps/:id
+## DELETE /accounts/:id
 **Request**
 
-    DELETE /v1/api/apps/5370df982b2779cf60e03217
+    DELETE /v1/api/accounts/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
