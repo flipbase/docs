@@ -12,10 +12,18 @@ In order to use the Recorder app, place the HTML-code in your code, as shown bel
 </form>
 
 <!--  Initialize the Recorder and provide your 'recorderId' -->
+<?php $timestamp = date("c"); ?>
+
 <script>
-      Flipbase.recorder({
-          recorderId: "your_unique_recorderId"
-      });
+    Flipbase.recorder({
+      recorderId: "YOUR_RECORDER_ID",
+      hash: <?php
+        echo hash_hmac('sha256', $timestamp, '<YOUR_RECORDER_SECRET>', true);
+      ?>,
+      date: <?php 
+        echo $timestamp
+      ?>
+    });
 </script>
 ```
 
@@ -113,6 +121,11 @@ Well, that's because of Flash. The Flash Player will automatically deny all acce
 ** Responsive by design**
 
 The recorder application interface will always keep a 16:9 aspect ratio. By default the recorder.js interface will always fill up it's parent element. Besides the recorder interface is fully responsive.
+
+## Reference
+
+Instance API
+- destroy: destroy an instance
 
 ## Browser support
 
