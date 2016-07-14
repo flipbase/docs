@@ -1,9 +1,9 @@
 # Custom builds per recorder instance
 
-****To consider:****
-- All instances on a single HTML page can use same server side generated hash;
-  but when sign the hash with a recorder_secret, and therefore we need to create multiple hashes for multiple instances!!!!
+# Recorder secrets
+All instances on a single HTML page can use same server side generated hash AS LONG AS THEY ARE RELATED TOT HE SAME RECORDER_ID! The configuration can be overwritten by the client if required.
 
+When a client really wants to use multiple recorder instances from different recorderIds on a single page they need to generate 2 recorder hashes for 1 pageview.
 
 ****Basic behaviour****
 - Multiple recorders instance on the same page can be loaded, even using different configurations

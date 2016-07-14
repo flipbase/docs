@@ -26,9 +26,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "5370df982b2779cf60e03217",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.kpn.com"],
+          name: "Company XYZ",
+          description: "Company XYZ recruitment related videos",
+          domains: ["*.flipbase.com", "careers.companyxyz.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804"
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
@@ -36,9 +36,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "23d10d0fe4b4f2b53d967c24",
         attributes: {
-          name: "PricewaterhouseCoopers",
-          description: "PWC employer branding",
-          domains: ["*.flipbase.com", "careers.pwc.com", "*.pwc.com"],
+          name: "Company ABC",
+          description: "Company ABC employer branding",
+          domains: ["*.flipbase.com", "careers.companyabc.com", "*.companyabc.com"],
           player_id: "5819b1eb-fcfc-45b0-bde8-9a3c4d43c985"
           recorder_id: "994ba320-7a4c-4040-9b67-c02490809a59"
         }      
@@ -58,9 +58,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
       data: {
         type: "accounts",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.kpn.com"]
+          name: "Company XYZ",
+          description: "Company XYZ recruitment related videos",
+          domains: ["*.flipbase.com", "careers.companyxyz.com"],
         }
       }
     }
@@ -72,9 +72,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "5370df982b2779cf60e03217",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.kpn.com"],
+          name: "Company XYZ",
+          description: "Company XYZ recruitment related videos",
+          domains: ["*.flipbase.com", "careers.companyxyz.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804"
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
@@ -96,9 +96,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "5370df982b2779cf60e03217",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.kpn.com"],
+          name: "Company XYZ",
+          description: "Company XYZ recruitment related videos",
+          domains: ["*.flipbase.com", "careers.companyxyz.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
@@ -119,9 +119,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "11223344556677",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "*.kpn.com", "hroffice.com"],
+          name: "Company XYZ",
+          description: "Company XYZ recruitment related videos",
+          domains: ["*.flipbase.com", "careers.companyxyz.com", "hroffice.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
@@ -135,9 +135,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "11223344556677",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "*.kpn.com", "hroffice.com"],
+          name: "Company XYZ",
+          description: "Company XYZ recruitment related videos",
+          domains: ["*.flipbase.com", "careers.companyxyz.com", "hroffice.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }

@@ -18,10 +18,18 @@ To show the Flipbase Player you have to integrate the code as shown below and re
 <!-- Place the HTML video element somehwere in the body where you want to show the video -->
 <video type="flipbase" data-video-id="786553529-a24e-22ae-cca6-891861f7895" />
 
+<?php $timestamp = date("c"); ?>
+
 <!--  Initialize the Player and provide your 'playerId'  -->
 <script>
     Flipbase.player({
         playerId: "xxxx-xxxxx-xxxxxx-xxxxxxx"
+        hash: <?php
+          echo hash_hmac('sha256', $timestamp, '<YOUR_PLAYER_SECRET>', true);
+        ?>,
+        timestamp: <?php 
+          echo $timestamp
+        ?>
     });
 </script>
 ```

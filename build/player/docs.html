@@ -53,7 +53,7 @@
         
     
     
-    <link rel="next" href="../api/api.html" />
+    <link rel="next" href="../api/auth.html" />
     
     
     <link rel="prev" href="../recorder/docs.html" />
@@ -64,7 +64,7 @@
     <body>
         
         
-    <div class="book" data-level="2" data-chapter-title="player.js" data-filepath="player/docs.md" data-basepath=".." data-revision="Tue Feb 02 2016 11:08:16 GMT+0100 (CET)">
+    <div class="book" data-level="2" data-chapter-title="player.js" data-filepath="player/docs.md" data-basepath=".." data-revision="Wed Jun 29 2016 13:17:21 GMT+0200 (CEST)">
     
 
 <div class="book-summary">
@@ -122,18 +122,76 @@
             
         </li>
     
-        <li class="chapter " data-level="3" data-path="api/api.html">
+        <li class="chapter " data-level="3" >
+            
+            <span><b>3.</b> REST API</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="api/auth.html">
             
                 
-                    <a href="../api/api.html">
+                    <a href="../api/auth.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>3.</b>
+                            <b>3.1.</b>
                         
-                        API
+                        Authentication
                     </a>
             
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="api/stats.html">
+            
+                
+                    <a href="../api/stats.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Stats
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="api/accounts.html">
+            
+                
+                    <a href="../api/accounts.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        Accounts
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="api/video.html">
+            
+                
+                    <a href="../api/video.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        Video
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -185,12 +243,20 @@
 <span class="hljs-comment">&lt;!-- Place the HTML video element somehwere in the body where you want to show the video --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-title">video</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;flipbase&quot;</span> <span class="hljs-attribute">data-video-id</span>=<span class="hljs-value">&quot;786553529-a24e-22ae-cca6-891861f7895&quot;</span> /&gt;</span>
 
+<span class="php"><span class="hljs-preprocessor">&lt;?php</span> <span class="hljs-variable">$timestamp</span> = date(<span class="hljs-string">&quot;c&quot;</span>); <span class="hljs-preprocessor">?&gt;</span></span>
+
 <span class="hljs-comment">&lt;!--  Initialize the Player and provide your &apos;playerId&apos;  --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="actionscript">
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="handlebars"><span class="xml">
     Flipbase.player({
-        playerId: <span class="hljs-string">&quot;xxxx-xxxxx-xxxxxx-xxxxxxx&quot;</span>
+        playerId: &quot;xxxx-xxxxx-xxxxxx-xxxxxxx&quot;
+        hash: <span class="php"><span class="hljs-preprocessor">&lt;?php</span>
+          <span class="hljs-keyword">echo</span> hash_hmac(<span class="hljs-string">&apos;sha256&apos;</span>, <span class="hljs-variable">$timestamp</span>, <span class="hljs-string">&apos;&lt;YOUR_PLAYER_SECRET&gt;&apos;</span>, <span class="hljs-keyword">true</span>);
+        <span class="hljs-preprocessor">?&gt;</span></span>,
+        timestamp: <span class="php"><span class="hljs-preprocessor">&lt;?php</span> 
+          <span class="hljs-keyword">echo</span> <span class="hljs-variable">$timestamp</span>
+        <span class="hljs-preprocessor">?&gt;</span></span>
     });
-</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</span></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 </code></pre>
 <h3 id="player-settings">Player settings</h3>
 <p>Maximum width or height (deprecated)</p>
@@ -208,7 +274,7 @@
         <a href="../recorder/docs.html" class="navigation navigation-prev " aria-label="Previous page: recorder.js"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../api/api.html" class="navigation navigation-next " aria-label="Next page: API"><i class="fa fa-angle-right"></i></a>
+        <a href="../api/auth.html" class="navigation navigation-next " aria-label="Next page: Authentication"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

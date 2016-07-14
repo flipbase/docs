@@ -1,8 +1,8 @@
 # Stats API
 
-## Number videos submitted for single recorder instance by date
+## Total submitted videos for single recorder
 
-Returns total number of submitted videos for a single recorder instances, grouped by day.
+Returns total number of submitted videos for a single recorder instance, grouped by day.
 
 ****Request****
 
@@ -27,9 +27,9 @@ Returns total number of submitted videos for a single recorder instances, groupe
       ]
     }
 
-## Number videos submitted for single account by date
+## Total number videos submitted for single account
 
-Returns total number of submitted videos on a single account, grouped by day.
+Returns total number of submitted videos on a single account (all recorder instances grouped), grouped by day.
 
 ****Request****
 

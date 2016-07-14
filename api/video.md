@@ -1,12 +1,17 @@
 # Video API
 
-## DELETE /videos/:id
+## Delete a video
+
+If a user requests to delete a
+
+**Request**
+
+    DELETE /videos/:id
 
     DELETE /v1/api/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
-
 
 **Response**
 

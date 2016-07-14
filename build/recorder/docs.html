@@ -64,7 +64,7 @@
     <body>
         
         
-    <div class="book" data-level="1" data-chapter-title="recorder.js" data-filepath="recorder/docs.md" data-basepath=".." data-revision="Tue Feb 02 2016 11:08:16 GMT+0100 (CET)">
+    <div class="book" data-level="1" data-chapter-title="recorder.js" data-filepath="recorder/docs.md" data-basepath=".." data-revision="Wed Jun 29 2016 13:17:21 GMT+0200 (CEST)">
     
 
 <div class="book-summary">
@@ -122,18 +122,76 @@
             
         </li>
     
-        <li class="chapter " data-level="3" data-path="api/api.html">
+        <li class="chapter " data-level="3" >
+            
+            <span><b>3.</b> REST API</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="api/auth.html">
             
                 
-                    <a href="../api/api.html">
+                    <a href="../api/auth.html">
                 
                         <i class="fa fa-check"></i>
                         
-                            <b>3.</b>
+                            <b>3.1.</b>
                         
-                        API
+                        Authentication
                     </a>
             
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="api/stats.html">
+            
+                
+                    <a href="../api/stats.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        Stats
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="api/accounts.html">
+            
+                
+                    <a href="../api/accounts.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        Accounts
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="api/video.html">
+            
+                
+                    <a href="../api/video.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        Video
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -181,11 +239,19 @@
 <span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!--  Initialize the Recorder and provide your &apos;recorderId&apos; --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="actionscript">
-      Flipbase.recorder({
-          recorderId: <span class="hljs-string">&quot;your_unique_recorderId&quot;</span>
-      });
-</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+<span class="php"><span class="hljs-preprocessor">&lt;?php</span> <span class="hljs-variable">$timestamp</span> = date(<span class="hljs-string">&quot;c&quot;</span>); <span class="hljs-preprocessor">?&gt;</span></span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="handlebars"><span class="xml">
+    Flipbase.recorder({
+      recorderId: &quot;YOUR_RECORDER_ID&quot;,
+      hash: <span class="php"><span class="hljs-preprocessor">&lt;?php</span>
+        <span class="hljs-keyword">echo</span> hash_hmac(<span class="hljs-string">&apos;sha256&apos;</span>, <span class="hljs-variable">$timestamp</span>, <span class="hljs-string">&apos;&lt;YOUR_RECORDER_SECRET&gt;&apos;</span>, <span class="hljs-keyword">true</span>);
+      <span class="hljs-preprocessor">?&gt;</span></span>,
+      timestamp: <span class="php"><span class="hljs-preprocessor">&lt;?php</span> 
+        <span class="hljs-keyword">echo</span> <span class="hljs-variable">$timestamp</span>
+      <span class="hljs-preprocessor">?&gt;</span></span>
+    });
+</span></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 </code></pre>
 <p>When the user has succesfully saved the video, the <code>input</code> node will be provided with a videoId, like shown below:</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">form</span>&gt;</span>
@@ -201,6 +267,8 @@
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th>Required</th>
+<th>Deprecated</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -208,68 +276,108 @@
 <tr>
 <td>recorderId</td>
 <td>String</td>
-<td>UUID provided by Flipbase. This is the only mandatory setting.</td>
+<td>yes</td>
+<td></td>
+<td>UUID provided by Flipbase.</td>
+</tr>
+<tr>
+<td>hash</td>
+<td>String</td>
+<td>yes</td>
+<td></td>
+<td>Server side generated hash using the recorderSecret and timestamp</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>String</td>
+<td>yes</td>
+<td></td>
+<td>Timestamp must be in one of the <a href="http://www.ietf.org/rfc/rfc2616.txt" target="_blank">RFC 2616</a> formats. Must be exactly similar to the timestamp used to generate the <code>hash</code>.</td>
 </tr>
 <tr>
 <td>duration</td>
 <td>Number</td>
+<td></td>
+<td></td>
 <td>Maximum duration in seconds of a single take. <code>30</code> is default. </td>
 </tr>
 <tr>
 <td>primaryColor</td>
 <td>String</td>
+<td></td>
+<td></td>
 <td>Change the color of most prominent buttons. Color in HEX format.</td>
 </tr>
 <tr>
 <td>secondaryColor</td>
 <td>String</td>
+<td></td>
+<td></td>
 <td>Color in HEX format.</td>
 </tr>
 <tr>
 <td>backgroundColor</td>
 <td>String</td>
+<td></td>
+<td></td>
 <td>Change the background color of the application. Color in HEX format.</td>
 </tr>
 <tr>
 <td>textColor</td>
 <td>String</td>
+<td></td>
+<td></td>
 <td>Change the color of the text. Color in HEX format.</td>
 </tr>
 <tr>
 <td>locale</td>
 <td>String</td>
+<td></td>
+<td></td>
 <td>Supported locales are <code>en-US</code> and <code>nl-NL</code>. The values <code>nl_nl</code> and <code>en_us</code> are deprecated, but will work until the next release in 2016. </td>
 </tr>
 <tr>
 <td>maxWidth</td>
 <td>Number</td>
+<td></td>
+<td></td>
 <td>By default the recorder application will fill up it&apos;s parentNode. However, if you want to make sure the height or width of the interface does not exceed a certain number of pixels you can provide it using these 2 properties. Please note, that the recorder ALWAYS keep the 16:9 aspect ratio, even if you provide other dimensions using the maxWidth and maxHeight properties. The application will always choose to most conservative width and height dimension.</td>
 </tr>
 <tr>
 <td>maxHeight</td>
 <td>Number</td>
+<td></td>
+<td></td>
 <td>See <code>maxWidth</code> description.</td>
 </tr>
 <tr>
 <td>output</td>
 <td>String</td>
+<td></td>
+<td></td>
 <td>Using the output property you can change what the application will output and insert into the input element. Leaving the output undefined will make sure the application inserts a UUID into the <code>&lt;input type=&quot;flipbase&quot; /&gt;</code> element. However, if you set it embedCode the application will 1) set a embedCode as value of the <code>&lt;input type=&quot;flipbase&quot; /&gt;</code> element and 2) will provide the embed code as second argument when invoking the callback function (if provided). Change the default output (the video id) to <code>embedCode</code> to receive an actual iframe which can be embedded on an external page.</td>
 </tr>
 <tr>
 <td>outputOptions</td>
 <td>Object</td>
+<td></td>
+<td></td>
 <td>Object literal with <code>pageName</code> as mandatory property. Flipbase will provide you with the proper <code>pageName</code> value.</td>
 </tr>
 <tr>
 <td>callback</td>
 <td>Function</td>
-<td>Once the user saves a video this callback will be triggered. The callback function will be invoked with 2 arguments: the videoId and the output (depending on)</td>
+<td></td>
+<td></td>
+<td>Once the user saves a video this callback will be triggered. The callback function will be invoked with 2 arguments: the videoId and the output (depending on outputOptions)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="example">Example</h2>
 <pre><code class="lang-JavaScript">Flipbase.recorder({
   recorderId: <span class="hljs-string">&apos;xxxxxxxx-xxxxx-xxxxx-xxxxx-xxxxxxxxx&apos;</span>,
+  hash: <span class="hljs-string">&apos;8017d8bd0b0aca3c594653220c1ebcd87b550900c9c849492f305a40e2229331&apos;</span>,
+  timestamp: <span class="hljs-string">&apos;Sun, 29 Jun 2016 08:49:37 GMT&apos;</span>,
   primaryColor: <span class="hljs-string">&apos;#aeb00a&apos;</span>, <span class="hljs-comment">// green button background color</span>
   secondaryColor: <span class="hljs-string">&apos;#e0e0e0&apos;</span>, <span class="hljs-comment">// ligt grayish text color of the button</span>
   backgroundColor: <span class="hljs-string">&apos;#242b3c&apos;</span>, <span class="hljs-comment">// dark blueish interface background</span>
@@ -290,6 +398,8 @@
 <script>
   Flipbase.recorder({
     recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+    hash: '8017d8bd0b0aca3c594653220c1ebcd87b550900c9c849492f305a40e2229331',
+    timestamp: 'Sun, 29 Jun 2016 08:49:37 GMT',
     primaryColor: '#aeb00a',
     showFAQButton: false,
     locale: getLanguage(),
@@ -328,6 +438,11 @@ Well, that&apos;s because of Flash. The Flash Player will automatically deny all
      </a></p>
 <p><strong> Responsive by design</strong></p>
 <p>The recorder application interface will always keep a 16:9 aspect ratio. By default the recorder.js interface will always fill up it&apos;s parent element. Besides the recorder interface is fully responsive.</p>
+<h2 id="reference">Reference</h2>
+<p>Instance API</p>
+<ul>
+<li>destroy: destroy an instance</li>
+</ul>
 <h2 id="browser-support">Browser support</h2>
 <p>Flipbase is supported in the browsers listed below. We differentiate recording functionality using the webcam (which requires Flash) and video upload functionality (which is used on smartphones and tablets, when Flash is not supported). Video upload functionality uses HTML5 and therefore is not supported on older browsers.</p>
 <h5 id="webcam">Webcam</h5>

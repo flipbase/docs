@@ -20,7 +20,7 @@ In order to use the Recorder app, place the HTML-code in your code, as shown bel
       hash: <?php
         echo hash_hmac('sha256', $timestamp, '<YOUR_RECORDER_SECRET>', true);
       ?>,
-      date: <?php 
+      timestamp: <?php 
         echo $timestamp
       ?>
     });
@@ -41,20 +41,22 @@ To playback video’s you will need to store the videoId in your database. The v
 
 Except the `recorderId` options, all parameters listed below are optional. 
 
-Parameter | Type | Description
+Parameter | Type | Required | Deprecated | Description
 --- | --- | ---
-recorderId | String | UUID provided by Flipbase. This is the only mandatory setting.
-duration | Number | Maximum duration in seconds of a single take. `30` is default. 
-primaryColor | String | Change the color of most prominent buttons. Color in HEX format.
-secondaryColor | String | Color in HEX format.
-backgroundColor | String | Change the background color of the application. Color in HEX format.
-textColor | String | Change the color of the text. Color in HEX format.
-locale | String | Supported locales are `en-US` and `nl-NL`. The values `nl_nl` and `en_us` are deprecated, but will work until the next release in 2016. 
-maxWidth | Number | By default the recorder application will fill up it's parentNode. However, if you want to make sure the height or width of the interface does not exceed a certain number of pixels you can provide it using these 2 properties. Please note, that the recorder ALWAYS keep the 16:9 aspect ratio, even if you provide other dimensions using the maxWidth and maxHeight properties. The application will always choose to most conservative width and height dimension.
-maxHeight | Number | See `maxWidth` description.
-output | String | Using the output property you can change what the application will output and insert into the input element. Leaving the output undefined will make sure the application inserts a UUID into the `<input type="flipbase" />` element. However, if you set it embedCode the application will 1) set a embedCode as value of the `<input type="flipbase" />` element and 2) will provide the embed code as second argument when invoking the callback function (if provided). Change the default output (the video id) to `embedCode` to receive an actual iframe which can be embedded on an external page.
-outputOptions | Object | Object literal with `pageName` as mandatory property. Flipbase will provide you with the proper `pageName` value.
-callback | Function | Once the user saves a video this callback will be triggered. The callback function will be invoked with 2 arguments: the videoId and the output (depending on)
+recorderId | String | yes | | UUID provided by Flipbase.
+hash | String | yes | | Server side generated hash using the recorderSecret and timestamp
+timestamp | String | yes | | Timestamp must be in one of the [RFC 2616](http://www.ietf.org/rfc/rfc2616.txt) formats. Must be exactly similar to the timestamp used to generate the `hash`.
+duration | Number | | | Maximum duration in seconds of a single take. `30` is default. 
+primaryColor | String | | | Change the color of most prominent buttons. Color in HEX format.
+secondaryColor | String | | | Color in HEX format.
+backgroundColor | String | | | Change the background color of the application. Color in HEX format.
+textColor | String | | | Change the color of the text. Color in HEX format.
+locale | String | | | Supported locales are `en-US` and `nl-NL`. The values `nl_nl` and `en_us` are deprecated, but will work until the next release in 2016. 
+maxWidth | Number | | | By default the recorder application will fill up it's parentNode. However, if you want to make sure the height or width of the interface does not exceed a certain number of pixels you can provide it using these 2 properties. Please note, that the recorder ALWAYS keep the 16:9 aspect ratio, even if you provide other dimensions using the maxWidth and maxHeight properties. The application will always choose to most conservative width and height dimension.
+maxHeight | Number | | | See `maxWidth` description.
+output | String | | | Using the output property you can change what the application will output and insert into the input element. Leaving the output undefined will make sure the application inserts a UUID into the `<input type="flipbase" />` element. However, if you set it embedCode the application will 1) set a embedCode as value of the `<input type="flipbase" />` element and 2) will provide the embed code as second argument when invoking the callback function (if provided). Change the default output (the video id) to `embedCode` to receive an actual iframe which can be embedded on an external page.
+outputOptions | Object | | | Object literal with `pageName` as mandatory property. Flipbase will provide you with the proper `pageName` value.
+callback | Function | | | Once the user saves a video this callback will be triggered. The callback function will be invoked with 2 arguments: the videoId and the output (depending on outputOptions)
 
 
 ## Example
@@ -62,6 +64,8 @@ callback | Function | Once the user saves a video this callback will be triggere
 ````JavaScript
 Flipbase.recorder({
   recorderId: 'xxxxxxxx-xxxxx-xxxxx-xxxxx-xxxxxxxxx',
+  hash: '8017d8bd0b0aca3c594653220c1ebcd87b550900c9c849492f305a40e2229331',
+  timestamp: 'Sun, 29 Jun 2016 08:49:37 GMT',
   primaryColor: '#aeb00a', // green button background color
   secondaryColor: '#e0e0e0', // ligt grayish text color of the button
   backgroundColor: '#242b3c', // dark blueish interface background
@@ -82,6 +86,8 @@ Flipbase.recorder({
 <script>
   Flipbase.recorder({
     recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+    hash: '8017d8bd0b0aca3c594653220c1ebcd87b550900c9c849492f305a40e2229331',
+    timestamp: 'Sun, 29 Jun 2016 08:49:37 GMT',
     primaryColor: '#aeb00a',
     showFAQButton: false,
     locale: getLanguage(),
