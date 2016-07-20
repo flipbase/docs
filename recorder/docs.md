@@ -1,4 +1,14 @@
+<script src="//app.flipbase.com/recorder.js" ></script>
+
 # Flipbase recorder
+
+- [Getting started](#getting-started)
+- [Settings](#settings)
+- [Multiple recorders on a single page](#multiple-recorders-on-a-single-page)
+- [What you should know before you implement the recorder](#limitations)
+- [Browser support](#browser-support)
+
+## Gettings started
 
 In order to use the Recorder app, place the HTML-code in your code, as shown below. The recorder.js application is based on a HTML `<input type="flipbase"/>` element and the JavaScript recorder.js library.
 
@@ -19,13 +29,24 @@ In order to use the Recorder app, place the HTML-code in your code, as shown bel
 </script>
 ```
 
+The code above will result into this:
+
+<div>
+  <input type="flipbase" style="display:none;"/>
+</div>
+<script>
+  Flipbase.recorder({
+    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+  });
+</script>
+
 When the user has succesfully saved the video, the `input` node will be provided with a videoId, like shown below:
 
 ```html
 <form>
     <input type="flipbase" value="63341990-a44e-11e3-bdf9-891861f38674"/>
 </form>
-````
+```
 
 To playback video’s you will need to store the videoId in your database. The videoId is an ['Universally Unique IDentifier'](https://www.ietf.org/rfc/rfc4122.txt), better known as UUID. Using the videoId and the Player application you will be able to playback to recorded video.
 
@@ -37,6 +58,7 @@ Parameter | Type | Description
 --- | --- | ---
 recorderId | String | UUID provided by Flipbase. This is the only mandatory setting.
 duration | Number | Maximum duration in seconds of a single take. `30` is default. 
+selector | String | The element ID to create the recorder application for (only necessary when using multiple recorder instances on a single page).
 primaryColor | String | Change the color of most prominent buttons. Color in HEX format.
 secondaryColor | String | Color in HEX format.
 backgroundColor | String | Change the background color of the application. Color in HEX format.
@@ -48,52 +70,87 @@ output | String | Using the output property you can change what the application 
 outputOptions | Object | Object literal with `pageName` as mandatory property. Flipbase will provide you with the proper `pageName` value.
 callback | Function | Once the user saves a video this callback will be triggered. The callback function will be invoked with 2 arguments: the videoId and the output (depending on)
 
-
-## Example
+An example of a fully customized recorder can look something like this:
 
 ````JavaScript
 Flipbase.recorder({
   recorderId: 'xxxxxxxx-xxxxx-xxxxx-xxxxx-xxxxxxxxx',
+  duration: 15, // 15 seconds video max
   primaryColor: '#aeb00a', // green button background color
   secondaryColor: '#e0e0e0', // ligt grayish text color of the button
   backgroundColor: '#242b3c', // dark blueish interface background
   textColor: '#FFFFFF', // text color
-  locale: navigator.language || navigator.userLanguage, // Change thelanguage based on the users' browser default language
+  locale: 'en-US', // Use English instead of default Dutch
   showFAQButton: false, // Hides the default FAQ button
   maxWidth: 500,
+  maxHeight: 400,
+  // The callback is triggered everytime the video is saved or updated
   callback: function (id, output) {
     alert('The video has been saved to our server. The video UUID you should store in your database is: ' + id);
     console && console.info && console.info('The video UUID you should store in your database is: ' + id);
   }
 });
 ````
-<div>
-  <input type="flipbase" style="display:none;"/>
-</div>
-<script src="//app.flipbase.com/recorder.js" ></script>
+## Multiple recorders on a single page
+
+```html
+
+<input id="recorder1"/>
+
 <script>
-  Flipbase.recorder({
-    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+  var rec1 = Flipbase.recorder({
+    recorderId: "your_unique_recorderId"
+    selector: 'recorder1', // !! required when creating multiple instances on 1 page
     primaryColor: '#aeb00a',
     showFAQButton: false,
-    locale: getLanguage(),
+    secondaryColor: '#e0e0e0',
+    backgroundColor: '#242b3c',
+    textColor: '#FFFFFF'
+  });
+  
+  // Invoke the `destroy` method if you want to close the pop-up or tab in which you showed the recorder
+  rec1.destroy()
+</script>
+
+<!-- Add a second recorder instance -->
+<input id="recorder2"/>
+
+<script>
+  var rec2 = Flipbase.recorder({
+    recorderId: "your_unique_recorderId"
+    selector: 'recorder2'
+  });
+  
+  // Invoke the `destroy` method if you want to close the pop-up or tab in which you showed the recorder
+  rec2.destroy()
+</script>
+```
+<div>
+  <div style="width: 49%; float: left;">
+    <h4>Recorder 1</h4>
+    <input id="recorder1" style="display:none;"/>
+  </div>
+  <div style="width: 49%; float:right;">
+    <h4>Recorder 2</h4>
+    <input id="recorder2" style="display:none;"/>
+  </div>
+  <div style="clear: both;"></div>
+</div>
+<script>
+  var recorder1 = Flipbase.recorder({
+    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+    selector: 'recorder1',
+    primaryColor: '#aeb00a',
+    showFAQButton: false,
     secondaryColor: '#e0e0e0',
     backgroundColor: '#242b3c',
     textColor: '#FFFFFF',
-    maxWidth: 500,
-    callback: function (id, output) {
-      alert('The video has been saved to our server. The video UUID you should store in your database is: ' + id);
-      console && console.info && console.info('The video UUID you should store in your database is: ' + id);
-    }
   });
-
-  function getLanguage() {
-    var lang = (navigator.language || navigator.userLanguage);
-    console && console.info && console.info('Recorder language will be changed to: ' + lang);
-    return lang;
-  }
+  var recorder2 = Flipbase.recorder({
+    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+    selector: 'recorder2',
+  });
 </script>
-
 
 ## Limitations
 
