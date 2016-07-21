@@ -11,7 +11,7 @@
       "gitbookConfigURL": "https://raw.githubusercontent.com/flipbase/docs/book.json",
       "options": []
     },
-    "addcssjs": { "js": ["//app.flipbase.com/recorder.js", "//app.flipbase.com/player.js"] },
+    "addcssjs": { "js": ["https://app.flipbase.com/recorder.js", "https://app.flipbase.com/player.js"] },
     "fancybox": {},
     "comment": {}
   }
