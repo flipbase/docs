@@ -1,5 +1,3 @@
-<script src="//app.flipbase.com/recorder.js" ></script>
-
 # Flipbase recorder
 
 - [Getting started](#getting-started)
