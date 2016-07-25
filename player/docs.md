@@ -16,13 +16,17 @@ To show the Flipbase Player you have to integrate the code as shown below and re
 
 
 <!-- Place the HTML video element somehwere in the body where you want to show the video -->
-<video type="flipbase" data-video-id="786553529-a24e-22ae-cca6-891861f7895" />
+<video type="flipbase" data-video-id="786553529-a24e-22ae-cca6-891861f7895"></video>
+<video type="flipbase" data-video-id="a24e-22ae-cca6-891861f7895-78653529"></video>
 
 <!--  Initialize the Player and provide your 'playerId'  -->
 <script>
-    Flipbase.player({
-        playerId: "xxxx-xxxxx-xxxxxx-xxxxxxx"
+    var videoPlayers = Flipbase.player({
+      playerId: "xxxx-xxxxx-xxxxxx-xxxxxxx"
     });
+
+    // When one of the video players is not instantly invisible, because it is placed in a tab that is not yet visible, we need to re-render all instances.
+    videoPlayers.reload();
 </script>
 ```
 
