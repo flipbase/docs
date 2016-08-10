@@ -14,7 +14,7 @@ The Flipbase API will deny all non-authorized requests by default. You can autho
 
     Signature = Base64( HMAC-SHA256( <FLIPBASE_CLIENT_SECRET>, UTF-8-Encoding-Of( <StringToSign> ) ) ); 
 
-    DELETE /v1/api/videos/<VIDEO_ID> HTTP/1.1
+    DELETE /api/videos/<VIDEO_ID> HTTP/1.1
     Host: app.flipbase.com
     Date: Date
     Authorization: Signature <FLIPBASE_CLIENT_ID>:<Signature>
@@ -53,7 +53,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
 ### Request
 
-    GET /v1/api/accounts
+    GET /api/accounts
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
@@ -88,7 +88,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
 **Request**
 
-    POST /v1/api/accounts
+    POST /api/accounts
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
@@ -123,7 +123,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 ## GET /accounts/:id
 **Request**
 
-    GET /v1/api/accounts/5370df982b2779cf60e03217
+    GET /api/accounts/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
@@ -147,7 +147,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 ## PUT  /accounts/:id
 **Request**
 
-    PUT /v1/api/accounts/5370df982b2779cf60e03217
+    PUT /api/accounts/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
@@ -186,7 +186,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 ## DELETE /accounts/:id
 **Request**
 
-    DELETE /v1/api/accounts/5370df982b2779cf60e03217
+    DELETE /api/accounts/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
@@ -198,7 +198,7 @@ No response body, just a 200 (= successfully deleted), 404 (= not found / alread
 
 ## DELETE /videos/:id
 
-    DELETE /v1/api/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
+    DELETE /api/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
