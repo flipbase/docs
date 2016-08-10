@@ -65,9 +65,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "5370df982b2779cf60e03217",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.kpn.com"],
+          name: "Company ABC",
+          description: "ABC corporate recruitment related videos",
+          domains: ["*.flipbase.com", "careers.abccompany.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804"
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
@@ -97,9 +97,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
       data: {
         type: "accounts",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.kpn.com"]
+          name: "Company ABC",
+          description: "ABC corporate recruitment related videos",
+          domains: ["*.flipbase.com", "careers.abccompany.com"]
         }
       }
     }
@@ -111,9 +111,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "5370df982b2779cf60e03217",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.kpn.com"],
+          name: "Company ABC",
+          description: "ABC corporate recruitment related videos",
+          domains: ["*.flipbase.com", "careers.abccompany.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804"
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
@@ -135,9 +135,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "5370df982b2779cf60e03217",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.kpn.com"],
+          name: "Company ABC",
+          description: "ABC corporate recruitment related videos",
+          domains: ["*.flipbase.com", "careers.abccompany.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
@@ -158,9 +158,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "11223344556677",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "*.kpn.com", "hroffice.com"],
+          name: "Company ABC",
+          description: "ABC corporate recruitment related videos",
+          domains: ["*.flipbase.com", "*.abccompany.com", "hroffice.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
@@ -174,9 +174,9 @@ recorder_id | no | The recorder_id will be always available and cannot be update
         type: "accounts",
         id: "11223344556677",
         attributes: {
-          name: "KPN Telecom",
-          description: "KPN corporate recruitment related videos",
-          domains: ["*.flipbase.com", "*.kpn.com", "hroffice.com"],
+          name: "Company ABC",
+          description: "ABC corporate recruitment related videos",
+          domains: ["*.flipbase.com", "*.abccompany.com", "hroffice.com"],
           player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
           recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
