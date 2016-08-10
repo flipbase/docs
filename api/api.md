@@ -61,25 +61,25 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 ### Response
 
     {
-      data: [{
-        type: "accounts",
-        id: "5370df982b2779cf60e03217",
-        attributes: {
-          name: "Company ABC",
-          description: "ABC corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.abccompany.com"],
-          player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804"
-          recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
+      "data": [{
+        "type": "accounts",
+        "id": "5370df982b2779cf60e03217",
+        "attributes": {
+          "name": "Company ABC",
+          "description": "ABC corporate recruitment related videos",
+          "domains": ["*.flipbase.com", "careers.abccompany.com"],
+          "player_id": "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804"
+          "recorder_id": "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
       }, {
-        type: "accounts",
-        id: "23d10d0fe4b4f2b53d967c24",
-        attributes: {
-          name: "PricewaterhouseCoopers",
-          description: "PWC employer branding",
-          domains: ["*.flipbase.com", "careers.pwc.com", "*.pwc.com"],
-          player_id: "5819b1eb-fcfc-45b0-bde8-9a3c4d43c985"
-          recorder_id: "994ba320-7a4c-4040-9b67-c02490809a59"
+        "type": "accounts",
+        "id": "23d10d0fe4b4f2b53d967c24",
+        "attributes": {
+          "name": "PricewaterhouseCoopers",
+          "description": "PWC employer branding",
+          "domains": ["*.flipbase.com", "careers.pwc.com", "*.pwc.com"],
+          "player_id": "5819b1eb-fcfc-45b0-bde8-9a3c4d43c985"
+          "recorder_id": "994ba320-7a4c-4040-9b67-c02490809a59"
         }      
       }]
     }
@@ -94,12 +94,12 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
 
     {
-      data: {
-        type: "accounts",
-        attributes: {
-          name: "Company ABC",
-          description: "ABC corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.abccompany.com"]
+      "data": {
+        "type": "accounts",
+        "attributes": {
+          "name": "Company ABC",
+          "description": "ABC corporate recruitment related videos",
+          "domains": ["*.flipbase.com", "careers.abccompany.com"]
         }
       }
     }
@@ -107,15 +107,15 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 **Response**
 
     {
-      data: {
-        type: "accounts",
-        id: "5370df982b2779cf60e03217",
-        attributes: {
-          name: "Company ABC",
-          description: "ABC corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.abccompany.com"],
-          player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804"
-          recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
+      "data": {
+        "type": "accounts",
+        "id": "5370df982b2779cf60e03217",
+        "attributes": {
+          "name": "Company ABC",
+          "description": "ABC corporate recruitment related videos",
+          "domains": ["*.flipbase.com", "careers.abccompany.com"],
+          "player_id": "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804"
+          "recorder_id": "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
       }
     }
@@ -131,15 +131,15 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 **Response**
 
     {
-      data: {
-        type: "accounts",
-        id: "5370df982b2779cf60e03217",
-        attributes: {
-          name: "Company ABC",
-          description: "ABC corporate recruitment related videos",
-          domains: ["*.flipbase.com", "careers.abccompany.com"],
-          player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
-          recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
+      "data": {
+        "type": "accounts",
+        "id": "5370df982b2779cf60e03217",
+        "attributes": {
+          "name": "Company ABC",
+          "description": "ABC corporate recruitment related videos",
+          "domains": ["*.flipbase.com", "careers.abccompany.com"],
+          "player_id": "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
+          "recorder_id": "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
       }
     }
@@ -154,15 +154,15 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 
 
     {
-      data: {
-        type: "accounts",
-        id: "11223344556677",
-        attributes: {
-          name: "Company ABC",
-          description: "ABC corporate recruitment related videos",
-          domains: ["*.flipbase.com", "*.abccompany.com", "hroffice.com"],
-          player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
-          recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
+      "data": {
+        "type": "accounts",
+        "id": "11223344556677",
+        "attributes": {
+          "name": "Company ABC",
+          "description": "ABC corporate recruitment related videos",
+          "domains": ["*.flipbase.com", "*.abccompany.com", "hroffice.com"],
+          "player_id": "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
+          "recorder_id": "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
       }
     }
@@ -170,15 +170,15 @@ recorder_id | no | The recorder_id will be always available and cannot be update
 **Response**
 
     {
-      data: {
-        type: "accounts",
-        id: "11223344556677",
-        attributes: {
-          name: "Company ABC",
-          description: "ABC corporate recruitment related videos",
-          domains: ["*.flipbase.com", "*.abccompany.com", "hroffice.com"],
-          player_id: "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
-          recorder_id: "1a4ba320-7a4c-4040-9b67-c02490809cf1"
+      "data": {
+        "type": "accounts",
+        "id": "11223344556677",
+        "attributes": {
+          "name": "Company ABC",
+          "description": "ABC corporate recruitment related videos",
+          "domains": ["*.flipbase.com", "*.abccompany.com", "hroffice.com"],
+          "player_id": "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
+          "recorder_id": "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
       }
     }
