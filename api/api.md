@@ -26,8 +26,8 @@ The string to sign that is used to create the signature is build using 3 attribu
 Attributes |  Description
 --- |  ----
 HTTP-Verb | Uppercase plain-text (e.g GET, POST, PUT or DELETE)
-Path | URI path and query paramaters (excluding hostname) 
-Date | The date value should be identitcal to the value provided in the Date or X-Flipbase-Date header. The Date is the current UTC time in [ISO 8601](https://www.ietf.org/rfc/rfc3339.txt) format (for example, 20130524T000000Z).
+Path | URI path and query paramaters ((in lowercase characters only, excluding hostname) 
+Date | The date value should be identitcal to the value provided in the Date or X-Flipbase-Date header. The Date is the current UTC time in [ISO 8601](https://www.ietf.org/rfc/rfc3339.txt) format (for example, 2016-08-08T09:04:29Z).
 
 ### Headers
 
@@ -56,7 +56,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     GET /v1/api/accounts
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
 
 ### Response
 
@@ -91,7 +91,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     POST /v1/api/accounts
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
 
     {
       data: {
@@ -126,7 +126,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     GET /v1/api/accounts/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
 
 **Response**
 
@@ -150,7 +150,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     PUT /v1/api/accounts/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
 
 
     {
@@ -189,7 +189,7 @@ recorder_id | no | The recorder_id will be always available and cannot be update
     DELETE /v1/api/accounts/5370df982b2779cf60e03217
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
 
 
 **Response**
@@ -201,7 +201,7 @@ No response body, just a 200 (= successfully deleted), 404 (= not found / alread
     DELETE /v1/api/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
     Host: app.flipbase.com
     Content-Type: application/json
-    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:c8996fb92427ae41e4649b934ca495991b7852b85c8996fb92427ae41e4649b934ca495991b7852b85
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
 
 
 **Response**
