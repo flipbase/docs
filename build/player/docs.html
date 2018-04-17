@@ -1,269 +1,383 @@
+
 <!DOCTYPE HTML>
-<html lang="en" >
-    
+<html lang="" >
     <head>
-        
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>player.js | Flipbase documentation</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>player.js · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.5.2">
+        <meta name="generator" content="GitBook 3.2.2">
         
         
-        <meta name="HandheldFriendly" content="true"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
-        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
         
+    
     <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-versions/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fancybox/jquery.fancybox.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fancybox/jquery.fancybox-buttons.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-comment/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
     
         
-        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-versions/plugin.css">
+    
         
     
         
-        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox.css">
+    
         
     
         
-        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox-buttons.css">
-        
     
         
-        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-comment/plugin.css">
-        
-    
-        
-        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
-        
-    
-        
-        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
-        
-    
-        
-        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
-        
-    
     
 
         
     
     
-    <link rel="next" href="../api/api.html" />
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
     
     
     <link rel="prev" href="../recorder/docs.html" />
     
 
-        
     </head>
     <body>
         
+<div class="book">
+    <div class="book-summary">
         
-    <div class="book" data-level="2" data-chapter-title="player.js" data-filepath="player/docs.md" data-basepath=".." data-revision="Tue Feb 02 2016 11:08:16 GMT+0100 (CET)">
-    
-
-<div class="book-summary">
-    <nav role="navigation">
-        <ul class="summary">
             
-            
-            
-            
-
-            
-
-            
-    
-        <li class="chapter " data-level="0" data-path="index.html">
-            
-                
-                    <a href="../index.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                        Introduction
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter " data-level="1" data-path="recorder/docs.html">
-            
-                
-                    <a href="../recorder/docs.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>1.</b>
-                        
-                        recorder.js
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter active" data-level="2" data-path="player/docs.html">
-            
-                
-                    <a href="../player/docs.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>2.</b>
-                        
-                        player.js
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter " data-level="3" data-path="api/api.html">
-            
-                
-                    <a href="../api/api.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>3.</b>
-                        
-                        API
-                    </a>
-            
-            
-        </li>
-    
-
-
-            
-            <li class="divider"></li>
-            <li>
-                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-                    Published with GitBook
-                </a>
-            </li>
-            
-        </ul>
-    </nav>
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
 </div>
 
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../recorder/docs.html">
+            
+                <a href="../recorder/docs.html">
+            
+                    
+                    recorder.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3" data-path="docs.html">
+            
+                <a href="docs.html">
+            
+                    
+                    player.js
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    API
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../api/authorization.html">
+            
+                <a href="../api/authorization.html">
+            
+                    
+                    Authorization API
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../api/videos_temp.html">
+            
+                <a href="../api/videos_temp.html">
+            
+                    
+                    Videos API
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../api/batching.html">
+            
+                <a href="../api/batching.html">
+            
+                    
+                    Batch API
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
     <div class="book-body">
-        <div class="body-inner">
-            <div class="book-header" role="navigation">
-    <!-- Actions Left -->
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
     
 
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../" >Flipbase documentation</a>
+        <a href=".." >player.js</a>
     </h1>
 </div>
 
-            <div class="page-wrapper" tabindex="-1" role="main">
-                <div class="page-inner">
-                
-                
-                    <section class="normal" id="section-">
-                    
-                        <h1 id="flipbase-player">Flipbase player</h1>
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="flipbase-player">Flipbase player</h1>
 <p>The Player can be integrated following the same steps as the Recorder. The Player utilizes HTML5 technology, a Flash based player will be used if HTML5 video playback is not supported.</p>
 <h3 id="how-to-integrate-the-player">How to integrate the Player?</h3>
 <p>To show the Flipbase Player you have to integrate the code as shown below and replace the &#x2018;playerId&#x2019; parameter with your own unique PlayerId.</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+<p>Create a signature for a single video:</p>
+<pre><code>StringToSign = HTTP-Verb + &quot;\n&quot; +
+     VideoId + &quot;\n&quot; +
+     URI-encode( &lt;Path&gt; ) + &quot;\n&quot; +
+     Date;
+
+Signature = Base64( HMAC-SHA256( &lt;FLIPBASE_PARTNER_SECRET&gt;, UTF-8-Encoding-Of( &lt;StringToSign&gt; ) ) ); 
+</code></pre><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     ...
     <span class="hljs-comment">&lt;!--  Load the JavaScript Player library in the HTML head tag of your page --&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">&quot;//app.flipbase.com/player.js&quot;</span> &gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;//app.flipbase.com/player.js&quot;</span> &gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
     ...
-<span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 
 
 <span class="hljs-comment">&lt;!-- Place the HTML video element somehwere in the body where you want to show the video --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">video</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;flipbase&quot;</span> <span class="hljs-attribute">data-video-id</span>=<span class="hljs-value">&quot;786553529-a24e-22ae-cca6-891861f7895&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;flipbase&quot;</span> <span class="hljs-attr">data-video-id</span>=<span class="hljs-string">&quot;786553529-a24e-22ae-cca6-891861f7895&quot;</span> <span class="hljs-attr">data-signature</span>=<span class="hljs-string">&quot;&lt;SIGNATURE_VIDEO1&gt;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">video</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;flipbase&quot;</span> <span class="hljs-attr">data-video-id</span>=<span class="hljs-string">&quot;a24e-22ae-cca6-891861f7895-78653529&quot;</span> <span class="hljs-attr">data-signature</span>=<span class="hljs-string">&quot;&lt;SIGNATURE_VIDEO2&gt;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">video</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!--  Initialize the Player and provide your &apos;playerId&apos;  --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="actionscript">
-    Flipbase.player({
-        playerId: <span class="hljs-string">&quot;xxxx-xxxxx-xxxxxx-xxxxxxx&quot;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="actionscript">
+    <span class="hljs-keyword">var</span> videoPlayers = Flipbase.player({
+      playerId: <span class="hljs-string">&quot;xxxx-xxxxx-xxxxxx-xxxxxxx&quot;</span>
     });
-</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+
+    <span class="hljs-comment">// When one of the video players is not instantly invisible, because it is placed in a tab that is not yet visible, we need to re-render all instances.</span>
+    videoPlayers.reload();
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
 <h3 id="player-settings">Player settings</h3>
 <p>Maximum width or height (deprecated)</p>
 <p>You are able to set the maximum height OR width (in pixels) of the Player. Please provide this setting as a number, not as a string. By default the height is 640 pixels and width is 360 pixels.</p>
 
-                    
-                    </section>
-                
-                
-                </div>
-            </div>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
         </div>
-
-        
-        <a href="../recorder/docs.html" class="navigation navigation-prev " aria-label="Previous page: recorder.js"><i class="fa fa-angle-left"></i></a>
-        
-        
-        <a href="../api/api.html" class="navigation navigation-next " aria-label="Next page: API"><i class="fa fa-angle-right"></i></a>
-        
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
     </div>
 </div>
 
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../recorder/docs.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: recorder.js">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
         
-<script src="../gitbook/app.js"></script>
+    </div>
 
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"player.js","level":"1.3","depth":1,"next":{"title":"API","level":"1.4","depth":1,"ref":"","articles":[{"title":"Authorization API","level":"1.4.1","depth":2,"path":"api/authorization.md","ref":"api/authorization.md","articles":[]},{"title":"Videos API","level":"1.4.2","depth":2,"path":"api/videos_temp.md","ref":"api/videos_temp.md","articles":[]},{"title":"Batch API","level":"1.4.3","depth":2,"path":"api/batching.md","ref":"api/batching.md","articles":[]}]},"previous":{"title":"recorder.js","level":"1.2","depth":1,"path":"recorder/docs.md","ref":"recorder/docs.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["ga","versions","fancybox","comment","addcssjs"],"pluginsConfig":{"fancybox":{},"search":{},"addcssjs":{"js":[]},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"ga":{"configuration":"auto","token":"UA-45440989-1"},"versions":{"type":"branches","gitbookConfigURL":"https://raw.githubusercontent.com/flipbase/docs/book.json","options":[]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"comment":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"player/docs.md","mtime":"2017-06-23T12:27:59.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-23T12:29:20.556Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
     
-    <script src="../gitbook/plugins/gitbook-plugin-ga/plugin.js"></script>
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-versions/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fancybox/jquery.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fancybox/jquery.fancybox.pack.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fancybox/jquery.fancybox-buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-comment/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
     
 
-    
-    <script src="../gitbook/plugins/gitbook-plugin-versions/plugin.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-fancybox/jquery.min.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox.pack.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-fancybox/jquery.fancybox-buttons.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-comment/plugin.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
-    
-
-    
-    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
-    
-
-<script>
-require(["gitbook"], function(gitbook) {
-    var config = {"ga":{"token":"UA-45440989-1","configuration":"auto"},"versions":{"gitbookConfigURL":"https://raw.githubusercontent.com/flipbase/docs/book.json","options":[{"value":"https://rackt.github.io/history/v1.3.0/","text":"Version 1.3.0"},{"value":"https://rackt.github.io/history/v1.4.0/","text":"Version 1.0.0","selected":true}],"type":"branches"},"fancybox":{"helpers":{"buttons":{}}},"comment":{},"highlight":{},"search":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
-    gitbook.start(config);
-});
-</script>
-
-        <script>$(".fancybox").fancybox(JSON.parse('{"helpers":{"buttons":{}}}'));</script>
     </body>
-    
 </html>
+
