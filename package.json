@@ -2,13 +2,20 @@
   "name": "docs",
   "version": "0.0.1",
   "scripts": {
-    "serve": "./node_modules/.bin/gitbook serve ./",
+    "start": "./node_modules/.bin/gitbook serve ./",
     "setup": "./node_modules/.bin/gitbook install",
-    "build": "./node_modules/.bin/gitbook build ./ ./build"
+    "build": "./node_modules/.bin/gitbook build ./ ./build",
+    "commitmsg": "commitlint -e $GIT_PARAMS",
+    "major": "./node_modules/.bin/standard-version --release-as major",
+    "minor": "./node_modules/.bin/standard-version --release-as minor",
+    "patch": "./node_modules/.bin/standard-version --release-as patch"
   },
   "devDependencies": {
     "gitbook": "*",
-    "gitbook-cli": "*"
+    "gitbook-cli": "*",
+    "standard-version": "^4.3.0",
+    "@commitlint/cli": "^6.0.2",
+    "@commitlint/config-conventional": "^6.0.2"
   },
   "dependencies": {
     "gitbook-plugin-addcssjs": "^1.0.2",
