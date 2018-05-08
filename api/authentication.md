@@ -1,13 +1,4 @@
-# API Overview
-
-- [Authentication](#authentication)
-- [Errors](#errors)
-- Resources:
-  * [Organizations](organizations.md)
-  * [Collections](collections.md)
-  - [Videos](videos.md)
-
-## Authentication
+# Authentication
 
 When you want to use the API you need an `api_key` and an `api_secret`, provided by Flipbase. The `api_secret` will be used to generate (server side) signatures to send authenticated requests.
 
@@ -65,65 +56,3 @@ It's also possible to send these parameters along in the query instead of header
 | Date            | only if `X-Flipbase-Date` is omitted | The value of the `Date` header must be in one of the [RFC 2616](http://www.ietf.org/rfc/rfc2616.txt) formats. Some HTTP client libraries do not expose the ability to set the Date header for a request. If you have trouble including the value of the `Date` header in the headers, you can set the timestamp for the request by using an `X-Flipbase-Date` header instead. |
 | X-Flipbase-Date | only if `Date` header is omitted     | The value of the `X-Flipbase-Date` header must be in one of the [RFC 2616](http://www.ietf.org/rfc/rfc2616.txt) formats. When an `X-Flipbase-Date` header is present in a request, the system will ignore any `Date` header when computing the request signature.                                                                                                             |
 | Authorization   | yes                                  | Prepend the <FLIPBASE_API_KEY>:<Signature> string with `Signature`.                                                                                                                                                                                                                                                                                                           |
-
-## Errors
-
-### Authentication errors
-
-    HTTP/1.1 401 Unauthorized
-
-    {
-      "message": "Bad credentials"
-    }
-
-### Authorzation errors
-
-
-
-### Invalid request
-
-There are three possible types of client errors on API calls that receive request bodies. Sending invalid JSON will result in a 400 Bad Request response:
-
-    HTTP/1.1 400 Bad Request
-    Content-Length: 35
-
-    {
-      "message": "Problems parsing JSON"
-    }
-
-Sending the wrong type of JSON values will result in a 400 Bad Request response.
-
-    HTTP/1.1 400 Bad Request
-    Content-Length: 40
-
-    {
-      "message": "Body should be a JSON object"
-    }
-
-Sending invalid fields will result in a 422 Unprocessable Entity response.
-
-    HTTP/1.1 422 Unprocessable Entity
-    Content-Length: 149
-
-    {
-      "message": "Validation Failed",
-      "errors": [
-        {
-          "resource": "Videos",
-          "field": "formats",
-          "code": "missing_field"
-        }
-      ]
-    }
-
-All error objects have resource and field properties so that your client can tell what the problem is. There's also an error code to let you know what is wrong with the field. These are the possible validation error codes:
-
-
-| Error name     | Description                                                                                                                                |
-|:---------------|:-------------------------------------------------------------------------------------------------------------------------------------------|
-| missing        | This means a resource does not exist.                                                                                                      |
-| missing_field  | This means a required field on a resource has not been set.                                                                                |
-| invalid        | This means the formatting of a field is invalid. The documentation for that resource should be able to give you more specific information. |
-| already_exists | This means another resource has the same value as this field. This can happen in resources that must have some unique key.                 |
-
-Resources may also send custom validation errors (where code is custom). Custom errors will always have a message field describing the error, and most errors will also include a documentation_url field pointing to some content that might help you resolve the error.
