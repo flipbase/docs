@@ -1,13 +1,14 @@
 # Organizations
 
-Organizations are basically groups of users that are allowed to have access to the same collections and videos. In order to create a `collection` you need to create an organization that contains that collection. 
+Organizations are basically groups of users that are allowed to have access to the same collections and videos. In order to create a `collection` you need to create an organization that contains that collection.
 
-## GET  /organizations
+- [List all your existing organizations](#list-all-your-existing-organizations)
+- [Create a organization](#create-a-organization)
+- [Retrieve a single organization](#retrieve-a-single-organization)
+- [Update a organization](#update-a-organization)
+- [Delete a organization](#delete-a-organization)
 
-Attributes | Required | Description
---- | --- | ----
-name | yes | Name of the organization
-description | no | Explanation what kind of collections and users the organization holds
+## List all your existing organizations
 
 ### Request
 
@@ -36,7 +37,7 @@ description | no | Explanation what kind of collections and users the organizati
       }]
     }
 
-## POST /organizations
+## Create a organization
 
 **Request**
 
@@ -68,7 +69,8 @@ description | no | Explanation what kind of collections and users the organizati
       }
     }
 
-## GET /organizations/:id
+## Retrieve a single organization
+
 **Request**
 
     GET /api/organizations/5370df982b2779cf60e03217
@@ -89,7 +91,7 @@ description | no | Explanation what kind of collections and users the organizati
       }
     }
 
-## PUT  /organizations/:id
+## Update a organization
 **Request**
 
     PUT /api/organizations/5370df982b2779cf60e03217
@@ -122,9 +124,9 @@ description | no | Explanation what kind of collections and users the organizati
       }
     }
 
-## DELETE /organizations/:id
+## Delete a organization
 
-When you delete an organization, only the organization will be deleted. If the organization contained one or more collections, these collections are not deleted. You have to delete collections seperatly.
+When you delete an organization, only the organization will be deleted. If the organization contained one or more collections, these collections (and associated videos) are not deleted. You have to delete collections and associated videos seperatly.
 
 **Request**
 
