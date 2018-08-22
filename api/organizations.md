@@ -10,14 +10,14 @@ Organizations are basically groups of users that are allowed to have access to t
 
 ## List all your existing organizations
 
-### Request
+**Request**
 
     GET /api/organizations
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
 
-### Response
+**Response**
 
     {
       "data": [{
@@ -25,6 +25,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "id": "5370df982b2779cf60e03217",
         "attributes": {
           "name": "Organization ABC",
+          "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
       }, {
@@ -32,6 +33,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "id": "23d10d0fe4b4f2b53d967c24",
         "attributes": {
           "name": "Organization XYZ",
+          "employer_branding_license": true,
           "description": "Employer branding videos"
         }      
       }]
@@ -51,6 +53,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "type": "organizations",
         "attributes": {
           "name": "Collection ABC",
+          "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
       }
@@ -64,6 +67,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "id": "5370df982b2779cf60e03217",
         "attributes": {
           "name": "Collection ABC",
+          "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
       }
@@ -86,6 +90,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "id": "5370df982b2779cf60e03217",
         "attributes": {
           "name": "Collection ABC",
+          "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
       }
@@ -106,6 +111,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "id": "5370df982b2779cf60e03217",
         "attributes": {
           "name": "Collection ABC - department X",
+          "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
       }
@@ -119,6 +125,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "id": "5370df982b2779cf60e03217",
         "attributes": {
           "name": "Collection ABC - department X",
+          "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
       }

@@ -6,11 +6,26 @@ The Flipbase API enables access to resources like `organizations`, `collections`
 
 Requests without signature will be denied.
 
-## Create a signed request
+## Authenticate using JSON Web Tokens
+
+**Request**
+
+    POST /api/auth/jwt_token
+    Host: app.flipbase.com
+    Content-Type: application/json
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
+
+**Response**
+
+    {
+      "token": eyJhbGcxtyafdsafnR5cCI6privatekpXVCJ9.eyJ1c2VyX2lkIjofesht625ve1124WFkZjg3IiwiZXhwIjoxNTM1MveXQiOjE1MzfeDd9.BFtWEFaeplZ4nGKfefeazSATL6YpDvfels
+      "expires_at": 1535185487000
+      "created_at": 1534926287909
+    }
+
+## Authenticate using signed requests
 
 The Flipbase API will deny all non-authorized requests by default. You can authorize a request using the `Authorization` header in the following format: `<FLIPBASE_API_KEY>:<Signature>`
-
-### Signed requests
 
     StringToSign = HTTP-Verb + "\n" +
         URI-encode( <Path> ) + "\n" +

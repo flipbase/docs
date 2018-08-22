@@ -8,10 +8,14 @@
   * [Create a Collection](/guides/collections.md)
   * [Implement the Recorder](/recorder/docs.md)
   * [Implement the Player](/player/docs.md)
-  * [Managing videos](/guides/videos.md)
-* API Reference
+
+* Generic API Reference
   * [Authentication](api/authentication.md)
   * [Error handling](api/errors.md)
   * [Organizations API](api/organizations.md)
+  * [Members API](api/members.md)
+* Candidate Screening API Reference
   * [Collections API](api/collections.md)
   * [Videos API](api/videos.md)
+* Employer Branding API Reference
+  * [Videos API](api/eb/videos.md)
