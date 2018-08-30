@@ -24,8 +24,9 @@ Create a collection within an existing organization.
         "attributes": {
           "name": "Collection ABC",
           "description": "ABC corporate recruitment related videos",
+          "type": "employer_branding",
           "secure_mode": true,
-          "allowed_privacy": "private",
+          "allowed_privacy": "public",
         }
       }
     }
@@ -41,7 +42,8 @@ Create a collection within an existing organization.
           "description": "ABC corporate recruitment related videos",
           "secure_mode": true,
           "delete_after_days": 365,
-          "allowed_privacy": "private",
+          "type": "employer_branding",
+          "allowed_privacy": "public",
           "player_id": "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
           "recorder_id": "1a4ba320-7a4c-4040-9b67-c02490809cf1"
         }
