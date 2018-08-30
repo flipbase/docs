@@ -14,7 +14,7 @@ If the member needs to login using username and password in the dashboard, you a
 - at least 1 number
 - at least 8 characters
 
-If you want to login in via an API on this member behalf, you can enable the `programmatic_usage` option. This will create a set of API credentials which you then can use to authenticate and retrieve a JSON Web Token.
+If you want to login in via an API on this member behalf, you can enable the `programmatic_access` option. This will create a set of API credentials which you then can use to authenticate and retrieve a JSON Web Token.
 
 Regardless of the authentication method you choose, you are required to provide a unique (!) username and a valid email address.
 
@@ -36,9 +36,10 @@ Regardless of the authentication method you choose, you are required to provide 
           "email": "helloworld@example.com",
           "username": "catjorgensen",
           "roles": ["publisher"],
-          "password": "V3ry_DffcltPwd?"
-          "programmatic_usage": true
+          "password": "V3ry_DffcltPwd?",
+          "programmatic_access": true
         }
+      }
     }
 
 **Response**
@@ -53,8 +54,9 @@ Regardless of the authentication method you choose, you are required to provide 
           "roles": ["director"],
           "email": "helloworld@example.com",
           "username": "catjorgensen",
-          "programmatic_usage": true,
+          "programmatic_access": true,
           "api_key": "9afbf4c8996fb92427ae41e4649b934ca4",
           "api_secret": "96fb92427ae419afbf4c8996fb92427ae41e4649b934ca49afbf4c8996fb92427ae41e4649b934ca4"
         }
+      }
     }

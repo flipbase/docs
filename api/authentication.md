@@ -8,12 +8,25 @@ Requests without signature will be denied.
 
 ## Authenticate using JSON Web Tokens
 
-**Request**
+You can use signed request to fetch a JWT token or a username/password combination. When using a signature to fetch a token, the token scope is limited to the user that is associated with the api_key. 
+
+**Request using signatures (only possible when user has `programmatic_access` enabled)**
 
     POST /api/auth/jwt_token
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
+
+**Request using email/password**
+
+    POST /api/auth/jwt_token
+    Host: app.flipbase.com
+    Content-Type: application/json
+
+    {
+      "username": "your_globally_unique_username",
+      "password": "V3ry_DffcltPwd!"
+    }
 
 **Response**
 
