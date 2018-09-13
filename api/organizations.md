@@ -130,7 +130,7 @@ Organizations are basically groups of users that are allowed to have access to t
         }
       }
     }
-
+<!--
 ## Delete a organization
 
 When you delete an organization, only the organization will be deleted. If the organization contained one or more collections, these collections (and associated videos) are not deleted. You have to delete collections and associated videos seperatly.
@@ -144,4 +144,4 @@ When you delete an organization, only the organization will be deleted. If the o
 
 **Response**
 
-No response body, just a 204 (= successfully deleted), 404 (= not found / already deleted), 401 (= not authorized)
+No response body, just a 204 (= successfully deleted), 404 (= not found / already deleted), 401 (= not authorized) -->

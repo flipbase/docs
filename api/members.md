@@ -60,3 +60,18 @@ Regardless of the authentication method you choose, you are required to provide 
         }
       }
     }
+
+## Delete a member
+
+Since a user can be associated with multiple organizations, only a user can delete its own account. This API endpoint can only be used when authenticated with a JSON Web Token!
+
+**Request**
+
+    DELETE /api/user/me
+    Host: app.flipbase.com
+    Content-Type: application/json
+    Authorization: JWT eyJhbGcfpXVCJ9.eyJ1c2VyX2lkIjohMzEZXhQaeuE1MzYwMzl9.etFdVu6kly-fea-18zIfenv3JEjgQ
+
+**Response**
+
+    A 204 status message

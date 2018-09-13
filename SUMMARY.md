@@ -19,3 +19,4 @@
   * [Videos API](api/videos.md)
 * Employer Branding API Reference
   * [Videos API](api/eb/videos.md)
+  * [Organizations API](api/eb/delete.md)
