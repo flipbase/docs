@@ -1,0 +1,16 @@
+{
+    "plugins": ["theme-api", "toggle-chapters", "toggle-headers", "-sharing"],
+    "pluginsConfig": {
+      "theme-api": {
+        "theme": "light",
+        "split": true,
+        "languages": [
+          {
+            "lang": "js",
+            "name": "JavaScript",
+            "default": true
+          }
+        ]
+      }
+    }
+}
