@@ -1,4 +1,4 @@
-# Organizations
+# Organizations API
 
 Organizations are basically groups of users that are allowed to have access to the same collections and videos. In order to create a `collection` you need to create an organization that contains that collection.
 
@@ -6,13 +6,12 @@ Organizations are basically groups of users that are allowed to have access to t
 - [Create a organization](#create-a-organization)
 - [Retrieve a single organization](#retrieve-a-single-organization)
 - [Update a organization](#update-a-organization)
-- [Delete a organization](#delete-a-organization)
 
 ## List all your existing organizations
 
 **Request**
 
-    GET /api/organizations
+    GET /api/user/organizations
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=

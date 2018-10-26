@@ -1,6 +1,6 @@
 # Collections
 
-Collections are groups that hold videos. Each collection will have its own globally unique `player_id` and `recorder_id` which can be used to playback videos using the Player application and to record and submit videos using the Recorder application.
+Collections are groups that hold videos that share the same configuration. Each collection will have its own globally unique `player_id` and `recorder_id` which can be used to playback videos using the Player application and to record and submit videos using the Recorder application.
 
   - [Create a collection](#create-a-collection)
   - [Read a collection](#read-a-collection)
@@ -124,8 +124,6 @@ Create a collection within an existing organization.
 ## Delete a collection
 
 When you delete a collection, the videos that are related to this collection will not be deleted. You have to manually delete the videos related to this collection. However, since the player_id and recorder_id won't exist after you delete the collection, its not possible to access any videos anymore.
-
-NOTE: This endpoint has been udpate. The precessor of this endpoint `DELETE /api/collections/5370df982b2779cf60e03217` has been deprecated but will be maintained. If we decided to remove this endpoint, parties that rely on this endpoint will be updated.
 
 **Request**
 

@@ -1,6 +1,6 @@
 <script src="//app.flipbase.com/recorder.js"></script>
 
-# Flipbase recorder
+# Integrate the Flipbase recorder
 
 - [Getting started](#getting-started)
 - [Settings](#settings)
@@ -52,18 +52,18 @@ To playback videos you will need to store the videoId in your database. The vide
 
 ## Settings
 
-Except the `recorderId` options, all parameters listed below are optional. 
+Except the `recorderId` options, all parameters listed below are optional.
 
 Parameter | Type | Description
---- | --- | --- | 
+--- | --- | --- |
 recorderId | String | UUID provided by Flipbase. This is the only mandatory setting.
-duration | Number | Maximum duration in seconds of a single take. `30` is default. 
+duration | Number | Maximum duration in seconds of a single take. `30` is default.
 selector | String | The element ID to create the recorder application for (only necessary when using multiple recorder instances on a single page).
 primaryColor | String | Change the color of most prominent buttons. Color in HEX format.
 secondaryColor | String | Color in HEX format.
 backgroundColor | String | Change the background color of the application. Color in HEX format.
 textColor | String | Change the color of the text. Color in HEX format.
-locale | String | [Here](#supported-languages) can you find a list of all supported locales. The values `nl_nl` and `en_us` are deprecated. 
+locale | String | [Here](#supported-languages) can you find a list of all supported locales. The values `nl_nl` and `en_us` are deprecated.
 maxWidth | Number | By default the recorder application will fill up it's parentNode. However, if you want to make sure the height or width of the interface does not exceed a certain number of pixels you can provide it using these 2 properties. Please note, that the recorder ALWAYS keep the 16:9 aspect ratio, even if you provide other dimensions using the maxWidth and maxHeight properties. The application will always choose to most conservative width and height dimension.
 maxHeight | Number | See `maxWidth` description.
 output | String | Using the output property you can change what the application will output and insert into the input element. Leaving the output undefined will make sure the application inserts a UUID into the `<input type="flipbase" />` element. However, if you set it embedCode the application will 1) set a embedCode as value of the `<input type="flipbase" />` element and 2) will provide the embed code as second argument when invoking the callback function (if provided). Change the default output (the video id) to `embedCode` to receive an actual iframe which can be embedded on an external page.
@@ -107,7 +107,7 @@ Flipbase.recorder({
     backgroundColor: '#242b3c',
     textColor: '#FFFFFF'
   });
-  
+
   // Invoke the `destroy` method if you want to close the pop-up or tab in which you showed the recorder
   rec1.destroy()
 </script>
@@ -120,7 +120,7 @@ Flipbase.recorder({
     recorderId: "your_unique_recorderId"
     selector: 'recorder2'
   });
-  
+
   // Invoke the `destroy` method if you want to close the pop-up or tab in which you showed the recorder
   rec2.destroy()
 </script>
@@ -158,7 +158,7 @@ What you should know before implementating the recorder interface:
 
 * We strongly advice you to make sure that the recorder interface is not smaller then **244 pixels** wide, in all cases (even on mobile phones).
 
-* The recorder is fully responsive and automatically fills up the parent element node. If you do not want this, please use a [`maxWidth` setting](settings.md). 
+* The recorder is fully responsive and automatically fills up the parent element node. If you do not want this, please use a [`maxWidth` setting](settings.md).
 
 * Caution: if the `parentNode` element of the recorder is a `table` node, this `table` needs to have a minimum width. Otherwise, it’s not possible to record a video using the webcam.
 
@@ -178,18 +178,18 @@ Flipbase is supported in the browsers listed below. We differentiate recording f
 ##### Supported languages
 Below you will find a list of all supported languages and their `locale` configuration property values.
 
-- Dutch: nl-NL, nl-BE, nl 
-- English: en-US, en-GB, en-AU, en-CA, en-NZ, en-JM, en-ZA, en-IE, en 
-- German: de, DE, de-CH, de-AT, de-LU, de-LI 
-- Spanish: es, es-ES, es-CR, es-GT, es-PA, es-DO, es-MX, es-VE, es-CO, es-PE, es-CL, es-EC, es-UY, es-PY, es-BO, es-SV, es-HN, es-NI, es-PR 
+- Dutch: nl-NL, nl-BE, nl
+- English: en-US, en-GB, en-AU, en-CA, en-NZ, en-JM, en-ZA, en-IE, en
+- German: de, DE, de-CH, de-AT, de-LU, de-LI
+- Spanish: es, es-ES, es-CR, es-GT, es-PA, es-DO, es-MX, es-VE, es-CO, es-PE, es-CL, es-EC, es-UY, es-PY, es-BO, es-SV, es-HN, es-NI, es-PR
 - Portugues: pt, pt-PT
 - Portuguese Brazil: pt-BR
-- French: fr, fr-BE, fr-CA, fr-MC, fr-CH, fr-LU, fr-FR 
+- French: fr, fr-BE, fr-CA, fr-MC, fr-CH, fr-LU, fr-FR
 - Italian: it, it-IT, it-CH
 - Turkish: tr, tr-TR
 - Czech: cz, cz-CZ
 - Thai: th
-- Arabic: ar, ar-SA, ar-IQ, ar-EG, ar-LY, ar-DZ, ar-MA, ar-TN, ar-OM, ar-YE, ar-SY, ar-JO, ar-LB, ar-KW, ar-AE, ar-BH, ar-QA 
+- Arabic: ar, ar-SA, ar-IQ, ar-EG, ar-LY, ar-DZ, ar-MA, ar-TN, ar-OM, ar-YE, ar-SY, ar-JO, ar-LB, ar-KW, ar-AE, ar-BH, ar-QA
 - Polish: pl
 - Slovakian: sk
 - Ukranian: uk

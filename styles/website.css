@@ -1,0 +1,52 @@
+p a, li.active a, .page-inner a, h1, h2, h3, h4, h5 {
+  color: #A42952 !important;
+}
+
+/* body, p, h1, h2, h3, h4, h5, span, ul, ul li, ol, ol li { */
+  /* font-family: freight-sans-pro,"Helvetica Neue",Helvetica,Helvetica,Arial,sans-serif !important; */
+/* } */
+
+/**
+.book-summary ul.summary li .chapter:matches(> ul.articles) a:after {
+  color: #000;
+  content: '\f078';
+  font-family: FontAwesome;
+  float: rigth;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+}
+
+
+ul.summary li ul li.chapter a:after {
+   color: #FF0000;
+   content: '\f078';
+   font-family: FontAwesome;
+   float: rigth;
+   font-weight: normal;
+   font-style: normal;
+   text-decoration: none;
+}
+
+ul.summary li ul li.chapter a:hover:after {
+   color: #000;
+   content: '\f078';
+   font-family: FontAwesome;
+   float: rigth;
+   font-weight: normal;
+   font-style: normal;
+   text-decoration: none;
+}
+
+ul.summary li ul li.chapter.active a:after {
+
+   color: #FF0000;
+   content: '\f054';
+   font-family: FontAwesome;
+   font-weight: normal;
+   font-style: normal;
+   float: rigth;
+   /* margin:0px 0px 0px 10px;
+   text-decoration:none;
+}
+*/

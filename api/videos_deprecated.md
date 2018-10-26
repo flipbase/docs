@@ -1,104 +1,17 @@
-# Employer Branding Videos
+# Videos (deprecated)
 
-### List videos
+Below API's will be deprecated per 01-08-2019.
 
-Using this endpoint you can also navigate and filter videos using parameters in the querstring. We recommend to use the `after` querystring parameter to get the next 20 videos; so first you fetch the first 20 videos, you use the video ID of video number 20 to get videos 20-40.
+- [Read a video](#read-a-video)
+- [Delete a video](#delete-a-video)
 
-Querystring parameter | Value | Description
---- | --- | ---
-after | EB Video ID | returns videos submitted AFTER the provided EB Video resource
-before | EB Video ID | returns videos submitted BEFORE the provided EB Video resource
-privacy | public or private  | returns videos submitted BEFORE the provided EB Video resource
-start | Date | returns videos created after the provided date
-end | Date | returns videos created before the provided date
-
-**Request**
-
-    GET /api/organization/5b53484422e3d6123e82788/eb/videos
-    Host: app.flipbase.com
-    Content-Type: application/json
-    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
-
-**Response**
-
-    {
-      "data": [{
-        "type": "videos",
-        "id": "f85fca9028dfas19u90",
-        "attributes": {
-          "privacy": "public",
-          "submit_method": "upload",
-          "title": "Short intro at the department",
-          "description": "A short recap of a regular Tuesday of Pete from Finance in 30 seconds. Getting excited about the work and environment?"
-          "thumbnails": [
-            {
-              "filename": "59b131f85fca9028dfas19u901097/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234/thumbs/frame_0000_640x480_padded_IE.jpg",
-              "dimensions": "640x480",
-              "file_size_bytes": 23451,
-              "format": "JPG",
-              "url": "https://s3.some-region.some-provider.com/some-directory/59b131f85fca9028dfas19u901097/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234/thumbs/frame_0000_640x480_padded_IE.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ABBCCDDEEFFGGHHIIJJ%2F20180504%2Fsome-region%2Fs3%2Frequest&date=20180504T134930Z&expires=3600",
-            },
-            {
-              "filename": "59b131f85fca9028dfas19u901097/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234/thumbs/frame_0000_400x400.jpg",
-              "dimensions": "400x400",
-              "file_size_bytes": 15652,
-              "format": "JPG",
-              "url": "https://s3.some-region.some-provider.com/some-directory/59b131f85fca9028dfas19u901097/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234/thumbs/frame_0000_400x400.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ABBCCDDEEFFGGHHIIJJ%2F20180504%2Fsome-region%2Fs3%2Frequest&date=20180504T134930Z&expires=3600",
-            },
-            {
-              "filename": "59b131f85fca9028dfas19u901097/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234/thumbs/frame_0000_1080x720.jpg",
-              "dimensions": "1080x720",
-              "file_size_bytes": 43025,
-              "format": "JPG",
-              "url": "https://s3.some-region.some-provider.com/some-directory/59b131f85fca9028dfas19u901097/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234/thumbs/frame_0000_1080x720.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ABBCCDDEEFFGGHHIIJJ%2F20180504%2Fsome-region%2Fs3%2Frequest&date=20180504T134930Z&expires=3600",
-            },
-          ],
-          "fields": [
-            {
-              name: 'vacancy_title',
-              type: 'text',
-              value: 'Senior controller'
-            },
-            {
-              name: 'first_name',
-              type: 'text',
-              value: 'Pete'
-            },
-            {
-              name: 'last_name',
-              type: 'text',
-              value: 'Jacobsen'
-            }
-          ]
-          ...
-      }, {
-        "type": "videos",
-        "id": "f32j65afgf85fca902fadfdasfdau90",
-        "attributes": {
-          "privacy": "private",
-          "expiration_time": 3600000,
-          "submit_method": "upload",
-          "thumbnails": [...]
-          ...       
-      }, {
-        "type": "videos",
-        "id": "xat43qf32j65afgf85fcaafefefeadfdasfdau90",
-        "attributes": {
-          "privacy": "public",
-          "expiration_time": 3600000,
-          "submit_method": "upload"
-          "thumbnails": [...]
-          ...
-      }]
-    }
-
-### Retrieve a single video
+### Read a video
 
 Retrieve all metadata for a single video.
 
 **Request**
 
-    GET /api/organizations/c149afbf4c8996fb92427ae41/eb/videos/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234
+    GET /api/videos/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
@@ -273,3 +186,14 @@ Retrieve all metadata for a single video.
         }
       }
     }
+
+### Delete a video
+
+    DELETE /api/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
+    Host: app.flipbase.com
+    Content-Type: application/json
+    Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
+
+**Response**
+
+No response body, just a 204 (= successfully deleted), 404 (= not found / already deleted), 401 (= not authorized) status

@@ -1,0 +1,31 @@
+{
+    "plugins": ["typekit@0.0.2", "-sharing", "ga", "insert-logo", "custom-favicon"],
+    "pluginsConfig": {
+      "typekit" : {
+        "kitID": "uvu0omm"
+      },
+      "ga": {
+        "token": "UA-XXXX-Y",
+        "configuration": {
+          "cookieName": "docs.flipbase.com",
+          "cookieDomain": "docs.flipbase.com"
+        }
+      },
+      "favicon": "assets/images/favicon.ico",
+      "insert-logo": {
+        "url": "/assets/images/logo.png",
+        "style": "background: none; max-width: 100%;"
+      },
+      "theme-api": {
+        "theme": "light",
+        "split": true,
+        "languages": [
+          {
+            "lang": "js",
+            "name": "JavaScript",
+            "default": true
+          }
+        ]
+      }
+    }
+}

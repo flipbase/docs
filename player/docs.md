@@ -1,4 +1,4 @@
-# Flipbase player
+# Integrate the Flipbase player
 
 The Player can be integrated following the same steps as the Recorder. The Player utilizes HTML5 technology, a Flash based player will be used if HTML5 video playback is not supported.
 
