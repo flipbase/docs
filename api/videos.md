@@ -8,7 +8,7 @@
 
 **Request**
 
-    GET /api/organization/5b53484422e3d6123e82788/videos
+    GET /api/organizations/5b53484422e3d6123e82788/videos
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
@@ -49,7 +49,7 @@ Retrieve all metadata for a single video.
 
 **Request**
 
-    GET /api/organization/5b53484422e3d6123e82788/videos/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234
+    GET /api/organizations/5b53484422e3d6123e82788/videos/4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
@@ -227,7 +227,7 @@ Retrieve all metadata for a single video.
 
 ### Delete a video
 
-    DELETE /api/organization/fdsafdsa123/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
+    DELETE /api/organizations/fdsafdsa123/videos/5370df91eb-fcfc-45b0-bde8-9a3c43t
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
