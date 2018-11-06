@@ -6,7 +6,7 @@ Using this endpoint you can delete ALL your Employer Branding related resources,
 
 **Request**
 
-    DELETE /api/organization/5b53484422e3d6123e82788/eb
+    DELETE /api/organizations/5b53484422e3d6123e82788/eb
     Host: app.flipbase.com
     Content-Type: application/json
     Authorization: Signature e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca49:vWHRrjnw+QpH1DgDTrR5Lpa9vqP14toWz0X2Tdp3/Ck=
