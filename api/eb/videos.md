@@ -110,6 +110,8 @@ Retrieve all metadata for a single video.
         "id": "4f28fae2fdsa-7a1f-4d53-9509-1234780fxyz1234",
         "type": "videos",
         "attributes": {
+          "title": "Short intro at the department",
+          "description": "A short recap of a regular Tuesday of Pete from Finance in 30 seconds. Getting excited about the work and environment?",
           "status": "created",
           "privacy": "private",
           "labels": [],
