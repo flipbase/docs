@@ -2,7 +2,7 @@
 
 ### List videos
 
-Using this endpoint you can also navigate and filter videos using parameters in the querstring. We recommend to use the `after` querystring parameter to get the next 20 videos; so first you fetch the first 20 videos, you use the video ID of video number 20 to get videos 20-40.
+Using this endpoint you can also navigate and filter videos using parameters in the querystring. We recommend to use the `after` querystring parameter to get the next 20 videos; so first you fetch the first 20 videos, you use the video ID of video number 20 to get videos 20-40.
 
 Querystring parameter | Value | Description
 --- | --- | ---

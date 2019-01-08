@@ -8,7 +8,7 @@ Requests without signature will be denied.
 
 ## Authenticate using JSON Web Tokens
 
-You can use signed request to fetch a JWT token or a username/password combination. When using a signature to fetch a token, the token scope is limited to the user that is associated with the api_key. 
+You can use signed request to fetch a JWT token or a username/password combination. When using a signature to fetch a token, the token scope is limited to the user that is associated with the api_key.
 
 **Request using signatures (only possible when user has `programmatic_access` enabled)**
 
@@ -72,8 +72,8 @@ The string to sign that is used to create the signature is build using 3 attribu
 | Attributes | Description                                                                                                                                                                                                                       |
 |:-----------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | HTTP-Verb  | Uppercase plain-text (e.g GET, POST, PUT or DELETE)                                                                                                                                                                               |
-| Path       | URI path and query paramaters ((in lowercase characters only, excluding hostname)                                                                                                                                                 |
-| Date       | The date value should be identitcal to the value provided in the Date or X-Flipbase-Date header. The Date is the current UTC time in [ISO 8601](https://www.ietf.org/rfc/rfc3339.txt) format (for example, 2016-08-08T09:04:29Z). |
+| Path       | URI path and query parameters ((in lowercase characters only, excluding hostname)                                                                                                                                                 |
+| Date       | The date value should be identical to the value provided in the Date or X-Flipbase-Date header. The Date is the current UTC time in [ISO 8601](https://www.ietf.org/rfc/rfc3339.txt) format (for example, 2016-08-08T09:04:29Z). |
 
 ### Headers
 

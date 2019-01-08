@@ -12,6 +12,6 @@ The Flipbase API enables access to resources like `organizations`, `collections`
 
 The `User API` enables you to manage a user profile and the associated organizations.
 
-The `Members API` enables you to manage add and remove users as members of an existing organization.
+The `Members API` enables you to manage, add and remove users as members of an existing organization.
 
 No matter which implementation path you choose, you always need to have a `recorder_id` and `player_id` before you implement the recorder and player applications.

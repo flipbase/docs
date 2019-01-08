@@ -1,12 +1,12 @@
 # Integrate Flipbase platform
 
-### Prerequisities
+### Prerequisites
 - Flipbase API account with an `api_key` and `api_secret`
 - Flipbase Employer Branding Partner License
 
 #### Getting started
 
-Copy and paste the iframe within a page on your webpage as an iframe. This will load the Flibpase the platform.
+Copy and paste the iframe within a page on your webpage as an iframe. This will load the Flipbase the platform.
 
 ```html
 <iframe id="flipbase-iframe" src="https://app.flipbase.com" allow="microphone; camera;" frameborder="none" width="100%" height="100%"></iframe>
@@ -14,7 +14,7 @@ Copy and paste the iframe within a page on your webpage as an iframe. This will 
 
 #### Change the default language of the platform
 
-The overwrite the Flipbase default language, you can change the default language that is used to load the Flipbase platform. By default the platform will be presented in English.
+To overwrite the Flipbase default language, you can change the language that is used to load the Flipbase platform. By default the platform will be presented in English.
 
 ```html
 <iframe id="flipbase-iframe" src="https://app.flipbase.com?lang=es" allow="microphone; camera;" frameborder="none" width="100%" height="100%"></iframe>
@@ -22,9 +22,9 @@ The overwrite the Flipbase default language, you can change the default language
 
 #### Customize look & feel
 
-If you would like to integrate the video platform as a whitelabel solution into your software, we offer multiple customizations. For each partner Flipbase can customize multiple settings, like font, hiding navigation menu items and change primary and secondary colours.
+If you would like to integrate the Flipbase platform as a white-label solution into your software, we offer multiple customizations. For each partner, Flipbase can customize multiple settings like font, hiding the navigation menu items and changing primary and secondary colors.
 
-For each partner Flipbase can create a preset configuration which will automatically be loaded once the platform is Initialized with the `?partner=<your_parter_name>` in the querystring.
+For each partner Flipbase can create a preset configuration which will automatically be loaded once the platform is initialised with the `?partner=<your_parter_name>` in the querystring.
 
 ```html
 <iframe id="flipbase-iframe" src="https://app.flipbase.com?partner=<partner_name>" allow="microphone; camera;" frameborder="none" width="100%" height="100%"></iframe>
@@ -32,7 +32,7 @@ For each partner Flipbase can create a preset configuration which will automatic
 
 #### Authenticate users
 
-If you want to prevent your end users to login in twice in your platform, to also use the Flipbase platform, we offer an authentication mechanism. Please also see the API reference
+If you want to prevent your end users having to login twice in your software, we offer an authentication mechanism. Please see the API reference.
 
 ```html
 <iframe id="flipbase-iframe" src="https://app.flipbase.com?partner=lumesse" allow="microphone; camera;" frameborder="none" width="100%" height="100%"></iframe>
