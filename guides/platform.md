@@ -17,8 +17,13 @@ Copy and paste the iframe within a page on your webpage as an iframe. This will 
 To overwrite the Flipbase default language, you can change the language that is used to load the Flipbase platform. By default the platform will be presented in English.
 
 ```html
-<iframe id="flipbase-iframe" src="https://app.flipbase.com?lang=es" allow="microphone; camera;" frameborder="none" width="100%" height="100%"></iframe>
+<iframe id="flipbase-iframe" src="https://app.flipbase.com?lang=nl" allow="microphone; camera;" frameborder="none" width="100%" height="100%"></iframe>
 ```
+
+| Language | Locale (case sensitive)|
+|----|----|
+| English | en_us |
+| Dutch | nl |
 
 #### Customize look & feel
 

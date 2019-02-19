@@ -40,6 +40,18 @@ When collections have enabled `secure_mode` all videos that are held in that col
   ...
 ```
 
+##### Using the signature with the Flipbase Player.js
+
+Just create a signature the way you do with any API request, but append the elements you've used in the `StringToSign` in querystring like style to the signature. NOTE: the URI-encoded path should equal: '/api/videos/<VIDEO_ID>' when creating signatures to be used along with the video player.
+
+    SignatureString = 'signature=<SIGNATURE>&' +
+      'api_key=<FLIPBASE_API_KEY>&' +
+      'date=<DATE>'
+
+Add this `signature` to each Flipbase HTML video element on the page;
+
+    <video type="flipbase" data-video-id="786553529-a24e-22ae-cca6-891861f7895" data-signature="<SIGNATURE_STRING>"></video>
+
 ### Player settings
 
 Maximum width or height (deprecated)
