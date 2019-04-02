@@ -22,7 +22,11 @@ To overwrite the Flipbase default language, you can change the language that is 
 
 | Language | Locale (case sensitive)|
 |----|----|
-| English | en_us |
+| English US | en_us |
+| English UK | en_uk |
+| German | de |
+| French | fr_fr |
+| Simplified Chinese | zh_cn |
 | Dutch | nl |
 
 #### Customize look & feel
