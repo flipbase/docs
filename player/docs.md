@@ -52,6 +52,19 @@ Add this `signature` to each Flipbase HTML video element on the page;
 
     <video type="flipbase" data-video-id="786553529-a24e-22ae-cca6-891861f7895" data-signature="<SIGNATURE_STRING>"></video>
 
+##### Show and control a single video player
+It is also possible to just render a single video player. Then it is recommended to use the `elementId` option. Please be aware that in case the `elementId` is used, the `reload` option no longer can works on this video player node. You can safely remove the video element from the DOM and re-create a new DOM elment with the same attributes as shown below and then invoke the `Flipbase.player` function again (with the same options).
+
+```html
+<video type="flipbase" id="video" data-video-id="786553529-a24e-22ae-cca6-891861f7895"></video>
+<script>
+    Flipbase.player({
+      elementId: "video",
+      playerId: "xxxx-xxxxx-xxxxxx-xxxxxxx"
+    });
+</script>
+```
+
 ### Player settings
 
 Maximum width or height (deprecated)
