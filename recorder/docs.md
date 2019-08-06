@@ -152,6 +152,28 @@ Flipbase.recorder({
   });
 </script>
 
+## Check if upload is in progress
+
+To check if the user is currently uploading a video we have implemented to `isUploading` method that is returned by the `Flipbase.recorder` function. *Note*: this method is only returned when the `Flipbase.recorder` function is invoked with the `selector` property. Please note that `isUploading` only returns true when the user is *uploading* video; it will return false when the user is *recording* a video. See also the example below.
+
+```html
+<div>
+  <input id="recorder1"/>
+</div>
+<script>
+  var recorder = Flipbase.recorder({
+    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+    selector: 'recorder1', // required to use the `isUploading` method
+  });
+
+  console.log("Is user uploading a video?", recorder.isUploading()) // false
+
+  setTimeout(function ( ) {
+    console.log("Is user uploading a video?", recorder.isUploading()) // true if user started uploading
+  }, 30000)
+</script>
+```
+
 ## Limitations
 
 What you should know before implementating the recorder interface:

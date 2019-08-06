@@ -418,6 +418,24 @@
   });
 </script>
 
+<h2 id="check-if-upload-is-in-progress">Check if upload is in progress</h2>
+<p>To check if the user is currently uploading a video we have implemented to <code>isUploading</code> method that is returned by the <code>Flipbase.recorder</code> function. <em>Note</em>: this method is only returned when the <code>Flipbase.recorder</code> function is invoked with the <code>selector</code> property. Please note that <code>isUploading</code> only returns true when the user is <em>uploading</em> video; it will return false when the user is <em>recording</em> a video. See also the example below.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;recorder1&quot;</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">var</span> recorder = Flipbase.recorder({
+    recorderId: <span class="hljs-string">&apos;9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407&apos;</span>,
+    selector: <span class="hljs-string">&apos;recorder1&apos;</span>, <span class="hljs-comment">// required to use the `isUploading` method</span>
+  });
+
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Is user uploading a video?&quot;</span>, recorder.isUploading()) <span class="hljs-comment">// false</span>
+
+  setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"> </span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Is user uploading a video?&quot;</span>, recorder.isUploading()) <span class="hljs-comment">// true if user started uploading</span>
+  }, <span class="hljs-number">30000</span>)
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
 <h2 id="limitations">Limitations</h2>
 <p>What you should know before implementating the recorder interface:</p>
 <ul>
@@ -525,7 +543,7 @@ Well, that&apos;s because of Flash. The Flash Player will automatically deny all
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Integrate the recorder","level":"2.1","depth":1,"next":{"title":"Integrate the player","level":"2.2","depth":1,"path":"player/docs.md","ref":"player/docs.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["typekit@0.0.2","-sharing","ga","insert-logo","custom-favicon"],"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":"assets/images/favicon.ico","theme-api":{"theme":"light","split":true,"languages":[{"lang":"js","name":"JavaScript","default":true}]},"custom-favicon":{},"ga":{"configuration":{"cookieName":"docs.flipbase.com","cookieDomain":"docs.flipbase.com"},"token":"UA-XXXX-Y"},"typekit":{"kitID":"uvu0omm"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none; max-width: 100%;","url":"https://flipbase.gitbooks.io/docs/assets/images/logo.png"}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"recorder/docs.md","mtime":"2018-10-26T11:13:56.398Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2019-07-16T13:04:29.280Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Integrate the recorder","level":"2.1","depth":1,"next":{"title":"Integrate the player","level":"2.2","depth":1,"path":"player/docs.md","ref":"player/docs.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["typekit@0.0.2","-sharing","ga","insert-logo","custom-favicon"],"pluginsConfig":{"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"favicon":"assets/images/favicon.ico","theme-api":{"theme":"light","split":true,"languages":[{"lang":"js","name":"JavaScript","default":true}]},"custom-favicon":{},"ga":{"configuration":{"cookieName":"docs.flipbase.com","cookieDomain":"docs.flipbase.com"},"token":"UA-XXXX-Y"},"typekit":{"kitID":"uvu0omm"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none; max-width: 100%;","url":"https://flipbase.gitbooks.io/docs/assets/images/logo.png"}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"recorder/docs.md","mtime":"2019-08-06T11:49:01.688Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2019-08-06T11:49:08.262Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
