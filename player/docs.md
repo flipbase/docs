@@ -12,41 +12,36 @@ To show the Flipbase Player you have to integrate the code as shown below and re
   <!--
     Load the JavaScript Player library in the HTML head section of your page
   -->
-  <!-- For all the latest player updates -->
+  <!-- For Flipbase internal use only! -->
   <script src="//cdn.flipbase.com/player.latest.js"></script>
-  <!-- For all the latest major player update -->
+  <!-- For the latest major player update -->
   <script src="//cdn.flipbase.com/player.v2.js"></script>
-  <!-- For a specific player version -->
+  <!-- For a specific patch -->
   <script src="//cdn.flipbase.com/player.v2.0.1.js"></script>
 </head>
 
 <!--
-  Place the HTML video element somehwere in the body where you want to show the video
+  Place the HTML video element(s) in the body and pass it a data-video-id(s). These
+  id's can be the video_id that you can also use for the selector.
 -->
-<video
-  type="flipbase"
-  data-video-id="786553529-a24e-22ae-cca6-891861f7895"
-></video>
-<video
-  type="flipbase"
-  data-video-id="a24e-22ae-cca6-891861f7895-78653529"
-></video>
+... <video type="flipbase" data-video-id="xxxx-xxxx-xxxxxx-xxxx-xxxx"></video>
+<video type="flipbase" data-video-id="xxxx-xxxx-xxxxxx-xxxx-xxxx"></video> ...
 
-<!-- Initialize the Player and provide your 'playerId' -->
+<!-- Initialize the Player and provide your 'player_id' -->
 <script>
+  // First instance of player
   var player1 = new FlipbasePlayer({
-    selector:
-      "flipbase-player-video-element-786553529-a24e-22ae-cca6-891861f7895",
-    player_id: "xxxx-xxxxx-xxxxxx-xxxxxxx",
-    video_id: "xxxx-xxxxx-xxxxxx-xxxxxxx",
+    selector: "flipbase-player-video-element-xxxx-xxxx-xxxxxx-xxxx-xxxx",
+    player_id: "xxxx-xxxx-xxxxxx-xxxx-xxxx",
+    video_id: "xxxx-xxxx-xxxxxx-xxxx-xxxx",
     theme: "flipbase" // optional
   });
 
+  // Second instance of player
   var player2 = new FlipbasePlayer({
-    selector:
-      "flipbase-player-video-element-a24e-22ae-cca6-891861f7895-78653529",
-    player_id: "xxxx-xxxxx-xxxxxx-xxxxxxx",
-    video_id: "xxxx-xxxxx-xxxxxx-xxxxxxx",
+    selector: "flipbase-player-video-element-xxxx-xxxx-xxxxxx-xxxx-xxxx",
+    player_id: "xxxx-xxxx-xxxxxx-xxxx-xxxx",
+    video_id: "xxxx-xxxx-xxxxxx-xxxx-xxxx",
     theme: "plain" // optional
   });
 
@@ -68,12 +63,12 @@ When collections have enabled `secure_mode` all videos that are stored in that c
 ...
 <video
   type="flipbase"
-  data-video-id="786553529-a24e-22ae-cca6-891861f7895"
+  data-video-id="xxxx-xxxx-xxxxxx-xxxx-xxxx"
   data-signature="<SIGNATURE_VIDEO1>"
 ></video>
 <video
   type="flipbase"
-  data-video-id="a24e-22ae-cca6-891861f7895-78653529"
+  data-video-id="xxxx-xxxx-xxxxxx-xxxx-xxxx"
   data-signature="<SIGNATURE_VIDEO2>"
 ></video>
 ...
@@ -100,7 +95,7 @@ when initializing the player. We accept a string value pointing to one of our pr
 - Flipbase -> theme: "flipbase"
 - Ocean -> theme: "ocean"
 
-or an object containing some basic color attributes:
+or an object containing with the following color attributes:
 
 ```
 theme: {
