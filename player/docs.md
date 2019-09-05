@@ -1,3 +1,7 @@
+<script src="https://cdn.flipbase.com/player/latest/player.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
 # Integrate the Flipbase player
 
 The Flipbase Player can be integrated following the same steps as the Recorder. The Player utilizes HTML5 technology.
@@ -35,9 +39,23 @@ To show the Flipbase Player you have to integrate the code as shown below and re
   player.mount();
 
   // Remove the Flipbase player(s) from the DOM
-  player.unmount();
+  setTimeout(function () {
+    player.unmount();  
+  }, 50000)
 </script>
 ```
+
+The code above will result in this:
+
+<div id="video-player-element"></div>
+<script>
+  var player = new FlipbasePlayer({
+    video_id: '5120293b-583b-4534-90dc-0f44cd51705e',
+    player_id: '95f4d94b-86c0-4e4a-b23d-484158efd1a4',
+    selector: 'video-player-element'
+  })
+  player.mount();
+</script>
 
 ### Secure mode
 
