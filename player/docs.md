@@ -12,67 +12,36 @@ To show the Flipbase Player you have to integrate the code as shown below and re
   <!--
     Load the JavaScript Player library in the HTML head section of your page
   -->
-  <!-- For Flipbase internal use only! -->
-  <script src="//cdn.flipbase.com/player.latest.js"></script>
   <!-- For the latest major player update -->
-  <script src="//cdn.flipbase.com/player.v2.js"></script>
+  <script src="https://cdn.flipbase.com/player/v2/player.min.js"></script>
   <!-- For a specific patch -->
-  <script src="//cdn.flipbase.com/player.v2.0.1.js"></script>
+  <script src="https://cdn.flipbase.com/player/v2.0.1/player.min.js"></script>
 </head>
 
 <!--
-  Place the HTML video element(s) in the body and pass it a data-video-id(s). These
-  id's can be the video_id that you can also use for the selector.
+  Place the a video element(s) where you want to show the video player.
 -->
-... <video type="flipbase" data-video-id="xxxx-xxxx-xxxxxx-xxxx-xxxx"></video>
-<video type="flipbase" data-video-id="xxxx-xxxx-xxxxxx-xxxx-xxxx"></video> ...
+<div id="video-player-element"></div>
 
 <!-- Initialize the Player and provide your 'player_id' -->
 <script>
-  // First instance of player
-  var player1 = new FlipbasePlayer({
-    selector: "flipbase-player-video-element-xxxx-xxxx-xxxxxx-xxxx-xxxx",
-    player_id: "xxxx-xxxx-xxxxxx-xxxx-xxxx",
-    video_id: "xxxx-xxxx-xxxxxx-xxxx-xxxx",
-    theme: "flipbase" // optional
-  });
-
-  // Second instance of player
-  var player2 = new FlipbasePlayer({
-    selector: "flipbase-player-video-element-xxxx-xxxx-xxxxxx-xxxx-xxxx",
-    player_id: "xxxx-xxxx-xxxxxx-xxxx-xxxx",
-    video_id: "xxxx-xxxx-xxxxxx-xxxx-xxxx",
-    theme: "plain" // optional
-  });
+  const player = new FlipbasePlayer({
+    video_id: '5120293b-583b-4534-90dc-0f44cd51705e',
+    player_id: '95f4d94b-86c0-4e4a-b23d-484158efd1a4',
+    selector: 'video-player-element'
+  })
 
   // Load the Flipbase player(s) manually
-  player1.mount();
-  player2.mount();
+  player.mount();
 
   // Remove the Flipbase player(s) from the DOM
-  player1.unmount();
-  player2.unmount();
+  player.unmount();
 </script>
 ```
 
 ### Secure mode
 
 When collections have enabled `secure_mode` all videos that are stored in that collection need to be loaded using the Flipbase player.js along with a signature property. You can read on how to create this signature [here](/api/overview.md#using-the-signature-with-the-flipbase-playerjs). For EACH video element you need to generate a seperate signature.
-
-```html
-...
-<video
-  type="flipbase"
-  data-video-id="xxxx-xxxx-xxxxxx-xxxx-xxxx"
-  data-signature="<SIGNATURE_VIDEO1>"
-></video>
-<video
-  type="flipbase"
-  data-video-id="xxxx-xxxx-xxxxxx-xxxx-xxxx"
-  data-signature="<SIGNATURE_VIDEO2>"
-></video>
-...
-```
 
 ##### Using the signature with the Flipbase Player.js
 
@@ -82,25 +51,19 @@ Just create a signature the way you do with any API request, but append the elem
       'api_key=<FLIPBASE_API_KEY>&' +
       'date=<DATE>'
 
-Add this `signature` to each Flipbase HTML video element on the page;
+Add this `signature` property to the options object literal when invoking the FlipbasePlayer function;
 
-    <video type="flipbase" data-video-id="786553529-a24e-22ae-cca6-891861f7895" data-signature="<SIGNATURE_STRING>"></video>
+```html
+<!-- Initialize the Player and provide your 'player_id' -->
+<script>
+  const player = new FlipbasePlayer({
+    signature: "<SIGNATURE_STRING>"
+    video_id: '5120293b-583b-4534-90dc-0f44cd51705e',
+    player_id: '95f4d94b-86c0-4e4a-b23d-484158efd1a4',
+    selector: 'video-player-element'
+  });
 
-### Player themes
-
-If you want to provide a theme to add basic color configuration to the player you can do so by providing an optional 'theme' attribute
-when initializing the player. We accept a string value pointing to one of our predefined themes:
-
-- Plain (default) -> theme: "plain"
-- Flipbase -> theme: "flipbase"
-- Ocean -> theme: "ocean"
-
-or an object containing with the following color attributes:
-
-```
-theme: {
-  primaryColor: "#00020f",
-  buttonColor: "#FFF",
-  secondaryColor: "#D8E1E5"
-}
+  // Load the Flipbase player(s) manually
+  player.mount();
+</script>
 ```
