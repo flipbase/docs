@@ -4,7 +4,8 @@
 
 ### Guides
 * [Integrate the recorder](recorder/docs.md)
-* [Integrate the player](player/docs.md)
+* [Integrate the player](player-legacy/docs.md)
+  - [Player v2](player/docs.md)
 * [Integrate Flipbase platform](guides/platform.md)
 
 ### API Reference
