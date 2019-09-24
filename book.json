@@ -1,5 +1,6 @@
 {
     "plugins": ["typekit@0.0.2", "-sharing", "ga", "insert-logo", "custom-favicon"],
+    "root": "docs",
     "pluginsConfig": {
       "typekit" : {
         "kitID": "uvu0omm"
