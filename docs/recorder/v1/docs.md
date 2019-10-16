@@ -67,7 +67,7 @@ locale | String | [Here](#supported-languages) can you find a list of all suppor
 maxWidth | Number | By default the recorder application will fill up it's parentNode. However, if you want to make sure the height or width of the interface does not exceed a certain number of pixels you can provide it using these 2 properties. Please note, that the recorder ALWAYS keep the 16:9 aspect ratio, even if you provide other dimensions using the maxWidth and maxHeight properties. The application will always choose to most conservative width and height dimension.
 maxHeight | Number | See `maxWidth` description.
 output | String | Using the output property you can change what the application will output and insert into the input element. Leaving the output undefined will make sure the application inserts a UUID into the `<input type="flipbase" />` element. However, if you set it embedCode the application will 1) set a embedCode as value of the `<input type="flipbase" />` element and 2) will provide the embed code as second argument when invoking the callback function (if provided). Change the default output (the video id) to `embedCode` to receive an actual iframe which can be embedded on an external page.
-outputOptions | Object | Object literal with `pageName` as mandatory property. Flipbase will provide you with the proper `pageName` value.
+outputOptions | Object | Object literal with `pageName` and `privacy` as optional properties.
 callback | Function | Once the user saves a video this callback will be triggered. The callback function will be invoked with 2 arguments: the videoId and the output (depending on)
 
 An example of a fully customized recorder can look something like this:
@@ -82,6 +82,9 @@ Flipbase.recorder({
   textColor: '#FFFFFF', // text color
   locale: 'en-US', // Use English instead of default Dutch
   showFAQButton: false, // Hides the default FAQ button
+  outputOptions: {
+    privacy: "public"
+  },
   maxWidth: 500,
   maxHeight: 400,
   // The callback is triggered everytime the video is saved or updated
