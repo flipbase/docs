@@ -85,3 +85,12 @@ Add this `signature` property to the options object literal when invoking the Fl
   player.mount();
 </script>
 ```
+
+### Browser Support
+* Chrome 37+
+* Firefox 40+
+* Internet Explorer 11+
+* Opera 25+
+* Safari 9.1+
+* Android Browser 5+ (WebKit 537.36 Chrome 37)
+* IOS Safari 10+
