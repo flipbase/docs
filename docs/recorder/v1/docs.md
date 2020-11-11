@@ -222,6 +222,10 @@ Below you will find a list of all supported languages and their `locale` configu
 - Indonesian: id
 - Simplified Chinese: zh-CN
 - Japanese: ja
+- Swedish: sv
+- Serbian: sr
+- East Armenian: hy
+- Kirghiz: ky
 
 ##### Webcam
 * IE7 +
