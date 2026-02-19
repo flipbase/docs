@@ -175,18 +175,13 @@ What you should know before implementating the recorder interface:
 
 * Caution: if the `parentNode` element of the recorder is a `table` node, this `table` needs to have a minimum width. Otherwise, it's not possible to record a video using the webcam.
 
-** Why a minimum width of 244 pixels?!**
-Well, that's because of Flash. The Flash Player will automatically deny all access to the microphone and webcam if the interface is smaller then 244 pixels wide. If the interface is smaller than 244 pixels wide, there is not enough room for the Flash Player to show the access dialogue to the user to accept microphone and webcam access. Therefore Flash will automatically block all access and it is not possible to record a video using the webcam. This access dialogue looks something like this:
-
-![Flash access dialogue](/assets/images/flash-access-dialogue.png "Flash access dialogue")
-
 ** Responsive by design**
 
 The recorder application interface will always keep a 16:9 aspect ratio. By default the recorder.js interface will always fill up its parent element. Besides the recorder interface is fully responsive.
 
 ## Browser support
 
-Flipbase is supported in the browsers listed below. We differentiate recording functionality using the webcam (which requires Flash) and video upload functionality (which is used on smartphones and tablets, when Flash is not supported). Video upload functionality uses HTML5 and therefore is not supported on older browsers.
+Flipbase is supported in the browsers listed below.
 
 ##### Supported languages
 Below you will find a list of all supported languages and their `locale` configuration property values.
