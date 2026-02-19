@@ -2,9 +2,10 @@
   "name": "docs",
   "version": "0.1.0",
   "scripts": {
-    "start": "./node_modules/.bin/gitbook serve ./",
-    "setup": "./node_modules/.bin/gitbook install",
-    "build": "./node_modules/.bin/gitbook build ./ ./build",
+    "start": "docusaurus start --port 5555",
+    "build": "docusaurus build --out-dir ./build",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "major": "./node_modules/.bin/standard-version --release-as major",
     "minor": "./node_modules/.bin/standard-version --release-as minor",
@@ -13,16 +14,17 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
-    "standard-version": "^8.0.1"
+    "standard-version": "^8.0.1",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "gitbook-cli": "^2.3.2",
-    "gitbook-plugin-custom-favicon": "0.0.4",
-    "gitbook-plugin-ga": "^1.0.1",
-    "gitbook-plugin-insert-logo": "^0.1.5",
-    "gitbook-plugin-toggle-chapters": "0.0.3",
-    "gitbook-plugin-toggle-headers": "^0.1.0",
-    "gitbook-plugin-typekit": "0.0.2",
-    "gitbook-plugin-versions": "^2.1.4"
+    "@docusaurus/core": "^3.7.0",
+    "@docusaurus/preset-classic": "^3.7.0",
+    "@easyops-cn/docusaurus-search-local": "^0.55.0",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^2.0.0",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   }
 }
