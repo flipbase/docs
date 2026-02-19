@@ -9,6 +9,7 @@ const config: Config = {
 
   url: 'https://docs.flipbase.com',
   baseUrl: '/',
+  trailingSlash: true,
 
   onBrokenLinks: 'warn',
 
