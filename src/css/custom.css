@@ -1,0 +1,27 @@
+/**
+ * Flipbase brand colors
+ * Primary: #A42952
+ */
+
+:root {
+  --ifm-color-primary: #a42952;
+  --ifm-color-primary-dark: #931f48;
+  --ifm-color-primary-darker: #8b1d44;
+  --ifm-color-primary-darkest: #731738;
+  --ifm-color-primary-light: #b53360;
+  --ifm-color-primary-lighter: #bd3866;
+  --ifm-color-primary-lightest: #c94878;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #e05585;
+  --ifm-color-primary-dark: #db3d73;
+  --ifm-color-primary-darker: #d9316b;
+  --ifm-color-primary-darkest: #c01d55;
+  --ifm-color-primary-light: #e56d97;
+  --ifm-color-primary-lighter: #e779a0;
+  --ifm-color-primary-lightest: #ed9dbc;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
