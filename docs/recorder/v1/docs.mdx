@@ -1,4 +1,4 @@
-<script src="//app.flipbase.com/recorder.js"></script>
+import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
 
 # Integrate the Flipbase recorder
 
@@ -31,14 +31,7 @@ In order to use the Recorder app, place the HTML-code in your code, as shown bel
 
 The code above will result into this:
 
-<div>
-  <input type="flipbase" style="display:none;"/>
-</div>
-<script>
-  Flipbase.recorder({
-    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
-  });
-</script>
+<FlipbaseRecorder recorderId="9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407" />
 
 When the user has succesfully saved the video, the `input` node will be provided with a videoId, as shown below:
 
@@ -128,32 +121,27 @@ Flipbase.recorder({
   rec2.destroy()
 </script>
 ```
-<div>
-  <div style="width: 49%; float: left;">
-    <h4>Recorder 1</h4>
-    <input id="recorder1" style="display:none;"/>
+
+<div style={{display: 'flex', gap: '2%'}}>
+  <div style={{width: '49%'}}>
+    <FlipbaseRecorder
+      recorderId="9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407"
+      selector="recorder1"
+      label="Recorder 1"
+      primaryColor="#aeb00a"
+      secondaryColor="#e0e0e0"
+      backgroundColor="#242b3c"
+      textColor="#FFFFFF"
+    />
   </div>
-  <div style="width: 49%; float:right;">
-    <h4>Recorder 2</h4>
-    <input id="recorder2" style="display:none;"/>
+  <div style={{width: '49%'}}>
+    <FlipbaseRecorder
+      recorderId="9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407"
+      selector="recorder2"
+      label="Recorder 2"
+    />
   </div>
-  <div style="clear: both;"></div>
 </div>
-<script>
-  var recorder1 = Flipbase.recorder({
-    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
-    selector: 'recorder1',
-    primaryColor: '#aeb00a',
-    showFAQButton: false,
-    secondaryColor: '#e0e0e0',
-    backgroundColor: '#242b3c',
-    textColor: '#FFFFFF',
-  });
-  var recorder2 = Flipbase.recorder({
-    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
-    selector: 'recorder2',
-  });
-</script>
 
 ## Check if upload is in progress
 
@@ -185,7 +173,7 @@ What you should know before implementating the recorder interface:
 
 * The recorder is fully responsive and automatically fills up the parent element node. If you do not want this, please use a [`maxWidth` setting](settings.md).
 
-* Caution: if the `parentNode` element of the recorder is a `table` node, this `table` needs to have a minimum width. Otherwise, it’s not possible to record a video using the webcam.
+* Caution: if the `parentNode` element of the recorder is a `table` node, this `table` needs to have a minimum width. Otherwise, it's not possible to record a video using the webcam.
 
 ** Why a minimum width of 244 pixels?!**
 Well, that's because of Flash. The Flash Player will automatically deny all access to the microphone and webcam if the interface is smaller then 244 pixels wide. If the interface is smaller than 244 pixels wide, there is not enough room for the Flash Player to show the access dialogue to the user to accept microphone and webcam access. Therefore Flash will automatically block all access and it is not possible to record a video using the webcam. This access dialogue looks something like this:
