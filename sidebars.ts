@@ -9,23 +9,27 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Integrations',
+      label: 'Components',
       collapsible: false,
       items: [
         {
-          type: 'doc',
-          id: 'recorder/v1/docs',
+          type: 'category',
           label: 'Recorder',
+          collapsible: false,
+          link: { type: 'doc', id: 'recorder/v1/docs' },
+          items: [
+            { type: 'doc', id: 'recorder/v1/docs', label: 'V1' },
+            { type: 'doc', id: 'recorder/v2/docs', label: 'V2' },
+          ],
         },
         {
           type: 'category',
           label: 'Player',
-          link: {
-            type: 'doc',
-            id: 'player/v1/docs',
-          },
+          collapsible: false,
+          link: { type: 'doc', id: 'player/v2/docs' },
           items: [
-            { type: 'doc', id: 'player/v2/docs', label: 'Player v2' },
+            { type: 'doc', id: 'player/v1/docs', label: 'V1 (deprecated)' },
+            { type: 'doc', id: 'player/v2/docs', label: 'V2' },
           ],
         },
         {
@@ -37,10 +41,11 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'link',
-      label: 'API Reference',
+      label: 'Api references',
       href: 'https://documenter.getpostman.com/view/900009/S11DT24G',
     },
   ],
 };
 
 export default sidebars;
+ 
