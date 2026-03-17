@@ -1,0 +1,218 @@
+import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
+
+# Integrate the Flipbase Recorder (V2)
+
+- [Getting started](#getting-started)
+- [Settings](#settings)
+- [Multiple recorders on a single page](#multiple-recorders-on-a-single-page)
+- [What you should know before you implement the recorder](#limitations)
+- [Browser support](#browser-support)
+
+## Getting started
+
+In order to use the Recorder V2, place the HTML-code in your page as shown below. Load the `recorder.js` library and initialize the recorder against an HTML element using its `id`.
+
+```html
+<!-- Load the JavaScript Recorder V2 library -->
+<script src="https://app.flipbase.com/recorder/recorderv2/recorder.js"></script>
+
+<!-- Place an element at the spot where you would like to show the Recorder -->
+<div id="recorder1"></div>
+
+<!-- Initialize the Recorder and provide your 'recorderId' -->
+<script>
+  FlipbaseV2.recorder({
+    selector: 'recorder1',
+    recorderId: 'your_unique_recorderId'
+  });
+</script>
+```
+
+When the user has successfully saved the video, the callback will receive the `videoId`. Store this UUID in your database to play back the video later using the Flipbase Player.
+
+## Settings
+
+The `recorderId` and `selector` are required. All other parameters listed below are optional.
+
+Parameter | Type | Default | Description
+--- | --- | --- | ---
+recorderId | String | — | UUID provided by Flipbase. **Required.**
+selector | String | — | The `id` of the element to mount the recorder into. **Required.**
+allowUploadMethod | Boolean | `true` | When `true`, users can upload a video file in addition to recording with their webcam. Set to `false` to disable the upload option.
+maxTakes | Number | `0` | Maximum number of recording takes a user can make. `0` means unlimited.
+duration | Number | `30` | Maximum duration in seconds of a single take.
+primaryColor | String | — | Color of the most prominent buttons. HEX format.
+secondaryColor | String | — | Secondary button color. HEX format.
+backgroundColor | String | — | Background color of the application. HEX format.
+textColor | String | — | Text color. HEX format.
+locale | String | `nl-NL` | [See supported languages below](#supported-languages).
+maxWidth | Number | — | Maximum width in pixels. The recorder always maintains a 16:9 aspect ratio — it picks the most conservative dimension.
+maxHeight | Number | — | Maximum height in pixels. See `maxWidth` description.
+output | String | — | Leave undefined to receive a UUID in the callback. Set to `embedCode` to receive an embeddable iframe as the second callback argument.
+outputOptions | Object | — | Object with optional `pageName` and `privacy` properties.
+callback | Function | — | Called when the user saves a video. Invoked with `(videoId, output)`.
+
+### Default behaviour
+
+If you initialize the recorder without `allowUploadMethod` or `maxTakes`, the defaults apply:
+
+```javascript
+FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: 'your_unique_recorderId',
+  // allowUploadMethod: true  (default — upload option is visible)
+  // maxTakes: 0              (default — unlimited takes)
+});
+```
+
+### Disable upload method
+
+To hide the upload option and force users to record with their webcam:
+
+```javascript
+FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: 'your_unique_recorderId',
+  allowUploadMethod: false,
+});
+```
+
+### Limit the number of takes
+
+To restrict how many recording attempts a user can make:
+
+```javascript
+FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: 'your_unique_recorderId',
+  maxTakes: 2, // user can record at most 2 takes
+});
+```
+
+### Full example
+
+An example of a fully customized recorder:
+
+```javascript
+FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: 'your_unique_recorderId',
+  duration: 15,
+  allowUploadMethod: false,
+  maxTakes: 3,
+  primaryColor: '#aeb00a',
+  secondaryColor: '#e0e0e0',
+  backgroundColor: '#242b3c',
+  textColor: '#FFFFFF',
+  locale: 'en-US',
+  output: 'embedCode',
+  outputOptions: {
+    pageName: 'my-page',
+    privacy: 'public',
+  },
+  maxWidth: 640,
+  callback: function (id, output) {
+    console.log('Video saved. UUID:', id);
+  }
+});
+```
+
+## Multiple recorders on a single page
+
+Each recorder instance requires a unique `selector`. Use the returned object's `destroy` method to remove an instance.
+
+```html
+<div id="recorder1"></div>
+<div id="recorder2"></div>
+
+<script>
+  var rec1 = FlipbaseV2.recorder({
+    selector: 'recorder1',
+    recorderId: 'your_unique_recorderId',
+    primaryColor: '#aeb00a',
+  });
+
+  var rec2 = FlipbaseV2.recorder({
+    selector: 'recorder2',
+    recorderId: 'your_unique_recorderId',
+  });
+
+  // Destroy an instance when you no longer need it
+  // rec1.destroy();
+</script>
+```
+
+## Check if upload is in progress
+
+The `isUploading` method returns `true` while the user is uploading a video (not while recording). It requires the `selector` property to be set.
+
+```javascript
+var recorder = FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: 'your_unique_recorderId',
+});
+
+console.log('Is uploading?', recorder.isUploading()); // false
+
+setTimeout(function () {
+  console.log('Is uploading?', recorder.isUploading()); // true if user started uploading
+}, 30000);
+```
+
+## Limitations
+
+- Keep the recorder interface at least **244 pixels** wide at all times, including on mobile.
+- The recorder is fully responsive and fills its parent element by default. Use `maxWidth` to constrain it.
+- If the parent element is a `<table>`, the table must have a minimum width set, otherwise webcam recording will not work.
+- The recorder always maintains a **16:9 aspect ratio**.
+
+## Browser support
+
+##### Supported languages {#supported-languages}
+
+Below you will find a list of all supported languages and their `locale` configuration property values.
+
+- Dutch: nl-NL, nl-BE, nl
+- English: en-US, en-GB, en-AU, en-CA, en-NZ, en-JM, en-ZA, en-IE, en
+- German: de, DE, de-CH, de-AT, de-LU, de-LI
+- Spanish: es, es-ES, es-CR, es-GT, es-PA, es-DO, es-MX, es-VE, es-CO, es-PE, es-CL, es-EC, es-UY, es-PY, es-BO, es-SV, es-HN, es-NI, es-PR
+- Portugues: pt, pt-PT
+- Portuguese Brazil: pt-BR
+- French: fr, fr-BE, fr-CA, fr-MC, fr-CH, fr-LU, fr-FR
+- Italian: it, it-IT, it-CH
+- Turkish: tr, tr-TR
+- Czech: cz, cz-CZ
+- Thai: th
+- Arabic: ar, ar-SA, ar-IQ, ar-EG, ar-LY, ar-DZ, ar-MA, ar-TN, ar-OM, ar-YE, ar-SY, ar-JO, ar-LB, ar-KW, ar-AE, ar-BH, ar-QA
+- Polish: pl
+- Slovakian: sk
+- Ukranian: uk
+- Russian: ru
+- Indonesian: id
+- Simplified Chinese: zh-CN
+- Japanese: ja
+- Swedish: sv
+- Serbian: sr
+- East Armenian: hy
+- Kirghiz: ky
+- Romanian: ro, ro-RO
+
+##### Webcam
+* Chrome 24.0+
+* Firefox 16.0+
+* Safari 4+
+* Opera 10.6+
+
+##### Mobile
+* Android browser 4.1+
+* Chrome for Android 46+
+* iOS Safari 7.1+
+
+##### Upload
+* Safari iOS 7.1+
+* Android 4.0+
+* Internet Explorer 10+
+* Chrome 35.0+
+* Firefox 31.0+
+* Safari 5.1+
+* Opera 25+
