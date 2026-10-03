@@ -2,7 +2,7 @@
 
 # Flipbase developer documentation
 
-Flipbase enables you to add video recording and playback capabilities to your website, web application or recruitment-system, with 1 line of Javascript code. Flipbase exists of a [recorder.js Javascript library](recorder/v1/docs.md), a [player.js Javascript library](player/v1/docs.md), [Flipbase Platform](platform/docs.md) and an [API](https://documenter.getpostman.com/view/900009/S11DT24G).
+Flipbase enables you to add video recording and playback capabilities to your website, web application or recruitment-system, with 1 line of Javascript code. Flipbase exists of a [recorder.js Javascript library](/recorder/v2/docs), a [player.js Javascript library](/player/v2/docs), [Flipbase Platform](/platform/docs) and an [API](https://documenter.getpostman.com/view/900009/S11DT24G).
 
 ### Scope of the documentation
 

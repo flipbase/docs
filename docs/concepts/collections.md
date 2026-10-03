@@ -14,7 +14,7 @@ The player_id is a globally unique UUID used by the Player to check whether or n
 
 ##### Secure playback (secure_mode)
 
-Theoretically it is possible to brute force UUID's. As a result it is possible that an attacker can 'guess' a video UUID and a player_id and thus access a video. So prevent this we have added a `secure_mode` property on a Collection. When this property is set to `true` all videos need to be authenticated using a signature. When set to 'true' the Player application requires  `data-signature` property to be added the HTML elements, to be able to load videos files. Read more about signatures in the [guide how to use the Player application](player/docs.html#secure-mode) you can read more about this.
+Theoretically it is possible to brute force UUID's. As a result it is possible that an attacker can 'guess' a video UUID and a player_id and thus access a video. So prevent this we have added a `secure_mode` property on a Collection. When this property is set to `true` all videos need to be authenticated using a signature. When set to 'true' the Player application requires  `data-signature` property to be added the HTML elements, to be able to load videos files. Read more about signatures in the [player documentation](/player/v2/docs) you can read more about this.
 
 ### Data retention
 
