@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["ES2017", "DOM"],
+    "lib": [
+      "ES2017",
+      "DOM"
+    ],
     "moduleResolution": "node",
     "module": "ESNext",
     "esModuleInterop": true,
@@ -12,7 +15,16 @@
     "skipLibCheck": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@site/*": [
+        "./*"
+      ]
+    }
   },
-  "include": ["docusaurus.config.ts", "sidebars.ts", "src"]
+  "include": [
+    "docusaurus.config.ts",
+    "sidebars.ts",
+    "src"
+  ]
 }
