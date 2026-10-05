@@ -11,6 +11,26 @@ Collections are groups that hold videos that share the same configuration. Each 
   - [Update a collection](#update-a-collection)
   - [Delete a collection](#delete-a-collection)
 
+### Confirmation
+
+`require_confirmation` decides whether a video in this collection can be played
+before someone has confirmed it. It is a GDPR control: where you need a record
+that a subject actually submitted the form the recorder sits in, set it to
+`true` and videos stay unplayable until you [confirm them](/api/v1/videos).
+
+It is `false` by default, which means videos are playable as soon as they are
+processed.
+
+:::note
+
+The property is singular — `require_confirmation`. Earlier documentation called
+it `require_confirmations` in one place, which the API does not accept: a
+request setting that name is ignored, and the collection behaves as though
+confirmation were not required. Worth checking against any integration written
+from those pages.
+
+:::
+
 ## Create a collection
 
 Create a collection within an existing organization.

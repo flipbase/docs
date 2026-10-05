@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 import ScriptHost from '@site/src/components/ScriptHost';
 
-import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
+import PlaygroundLink from '@site/src/components/PlaygroundLink';
 
 # Integrate the Flipbase recorder
 
@@ -37,9 +37,9 @@ In order to use the Recorder app, place the HTML-code in your code, as shown bel
 </script>
 ```
 
-The code above will result into this:
+The code above produces a working recorder.
 
-<FlipbaseRecorder recorderId="9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407" />
+<PlaygroundLink to="/playground/recorder">See it running</PlaygroundLink>
 
 When the user has succesfully saved the video, the `input` node will be provided with a videoId, as shown below:
 
@@ -130,26 +130,7 @@ Flipbase.recorder({
 </script>
 ```
 
-<div style={{display: 'flex', gap: '2%'}}>
-  <div style={{width: '49%'}}>
-    <FlipbaseRecorder
-      recorderId="9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407"
-      selector="recorder1"
-      label="Recorder 1"
-      primaryColor="#aeb00a"
-      secondaryColor="#e0e0e0"
-      backgroundColor="#242b3c"
-      textColor="#FFFFFF"
-    />
-  </div>
-  <div style={{width: '49%'}}>
-    <FlipbaseRecorder
-      recorderId="9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407"
-      selector="recorder2"
-      label="Recorder 2"
-    />
-  </div>
-</div>
+<PlaygroundLink to="/playground/recorder">Open the recorder playground</PlaygroundLink>
 
 ## Check if upload is in progress
 

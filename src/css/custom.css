@@ -295,33 +295,6 @@ article .markdown > :is(ul, ol) {
   overflow-x: auto;
 }
 
-/* ------------------------------------------------------------ the playground */
-
-.fb-playground {
-  margin: 1.5rem 0 2rem;
-}
-
-.fb-playground__frame {
-  display: block;
-  width: 100%;
-  border: 1px solid var(--fb-rule);
-  border-radius: 12px;
-  background: var(--fb-surface);
-}
-
-.fb-playground__note {
-  margin: 0.6rem 0 0;
-  font-size: 0.8rem;
-  color: var(--fb-muted);
-}
-
-/* A 720px frame does not fit a phone; let it shrink rather than overflow. */
-@media (max-width: 768px) {
-  .fb-playground__frame {
-    height: 520px;
-  }
-}
-
 /* ------------------------------------------------- the script host notice */
 
 /*
@@ -344,4 +317,67 @@ article .markdown > :is(ul, ol) {
 
 .fb-script-host code {
   font-size: 0.88em;
+}
+
+/* -------------------------------------------------- the playground button */
+
+.fb-playground-link {
+  margin: 1.5rem 0 2rem;
+}
+
+.fb-playground-link__button {
+  display: inline-block;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.fb-playground-link__button:hover,
+.fb-playground-link__button:focus-visible {
+  background: var(--ifm-color-primary-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+.fb-playground-link__note {
+  margin: 0.55rem 0 0;
+  font-size: 0.85rem;
+  color: var(--fb-muted, #6b6577);
+}
+
+/* ---------------------------------------------- the recorder playground page */
+
+.fb-recorder-playground {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.fb-recorder-playground h1 {
+  font-size: 1.9rem;
+  margin: 0 0 0.5rem;
+}
+
+.fb-recorder-playground header p {
+  color: var(--fb-muted, #6b6577);
+  max-width: 60ch;
+  margin: 0 0 2.5rem;
+}
+
+.fb-recorder-playground__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.fb-recorder-playground h2 {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+  margin: 0 0 0.75rem;
 }
