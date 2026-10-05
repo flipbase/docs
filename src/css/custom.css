@@ -381,3 +381,28 @@ article .markdown > :is(ul, ol) {
   color: var(--ifm-color-primary);
   margin: 0 0 0.75rem;
 }
+
+/* -------------------------------------------------------- the live example */
+
+.fb-live-example {
+  margin: 1.5rem 0 2rem;
+}
+
+.fb-live-example__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fb-muted, #6b6577);
+  margin: 0 0 0.6rem;
+}
+
+/*
+ * A plain frame, not a card. The example is the subject of this part of the
+ * page, so it does not need to be lifted off it.
+ */
+.fb-live-example__stage {
+  border: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.08));
+  border-radius: 8px;
+  padding: 1rem;
+  background: var(--fb-surface);
+}

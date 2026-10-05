@@ -2,6 +2,8 @@
 hide_table_of_contents: true
 ---
 
+import LiveExample from '@site/src/components/LiveExample';
+
 import ScriptHost from '@site/src/components/ScriptHost';
 
 import PlaygroundLink from '@site/src/components/PlaygroundLink';
@@ -32,14 +34,12 @@ In order to use the Recorder app, place the HTML-code in your code, as shown bel
 <!--  Initialize the Recorder and provide your 'recorderId' -->
 <script>
       Flipbase.recorder({
-          recorderId: "your_unique_recorderId"
+          recorderId: "9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407"
       });
 </script>
 ```
 
-The code above produces a working recorder.
-
-<PlaygroundLink to="/playground/recorder">See it running</PlaygroundLink>
+<LiveExample variant="recorder-v1" />
 
 When the user has succesfully saved the video, the `input` node will be provided with a videoId, as shown below:
 
@@ -103,7 +103,7 @@ Flipbase.recorder({
 
 <script>
   var rec1 = Flipbase.recorder({
-    recorderId: "your_unique_recorderId"
+    recorderId: "9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407"
     selector: 'recorder1', // !! required when creating multiple instances on 1 page
     primaryColor: '#aeb00a',
     showFAQButton: false,
@@ -121,7 +121,7 @@ Flipbase.recorder({
 
 <script>
   var rec2 = Flipbase.recorder({
-    recorderId: "your_unique_recorderId"
+    recorderId: "9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407"
     selector: 'recorder2'
   });
 
