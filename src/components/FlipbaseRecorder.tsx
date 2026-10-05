@@ -71,7 +71,14 @@ function RecorderInner({ label, ...options }: FlipbaseRecorderProps) {
 
     return () => {
       cancelled = true;
-      instanceRef.current?.destroy();
+      // The recorder's `destroy()` throws on the V2 line; an exception from a
+      // cleanup function propagates out of React's unmount and breaks whatever
+      // renders next.
+      try {
+        instanceRef.current?.destroy();
+      } catch {
+        /* the element is going away regardless */
+      }
       instanceRef.current = null;
     };
   }, [options.recorderId, options.selector]);

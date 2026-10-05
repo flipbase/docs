@@ -111,8 +111,25 @@ function Inner({ variant }: { variant: Variant }): JSX.Element {
 
     return () => {
       cancelled = true;
-      instance.current?.unmount?.();
-      instance.current?.destroy?.();
+      /*
+       * Guarded because these are third-party teardowns and they throw.
+       * The V2 recorder's `destroy()` reaches into something it has already
+       * released — `Cannot read properties of undefined (reading 'remove')` —
+       * and an exception thrown from a cleanup function propagates out of
+       * React's unmount, which took the *next* page's render with it. Leaving
+       * a recorder undestroyed is a leak; letting it break navigation is a
+       * broken site.
+       */
+      try {
+        instance.current?.unmount?.();
+      } catch {
+        /* nothing useful to do; the element is going away regardless */
+      }
+      try {
+        instance.current?.destroy?.();
+      } catch {
+        /* as above */
+      }
       instance.current = null;
     };
   }, [variant, selector]);
