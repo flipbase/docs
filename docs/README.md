@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 <script src="//app.flipbase.com/recorder.js"></script>
 
 # Flipbase developer documentation

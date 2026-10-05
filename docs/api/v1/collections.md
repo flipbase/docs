@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Collections
 
 Collections are groups that hold videos that share the same configuration. Each collection will have its own globally unique `player_id` and `recorder_id` which can be used to playback videos using the Player application and to record and submit videos using the Recorder application.

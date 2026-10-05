@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Webhooks
 
   - [Create a collection](#create-a-collection)

@@ -9,10 +9,9 @@ import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
  * but navigable only by guessing the URL, and six more guides sat in a
  * `_guides` folder that Docusaurus skips because of the underscore.
  *
- * Version appears in exactly one place, Browser support, because it is the one
- * thing that genuinely differs: v3 drops Internet Explorer. Everything else
- * reads the same whichever version you are on, and duplicating it per version
- * is how documentation drifts out of date in two directions at once.
+ * Browser support lives on each component's own page, next to the thing it
+ * describes, rather than in a reference page that has to be kept in step
+ * with all of them.
  */
 const sidebars: SidebarsConfig = {
   integrationsSidebar: [
@@ -76,7 +75,6 @@ const sidebars: SidebarsConfig = {
       label: 'Reference',
       collapsible: false,
       items: [
-        { type: 'doc', id: 'reference/browser-support', label: 'Browser support' },
         {
           type: 'category',
           label: 'API',

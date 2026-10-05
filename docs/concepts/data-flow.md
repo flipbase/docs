@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Data flow
 
 Flipbase is two browser components and an API. Nothing else moves between you

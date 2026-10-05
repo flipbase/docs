@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 ## Create an collection
 
 A Collection is nothing more and nothing less then a group of videos that share the same configuration. You can alter the security, privacy and retention settings of a Collection as documented below.

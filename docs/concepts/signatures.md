@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Create a signature
 
 Flipbase needs to provide you with an `api_key` and an `api_secret` so you are able to do so. The `api_secret` will be used to generate (server side) signatures to send authenticated requests.

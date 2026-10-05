@@ -125,9 +125,72 @@
   margin-top: 0;
 }
 
-.menu__list .menu__list {
+/*
+ * The section labels had a hover state and did nothing when clicked. Styling
+ * the label alone was not enough: Docusaurus puts the hover background on the
+ * wrapper around it, so the highlight appeared on an element that is not a
+ * control. These groups are `collapsible: false` with no link — nothing to
+ * respond to a click, so nothing should invite one.
+ */
+.theme-doc-sidebar-menu
+  > .theme-doc-sidebar-item-category-level-1
+  > .menu__list-item-collapsible:hover,
+.theme-doc-sidebar-menu
+  > .theme-doc-sidebar-item-category-level-1
+  > .menu__list-item-collapsible
+  > .menu__link:hover {
+  background: none;
+  cursor: default;
+}
+
+/*
+ * The items directly under a section label sit flush with it — the label is a
+ * heading, not a parent, so indenting under it would imply a nesting that is
+ * not there.
+ */
+.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category-level-1 > .menu__list {
   margin-left: 0;
   padding-left: 0;
+}
+
+/*
+ * Deeper lists keep their indent. This used to be `.menu__list .menu__list`,
+ * which flattened every level — so "V2 (current)" and "V1 (legacy)" sat at the
+ * same offset as "Recorder" and read as siblings of it rather than as what
+ * opens underneath it.
+ */
+.theme-doc-sidebar-menu .menu__list .menu__list {
+  margin-left: 0;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.08));
+  margin-top: 0.15rem;
+}
+
+/*
+ * The caret was a 1.25rem block with a heavy chevron, wider than the gap it sat
+ * in. Smaller, lighter, and it only darkens with the row it belongs to.
+ */
+.menu__caret {
+  padding: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  opacity: 0.45;
+  transition: opacity 120ms ease, transform 160ms ease;
+}
+
+.menu__caret::before {
+  width: 0.7rem;
+  height: 0.7rem;
+  background-size: 0.7rem 0.7rem;
+}
+
+.menu__list-item-collapsible:hover .menu__caret {
+  opacity: 0.9;
+  background: none;
+}
+
+.menu__caret:hover {
+  background: none;
 }
 
 .menu__link {

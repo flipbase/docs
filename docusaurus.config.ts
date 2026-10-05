@@ -70,19 +70,14 @@ const config: Config = {
         alt: 'Flipbase Logo',
         src: 'img/logo.png',
       },
-      items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'integrationsSidebar',
-          position: 'left',
-          label: 'Integrations',
-        },
-        {
-          href: 'https://documenter.getpostman.com/view/900009/S11DT24G',
-          label: 'API Reference',
-          position: 'left',
-        },
-      ],
+      /*
+       * Empty on purpose. Both items that were here duplicated the sidebar:
+       * "Integrations" opened the only sidebar there is, and "API Reference"
+       * pointed at the same Postman collection as "API explorer (Postman)"
+       * under Reference. Four navigation mechanisms competing for one page is
+       * three too many; the title still links home.
+       */
+      items: [],
     },
     footer: {
       style: 'dark',

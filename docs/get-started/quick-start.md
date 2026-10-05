@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Quick start
 
 Record a video and play it back, in two pages of HTML. No build step, no
@@ -87,8 +91,8 @@ That is the entire surface area.
 - **[Signatures](../concepts/signatures.md)** — the example above plays a
   *published* video. Anything private needs a server-generated signature, which
   is what you want for a candidate's answer.
-- **[Browser support](../reference/browser-support.md)** — the one thing that
-  differs by version.
+- **Browser support** — listed on each component's own page, because it is the
+  one thing that differs by version.
 
 ## A note on versions
 

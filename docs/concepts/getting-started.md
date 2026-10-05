@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Getting started
 
 Let's walk through core API concepts as we tackle some everyday use cases.

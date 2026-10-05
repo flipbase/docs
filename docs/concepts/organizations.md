@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Create an Organization
 
 Organizations are best used to group multiple Collections. Collections are in essence a repository of videos that share the same configuration. Usually for each customer a different Organization is created.

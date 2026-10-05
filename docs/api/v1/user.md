@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # User API
 
 - [Get your user profile](#get-user-profile)

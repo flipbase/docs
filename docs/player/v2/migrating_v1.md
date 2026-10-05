@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Migrate from player v1 to v2
 
 ### Why is it better?

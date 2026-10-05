@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Organizations API
 
 Organizations are basically groups of users that are allowed to have access to the same collections and videos. In order to create a `collection` you need to create an organization that contains that collection.

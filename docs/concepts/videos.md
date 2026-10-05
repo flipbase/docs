@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Managing videos
 
 Once end-users have create one or multiple videos, you as a partner, can manage the video. For example, you are allowed to publish or delete videos individually.

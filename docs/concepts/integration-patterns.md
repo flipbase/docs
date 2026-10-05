@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Integration patterns
 
 There is more than one way to put the components on a page. They differ in how
