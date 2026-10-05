@@ -2,6 +2,8 @@
 hide_table_of_contents: true
 ---
 
+import ScriptHost from '@site/src/components/ScriptHost';
+
 import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
 
 # Integrate the Flipbase recorder
@@ -16,9 +18,11 @@ import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
 
 In order to use the Recorder app, place the HTML-code in your code, as shown below. The recorder.js application is based on a HTML `<input type="flipbase"/>` element and the JavaScript recorder.js library.
 
+<ScriptHost />
+
 ```html
 <!--  Load the JavaScript Recorder library  -->
-<script src="//app.flipbase.com/recorder.js" ></script>
+<script src="https://cdn.flipbase.com/recorder/recorder.js" ></script>
 
 <!-- Place an HTML input element at the spot were you would like to show the Recorder -->
 <form>

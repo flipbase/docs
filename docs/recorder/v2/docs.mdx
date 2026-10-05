@@ -2,6 +2,8 @@
 hide_table_of_contents: true
 ---
 
+import ScriptHost from '@site/src/components/ScriptHost';
+
 import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
 
 # Integrate the Flipbase Recorder (V2)
@@ -16,9 +18,11 @@ import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
 
 In order to use the Recorder V2, place the HTML-code in your page as shown below. Load the `recorder.js` library and initialize the recorder against an HTML element using its `id`.
 
+<ScriptHost />
+
 ```html
 <!-- Load the JavaScript Recorder V2 library -->
-<script src="https://app.flipbase.com/recorder/recorderv2/recorder.js"></script>
+<script src="https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js"></script>
 
 <!-- Place an element at the spot where you would like to show the Recorder -->
 <div id="recorder1"></div>

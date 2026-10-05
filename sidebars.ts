@@ -58,7 +58,6 @@ const sidebars: SidebarsConfig = {
           link: { type: 'doc', id: 'player/v2/docs' },
           items: [
             { type: 'doc', id: 'player/v2/docs', label: 'V2 (current)' },
-            { type: 'doc', id: 'player/v2/migrating_v1', label: 'Migrating from V1' },
             { type: 'doc', id: 'player/v1/docs', label: 'V1 (legacy)' },
           ],
         },
@@ -67,12 +66,12 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Reference',
+      label: 'API',
       collapsible: false,
       items: [
         {
           type: 'category',
-          label: 'API',
+          label: 'Documentation',
           collapsible: true,
           collapsed: true,
           link: { type: 'doc', id: 'api/v1/README' },
@@ -110,7 +109,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'link',
-          label: 'API explorer (Postman)',
+          label: 'Explorer (Postman)',
           href: 'https://documenter.getpostman.com/view/900009/S11DT24G',
         },
       ],

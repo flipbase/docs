@@ -321,3 +321,27 @@ article .markdown > :is(ul, ol) {
     height: 520px;
   }
 }
+
+/* ------------------------------------------------- the script host notice */
+
+/*
+ * Quieter than an admonition. It appears above every embed snippet, so at
+ * admonition weight it would shout four times on a page someone is scanning
+ * for a script tag.
+ */
+.fb-script-host {
+  border-left: 3px solid var(--ifm-color-primary);
+  background: var(--fb-surface);
+  padding: 0.85rem 1rem;
+  margin: 0 0 1.25rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.92rem;
+}
+
+.fb-script-host p {
+  margin: 0;
+}
+
+.fb-script-host code {
+  font-size: 0.88em;
+}

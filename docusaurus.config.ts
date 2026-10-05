@@ -65,17 +65,21 @@ const config: Config = {
 
   themeConfig: {
     navbar: {
-      title: 'Flipbase Docs',
+      /*
+       * No `title`. The logo is already a link to the homepage, so the wordmark
+       * beside it was a second control doing the same thing.
+       */
       logo: {
-        alt: 'Flipbase Logo',
+        alt: 'Flipbase — back to the docs homepage',
         src: 'img/logo.png',
+        href: '/',
       },
       /*
        * Empty on purpose. Both items that were here duplicated the sidebar:
        * "Integrations" opened the only sidebar there is, and "API Reference"
        * pointed at the same Postman collection as "API explorer (Postman)"
        * under Reference. Four navigation mechanisms competing for one page is
-       * three too many; the title still links home.
+       * three too many; the logo still links home.
        */
       items: [],
     },
