@@ -58,7 +58,8 @@ A video belongs to a **collection**, and a collection belongs to an
 
 Settings live on the collection rather than the video, so retention and privacy
 are decided once for a group rather than per upload. See
-[Organizations](organizations.md) and [Collections](collections.md).
+[Organizations](../api/v1/organizations.md) and
+[Collections](../api/v1/collections.md) in the API reference.
 
 ## Private and published videos
 
@@ -67,6 +68,6 @@ generates. Publishing a video removes that requirement and makes it accessible
 to anyone with the URL.
 
 For recruitment this usually means private — a candidate's video answer should
-not be a public link. See [Signatures](signatures.md) for how authenticated
+not be a public link. See [Authentication](../api/v1/authentication.md) for how authenticated
 playback works, and [GDPR](gdpr.md) for what that implies for consent and
 retention.

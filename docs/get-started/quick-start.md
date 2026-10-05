@@ -88,7 +88,7 @@ That is the entire surface area.
   never see.
 - **[Integration patterns](../concepts/integration-patterns.md)** — custom
   element and npm, and when each is the better choice.
-- **[Signatures](../concepts/signatures.md)** — the example above plays a
+- **[Signatures](../api/v1/authentication.md)** — the example above plays a
   *published* video. Anything private needs a server-generated signature, which
   is what you want for a candidate's answer.
 - **Browser support** — listed on each component's own page, because it is the

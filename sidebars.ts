@@ -22,7 +22,6 @@ const sidebars: SidebarsConfig = {
       items: [
         { type: 'doc', id: 'README', label: 'Overview' },
         { type: 'doc', id: 'get-started/quick-start', label: 'Quick start' },
-        { type: 'doc', id: 'concepts/getting-started', label: 'API concepts' },
       ],
     },
     {
@@ -32,10 +31,6 @@ const sidebars: SidebarsConfig = {
       items: [
         { type: 'doc', id: 'concepts/data-flow', label: 'Data flow' },
         { type: 'doc', id: 'concepts/integration-patterns', label: 'Integration patterns' },
-        { type: 'doc', id: 'concepts/organizations', label: 'Organizations' },
-        { type: 'doc', id: 'concepts/collections', label: 'Collections' },
-        { type: 'doc', id: 'concepts/videos', label: 'Videos' },
-        { type: 'doc', id: 'concepts/signatures', label: 'Signatures' },
         { type: 'doc', id: 'concepts/gdpr', label: 'GDPR' },
       ],
     },
