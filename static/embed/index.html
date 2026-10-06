@@ -74,21 +74,26 @@
         var VARIANTS = {
           'recorder-v1': {
             src: 'https://cdn.flipbase.com/recorder/recorder.js',
-            mount: function (el) {
+            mount: function (el, extra) {
+              /* v1 replaces an input rather than filling a container. */
               var input = document.createElement('input');
               input.id = 'fb-embed';
               input.type = 'flipbase';
               el.appendChild(input);
-              window.Flipbase.recorder({ selector: 'fb-embed', recorderId: DEMO.recorderId });
+              window.Flipbase.recorder(
+                Object.assign({ selector: 'fb-embed', recorderId: DEMO.recorderId }, extra)
+              );
             },
           },
           'recorder-v2': {
             src: 'https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js',
-            mount: function (el) {
+            mount: function (el, extra) {
               var div = document.createElement('div');
               div.id = 'fb-embed';
               el.appendChild(div);
-              window.FlipbaseV2.recorder({ selector: 'fb-embed', recorderId: DEMO.recorderId });
+              window.FlipbaseV2.recorder(
+                Object.assign({ selector: 'fb-embed', recorderId: DEMO.recorderId }, extra)
+              );
             },
           },
           'player-v1': {
@@ -113,21 +118,38 @@
         };
 
         /* v3 kept v2's constructor deliberately; same call, different bundle. */
-        function mountPlayerV2Api(el) {
+        function mountPlayerV2Api(el, extra) {
           var div = document.createElement('div');
           div.id = 'fb-embed';
           el.appendChild(div);
-          var player = new window.FlipbasePlayer({
-            video_id: DEMO.videoId,
-            player_id: DEMO.playerId,
-            selector: 'fb-embed',
-          });
+          var player = new window.FlipbasePlayer(
+            Object.assign(
+              { video_id: DEMO.videoId, player_id: DEMO.playerId, selector: 'fb-embed' },
+              extra
+            )
+          );
           player.mount();
         }
 
         var stage = document.getElementById('stage');
-        var name = new URLSearchParams(location.search).get('variant');
+        var params = new URLSearchParams(location.search);
+        var name = params.get('variant');
         var variant = VARIANTS[name];
+
+        /*
+         * Any other query parameter is passed to the embed as an option, so the
+         * playground can drive this page instead of mounting a recorder of its
+         * own. Numbers are coerced because the recorder checks types on some of
+         * them and silently ignores a string where it wants a number.
+         */
+        function optionsFromQuery() {
+          var options = {};
+          params.forEach(function (value, key) {
+            if (key === 'variant') return;
+            options[key] = value !== '' && !isNaN(Number(value)) ? Number(value) : value;
+          });
+          return options;
+        }
 
         function fail(message, detail) {
           stage.innerHTML = '';
@@ -162,7 +184,7 @@
         script.src = variant.src;
         script.onload = function () {
           try {
-            variant.mount(stage);
+            variant.mount(stage, optionsFromQuery());
           } catch (error) {
             fail('This example could not start.', String((error && error.message) || error));
             return;

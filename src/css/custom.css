@@ -186,6 +186,36 @@
   background-size: 0.95rem 0.95rem;
 }
 
+/*
+ * Docusaurus draws this caret two different ways, and styling only one left
+ * "Deprecated" at 21px against 16px everywhere else.
+ *
+ * A category with a `link:` gets a separate `button.menu__caret` — the rule
+ * above. A category without one gets the caret as an `::after` on the link
+ * itself, at its own default size with its own background scale. Same size and
+ * weight from both, whichever Docusaurus picks for a given category.
+ *
+ * Scoped through `.theme-doc-sidebar-menu` for specificity, not for reach:
+ * Docusaurus's own rule sets width, height and background on this pseudo and
+ * loads after this file, so a bare `.menu__link--sublist-caret::after` lost
+ * every property it also declares — opacity came through, the size did not,
+ * which is why it stayed 21px while looking as though the rule had applied.
+ */
+.theme-doc-sidebar-menu .menu__link--sublist-caret::after {
+  /* Docusaurus floors this one with `min-width: 1.25rem`, so `width` alone
+     changed nothing and the caret stayed 21px. */
+  min-width: 0.95rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  background-size: 0.95rem 0.95rem;
+  opacity: 0.55;
+  transition: opacity 120ms ease, transform 160ms ease;
+}
+
+.theme-doc-sidebar-menu .menu__link--sublist-caret:hover::after {
+  opacity: 0.9;
+}
+
 .menu__list-item-collapsible:hover .menu__caret {
   opacity: 0.9;
   background: none;
@@ -389,6 +419,18 @@ article .markdown > :is(ul, ol) {
 }
 
 /* ------------------------------------------------- the recorder playground */
+
+/*
+ * The recorder runs in the same isolated frame the docs' live examples use, so
+ * switching version throws the whole realm away instead of layering a second
+ * recorder's globals on top of the first.
+ */
+.fb-pg__frame {
+  display: block;
+  width: 100%;
+  border: 0;
+  transition: height 180ms ease;
+}
 
 .fb-pg {
   max-width: 1180px;

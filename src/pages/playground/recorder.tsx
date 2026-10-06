@@ -1,6 +1,6 @@
-import React, { useState, type JSX } from 'react';
+import React, { useEffect, useState, type JSX } from 'react';
 import Head from '@docusaurus/Head';
-import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 /**
  * The recorder, with its settings exposed.
@@ -13,6 +13,13 @@ import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
  *
  * No `<Layout>`: a sidebar beside a 16:9 recorder is the letterbox this route
  * exists to avoid.
+ *
+ * The recorder itself runs in `/embed/`, the same isolated frame the
+ * documentation's live examples use. That is what makes the version switch
+ * possible at all: v1 claims `window.Flipbase` and v2 claims
+ * `window.FlipbaseV2`, and both leave listeners and style tags behind, so
+ * loading one after the other in this document would break whichever came
+ * second. Changing the frame's `src` throws the whole realm away instead.
  */
 
 const RECORDER_ID = '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407';
@@ -72,18 +79,51 @@ function Field({
   );
 }
 
+type RecorderVersion = 'v1' | 'v2';
+
+/** Built fresh on every change: the recorder reads its options once, at construction. */
+function frameSrc(version: RecorderVersion, config: Config): string {
+  const query = new URLSearchParams({
+    variant: `recorder-${version}`,
+    ...Object.fromEntries(Object.entries(config).map(([k, v]) => [k, String(v)])),
+  });
+  return `/embed/?${query.toString()}`;
+}
+
+function Stage({ version, config }: { version: RecorderVersion; config: Config }): JSX.Element {
+  const [height, setHeight] = useState(512);
+  const src = frameSrc(version, config);
+
+  useEffect(() => {
+    function onMessage(event: MessageEvent) {
+      if (event.origin !== window.location.origin) return;
+      const data = event.data as { type?: string; height?: number };
+      if (data?.type !== 'fb-embed-height' || typeof data.height !== 'number') return;
+      setHeight(Math.min(900, Math.max(200, Math.ceil(data.height))));
+    }
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, []);
+
+  return (
+    <iframe
+      /* Keyed on src so a change replaces the frame rather than navigating it. */
+      key={src}
+      className="fb-pg__frame"
+      title={`Recorder ${version}`}
+      src={src}
+      height={height}
+      allow="camera; microphone; fullscreen"
+    />
+  );
+}
+
 export default function RecorderPlayground(): JSX.Element {
   const [config, setConfig] = useState<Config>(DEFAULTS);
+  const [version, setVersion] = useState<RecorderVersion>('v2');
 
   const set = <K extends keyof Config>(key: K, value: Config[K]) =>
     setConfig((previous) => ({ ...previous, [key]: value }));
-
-  /*
-   * The recorder reads its options once, at construction. Keying on the
-   * serialised config remounts it when anything changes, which is the same
-   * thing an integrator gets on a page load.
-   */
-  const key = JSON.stringify(config);
 
   return (
     <>
@@ -96,7 +136,8 @@ export default function RecorderPlayground(): JSX.Element {
         <header className="fb-pg__header">
           <h1>Recorder playground</h1>
           <p>
-            Every option below is one you can pass to <code>Flipbase.recorder</code>.
+            Every option below is one you can pass to{' '}
+            <code>{version === 'v2' ? 'FlipbaseV2' : 'Flipbase'}.recorder</code>.
             Changing one re-initialises the recorder, which is what an integrator
             gets on a page load. It asks for camera access because it is real.
           </p>
@@ -104,6 +145,16 @@ export default function RecorderPlayground(): JSX.Element {
 
         <div className="fb-pg__split">
           <aside className="fb-pg__controls">
+            <Field label="Version" hint="Each runs in its own frame, so switching is clean">
+              <select
+                value={version}
+                onChange={(e) => setVersion(e.target.value as RecorderVersion)}
+              >
+                <option value="v2">V2</option>
+                <option value="v1">V1</option>
+              </select>
+            </Field>
+
             <Field label="Primary colour" hint="Buttons and the progress bar">
               <input
                 type="color"
@@ -173,12 +224,12 @@ export default function RecorderPlayground(): JSX.Element {
           </aside>
 
           <section className="fb-pg__stage">
-            <FlipbaseRecorder key={key} recorderId={RECORDER_ID} selector="playground" {...config} />
+            <BrowserOnly>{() => <Stage version={version} config={config} />}</BrowserOnly>
 
             <details className="fb-pg__code">
               <summary>The code for this configuration</summary>
               <pre>
-                <code>{`Flipbase.recorder({
+                <code>{`${version === 'v2' ? 'FlipbaseV2' : 'Flipbase'}.recorder({
   recorderId: '${RECORDER_ID}',
   selector: 'recorder',
   primaryColor: '${config.primaryColor}',

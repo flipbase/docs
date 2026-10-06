@@ -13,6 +13,9 @@ import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
  * describes, rather than in a reference page that has to be kept in step
  * with all of them.
  *
+ * Versions are listed newest first, so the one a new integration should use is
+ * the one at the top of the list.
+ *
  * Versions are labelled by number alone. "(current)" and "(legacy)" had to be
  * edited every time a version shipped, and a label that is wrong is worse than
  * one that says less — the position in the list already carries the meaning.
@@ -65,8 +68,8 @@ const sidebars: SidebarsConfig = {
           collapsed: true,
           link: { type: 'doc', id: 'player/v2/docs' },
           items: [
-            { type: 'doc', id: 'player/v2/docs', label: 'V2' },
             { type: 'doc', id: 'player/v3/docs', label: 'V3' },
+            { type: 'doc', id: 'player/v2/docs', label: 'V2' },
             {
               type: 'category',
               label: 'Deprecated',
