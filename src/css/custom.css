@@ -167,21 +167,23 @@
 }
 
 /*
- * The caret was a 1.25rem block with a heavy chevron, wider than the gap it sat
- * in. Smaller, lighter, and it only darkens with the row it belongs to.
+ * The caret started as a 1.25rem block with a heavy chevron, wider than the gap
+ * it sat in. The correction overshot — at 0.7rem it read as a speck rather than
+ * a control. This is the middle: legible as an affordance, still lighter than
+ * the label it belongs to, and it darkens with the row rather than on its own.
  */
 .menu__caret {
   padding: 0;
-  width: 1.1rem;
-  height: 1.1rem;
-  opacity: 0.45;
+  width: 1.25rem;
+  height: 1.25rem;
+  opacity: 0.55;
   transition: opacity 120ms ease, transform 160ms ease;
 }
 
 .menu__caret::before {
-  width: 0.7rem;
-  height: 0.7rem;
-  background-size: 0.7rem 0.7rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  background-size: 0.95rem 0.95rem;
 }
 
 .menu__list-item-collapsible:hover .menu__caret {
@@ -372,6 +374,18 @@ article .markdown > :is(ul, ol) {
   border-radius: 8px;
   padding: 1rem;
   background: var(--fb-surface);
+}
+
+/*
+ * The example runs in its own document — see LiveExample.tsx for why. The frame
+ * reports its height back, so this never scrolls inside itself; the transition
+ * keeps that adjustment from being a jolt as the embed loads its chrome.
+ */
+.fb-live-example__frame {
+  display: block;
+  width: 100%;
+  border: 0;
+  transition: height 180ms ease;
 }
 
 /* ------------------------------------------------- the recorder playground */

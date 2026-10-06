@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Flipbase embed</title>
+    <!--
+      One live example, in its own document.
+
+      The documentation is a single-page app, so every script it loads stays in
+      the page for the rest of the session. That is fatal here: recorder v1 and
+      player v1 both assign `window.Flipbase`, and the v2 recorder leaves
+      listeners and style tags behind. Loading them into the docs document meant
+      that after visiting two version pages, whichever script got there first
+      decided what the others saw — the symptom being an example that silently
+      renders nothing.
+
+      An iframe is a separate realm. Each example gets its own `window`, its own
+      globals, and disappears completely when the element is removed. No
+      teardown call is needed, which matters because these scripts' `destroy()`
+      throws.
+
+      Served from `static/` rather than `srcdoc` on purpose: a srcdoc iframe has
+      an opaque origin, and the camera permission cannot be delegated into one.
+      This is same-origin, so `allow="camera; microphone"` works normally.
+    -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        font: 14px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      #stage {
+        width: 100%;
+      }
+      #stage video,
+      #stage > div {
+        max-width: 100%;
+      }
+      .fb-embed-error {
+        margin: 0;
+        padding: 1rem 1.1rem;
+        border: 1px solid #e3c0c0;
+        border-radius: 8px;
+        background: #fdf6f6;
+        color: #8a3c3c;
+      }
+      .fb-embed-error code {
+        font-size: 0.9em;
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage"></div>
+
+    <script>
+      (function () {
+        var DEMO = {
+          recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+          playerId: '95f4d94b-86c0-4e4a-b23d-484158efd1a4',
+          videoId: '5120293b-583b-4534-90dc-0f44cd51705e',
+        };
+
+        /*
+         * The four embed APIs, because there genuinely are four. Keep these in
+         * step with the snippets on the version pages — the point of this page
+         * is that the reader sees the documented integration running, not an
+         * approximation of it.
+         */
+        var VARIANTS = {
+          'recorder-v1': {
+            src: 'https://cdn.flipbase.com/recorder/recorder.js',
+            mount: function (el) {
+              var input = document.createElement('input');
+              input.id = 'fb-embed';
+              input.type = 'flipbase';
+              el.appendChild(input);
+              window.Flipbase.recorder({ selector: 'fb-embed', recorderId: DEMO.recorderId });
+            },
+          },
+          'recorder-v2': {
+            src: 'https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js',
+            mount: function (el) {
+              var div = document.createElement('div');
+              div.id = 'fb-embed';
+              el.appendChild(div);
+              window.FlipbaseV2.recorder({ selector: 'fb-embed', recorderId: DEMO.recorderId });
+            },
+          },
+          'player-v1': {
+            src: 'https://app.flipbase.com/player.js',
+            mount: function (el) {
+              var video = document.createElement('video');
+              video.id = 'fb-embed';
+              video.type = 'flipbase';
+              video.setAttribute('data-video-id', DEMO.videoId);
+              el.appendChild(video);
+              window.Flipbase.player({ playerId: DEMO.playerId });
+            },
+          },
+          'player-v2': {
+            src: 'https://cdn.flipbase.com/player/v2/player.min.js',
+            mount: mountPlayerV2Api,
+          },
+          'player-v3': {
+            src: 'https://cdn.flipbase.com/player/v3.0.0-alpha.1/player.min.js',
+            mount: mountPlayerV2Api,
+          },
+        };
+
+        /* v3 kept v2's constructor deliberately; same call, different bundle. */
+        function mountPlayerV2Api(el) {
+          var div = document.createElement('div');
+          div.id = 'fb-embed';
+          el.appendChild(div);
+          var player = new window.FlipbasePlayer({
+            video_id: DEMO.videoId,
+            player_id: DEMO.playerId,
+            selector: 'fb-embed',
+          });
+          player.mount();
+        }
+
+        var stage = document.getElementById('stage');
+        var name = new URLSearchParams(location.search).get('variant');
+        var variant = VARIANTS[name];
+
+        function fail(message, detail) {
+          stage.innerHTML = '';
+          var p = document.createElement('p');
+          p.className = 'fb-embed-error';
+          p.textContent = message;
+          if (detail) {
+            p.appendChild(document.createElement('br'));
+            var code = document.createElement('code');
+            code.textContent = detail;
+            p.appendChild(code);
+          }
+          stage.appendChild(p);
+          report();
+        }
+
+        /*
+         * The parent sizes the iframe from this, so it never has its own
+         * scrollbar and never leaves a gap under a short example.
+         */
+        function report() {
+          var height = Math.ceil(document.body.getBoundingClientRect().height);
+          parent.postMessage({ type: 'fb-embed-height', variant: name, height: height }, '*');
+        }
+
+        if (!variant) {
+          fail('Unknown embed variant.', String(name));
+          return;
+        }
+
+        var script = document.createElement('script');
+        script.src = variant.src;
+        script.onload = function () {
+          try {
+            variant.mount(stage);
+          } catch (error) {
+            fail('This example could not start.', String((error && error.message) || error));
+            return;
+          }
+          report();
+          /* Players and recorders resize as they load metadata and chrome. */
+          if (window.ResizeObserver) new ResizeObserver(report).observe(document.body);
+          setTimeout(report, 400);
+          setTimeout(report, 1500);
+        };
+        script.onerror = function () {
+          fail('This version is not available on the CDN right now.', variant.src);
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+  </body>
+</html>
