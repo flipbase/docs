@@ -125,9 +125,72 @@
   margin-top: 0;
 }
 
-.menu__list .menu__list {
+/*
+ * The section labels had a hover state and did nothing when clicked. Styling
+ * the label alone was not enough: Docusaurus puts the hover background on the
+ * wrapper around it, so the highlight appeared on an element that is not a
+ * control. These groups are `collapsible: false` with no link — nothing to
+ * respond to a click, so nothing should invite one.
+ */
+.theme-doc-sidebar-menu
+  > .theme-doc-sidebar-item-category-level-1
+  > .menu__list-item-collapsible:hover,
+.theme-doc-sidebar-menu
+  > .theme-doc-sidebar-item-category-level-1
+  > .menu__list-item-collapsible
+  > .menu__link:hover {
+  background: none;
+  cursor: default;
+}
+
+/*
+ * The items directly under a section label sit flush with it — the label is a
+ * heading, not a parent, so indenting under it would imply a nesting that is
+ * not there.
+ */
+.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category-level-1 > .menu__list {
   margin-left: 0;
   padding-left: 0;
+}
+
+/*
+ * Deeper lists keep their indent. This used to be `.menu__list .menu__list`,
+ * which flattened every level — so "V2 (current)" and "V1 (legacy)" sat at the
+ * same offset as "Recorder" and read as siblings of it rather than as what
+ * opens underneath it.
+ */
+.theme-doc-sidebar-menu .menu__list .menu__list {
+  margin-left: 0;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.08));
+  margin-top: 0.15rem;
+}
+
+/*
+ * The caret was a 1.25rem block with a heavy chevron, wider than the gap it sat
+ * in. Smaller, lighter, and it only darkens with the row it belongs to.
+ */
+.menu__caret {
+  padding: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  opacity: 0.45;
+  transition: opacity 120ms ease, transform 160ms ease;
+}
+
+.menu__caret::before {
+  width: 0.7rem;
+  height: 0.7rem;
+  background-size: 0.7rem 0.7rem;
+}
+
+.menu__list-item-collapsible:hover .menu__caret {
+  opacity: 0.9;
+  background: none;
+}
+
+.menu__caret:hover {
+  background: none;
 }
 
 .menu__link {
@@ -232,29 +295,196 @@ article .markdown > :is(ul, ol) {
   overflow-x: auto;
 }
 
-/* ------------------------------------------------------------ the playground */
+/* ------------------------------------------------- the script host notice */
 
-.fb-playground {
+/*
+ * Quieter than an admonition. It appears above every embed snippet, so at
+ * admonition weight it would shout four times on a page someone is scanning
+ * for a script tag.
+ */
+.fb-script-host {
+  border-left: 3px solid var(--ifm-color-primary);
+  background: var(--fb-surface);
+  padding: 0.85rem 1rem;
+  margin: 0 0 1.25rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.92rem;
+}
+
+.fb-script-host p {
+  margin: 0;
+}
+
+.fb-script-host code {
+  font-size: 0.88em;
+}
+
+/* -------------------------------------------------- the playground button */
+
+.fb-playground-link {
   margin: 1.5rem 0 2rem;
 }
 
-.fb-playground__frame {
-  display: block;
-  width: 100%;
-  border: 1px solid var(--fb-rule);
-  border-radius: 12px;
+.fb-playground-link__button {
+  display: inline-block;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.fb-playground-link__button:hover,
+.fb-playground-link__button:focus-visible {
+  background: var(--ifm-color-primary-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+.fb-playground-link__note {
+  margin: 0.55rem 0 0;
+  font-size: 0.85rem;
+  color: var(--fb-muted, #6b6577);
+}
+
+/* -------------------------------------------------------- the live example */
+
+.fb-live-example {
+  margin: 1.5rem 0 2rem;
+}
+
+.fb-live-example__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fb-muted, #6b6577);
+  margin: 0 0 0.6rem;
+}
+
+/*
+ * A plain frame, not a card. The example is the subject of this part of the
+ * page, so it does not need to be lifted off it.
+ */
+.fb-live-example__stage {
+  border: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.08));
+  border-radius: 8px;
+  padding: 1rem;
   background: var(--fb-surface);
 }
 
-.fb-playground__note {
-  margin: 0.6rem 0 0;
-  font-size: 0.8rem;
-  color: var(--fb-muted);
+/* ------------------------------------------------- the recorder playground */
+
+.fb-pg {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
 }
 
-/* A 720px frame does not fit a phone; let it shrink rather than overflow. */
-@media (max-width: 768px) {
-  .fb-playground__frame {
-    height: 520px;
+.fb-pg__header h1 {
+  font-size: 1.9rem;
+  margin: 0 0 0.5rem;
+}
+
+.fb-pg__header p {
+  color: var(--fb-muted, #6b6577);
+  max-width: 62ch;
+  margin: 0 0 2.5rem;
+}
+
+.fb-pg__split {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .fb-pg__split {
+    grid-template-columns: 1fr;
   }
+}
+
+.fb-pg__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  position: sticky;
+  top: 1.5rem;
+}
+
+.fb-pg__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.fb-pg__label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.fb-pg__hint {
+  font-size: 0.78rem;
+  color: var(--fb-muted, #6b6577);
+}
+
+.fb-pg__field input[type='color'] {
+  width: 100%;
+  height: 2.1rem;
+  padding: 0;
+  border: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+}
+
+.fb-pg__field select,
+.fb-pg__field input[type='range'] {
+  width: 100%;
+}
+
+.fb-pg__field select {
+  padding: 0.35rem 0.4rem;
+  border: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 5px;
+  background: var(--ifm-background-color, #fff);
+  color: inherit;
+  font: inherit;
+  font-size: 0.88rem;
+}
+
+.fb-pg__reset {
+  margin-top: 0.4rem;
+  padding: 0.45rem 0.7rem;
+  font: inherit;
+  font-size: 0.85rem;
+  border: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.14));
+  border-radius: 5px;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.fb-pg__reset:hover {
+  background: var(--fb-surface);
+}
+
+.fb-pg__code {
+  margin-top: 1.5rem;
+}
+
+.fb-pg__code summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--fb-muted, #6b6577);
+}
+
+.fb-pg__code pre {
+  margin-top: 0.7rem;
+  font-size: 0.82rem;
 }

@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Delete Employer Branding resources
 
 Using this endpoint you can delete ALL your Employer Branding related resources, including pages, email templates, emails and videos. All candidate screening resources are not deleted.

@@ -1,3 +1,11 @@
+---
+hide_table_of_contents: true
+---
+
+import LiveExample from '@site/src/components/LiveExample';
+
+import ScriptHost from '@site/src/components/ScriptHost';
+
 # [DEPRECATED] Integrate the Flipbase player
 
 
@@ -9,6 +17,8 @@ The Player can be integrated following the same steps as the Recorder. The Playe
 ### How to integrate the Player?
 
 To show the Flipbase Player you have to integrate the code as shown below and replace the ‘playerId’ parameter with your own unique PlayerId.
+
+<ScriptHost appOnly />
 
 ```html
 <head>
@@ -23,7 +33,7 @@ To show the Flipbase Player you have to integrate the code as shown below and re
 -->
 <video
   type="flipbase"
-  data-video-id="786553529-a24e-22ae-cca6-891861f7895"
+  data-video-id="5120293b-583b-4534-90dc-0f44cd51705e"
 ></video>
 <video
   type="flipbase"
@@ -33,13 +43,15 @@ To show the Flipbase Player you have to integrate the code as shown below and re
 <!-- Initialize the Player and provide your 'playerId' -->
 <script>
   var videoPlayers = Flipbase.player({
-    playerId: "xxxx-xxxxx-xxxxxx-xxxxxxx"
+    playerId: "95f4d94b-86c0-4e4a-b23d-484158efd1a4"
   });
 
   // When one of the video players is not instantly invisible, because it is placed in a tab that is not yet visible, we need to re-render all instances.
   videoPlayers.reload();
 </script>
 ```
+
+<LiveExample variant="player-v1" />
 
 ### Secure mode
 
@@ -62,15 +74,19 @@ When collections have enabled `secure_mode` all videos that are held in that col
 
 ##### Using the signature with the Flipbase Player.js
 
-Just create a signature the way you do with any API request, but append the elements you've used in the `StringToSign` in querystring like style to the signature. NOTE: the URI-encoded path should equal: '/api/videos/<VIDEO_ID>' when creating signatures to be used along with the video player.
+Just create a signature the way you do with any API request, but append the elements you've used in the `StringToSign` in querystring like style to the signature. NOTE: the URI-encoded path should equal: '/api/videos/`<VIDEO_ID>`' when creating signatures to be used along with the video player.
 
-    SignatureString = 'signature=<SIGNATURE>&' +
-      'api_key=<FLIPBASE_API_KEY>&' +
-      'date=<DATE>'
+```
+SignatureString = 'signature=<SIGNATURE>&' +
+  'api_key=<FLIPBASE_API_KEY>&' +
+  'date=<DATE>'
+```
 
 Add this `signature` to each Flipbase HTML video element on the page;
 
-    <video type="flipbase" data-video-id="786553529-a24e-22ae-cca6-891861f7895" data-signature="<SIGNATURE_STRING>"></video>
+```html
+<video type="flipbase" data-video-id="786553529-a24e-22ae-cca6-891861f7895" data-signature="<SIGNATURE_STRING>"></video>
+```
 
 ##### Show and control a single video player
 

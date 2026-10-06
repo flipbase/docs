@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Flipbase API
 
 The Flipbase API enables access to resource like `apps` and `videos`. The API is based upon the oAuth 2.0 framework, utilizng JWT for authentication and oAuth Bearer tokens for authorization.

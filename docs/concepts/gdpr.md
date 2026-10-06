@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # GDPR
 
 We have added multiple features in order to comply with GDPR as of 25 May 2018.

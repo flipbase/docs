@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Integration patterns
 
 There is more than one way to put the components on a page. They differ in how
@@ -61,30 +65,12 @@ Attributes carry strings only. Anything structured — subtitle cues, for exampl
 document.querySelector('flipbase-player').subtitles = [{ language: 'en', cues }];
 ```
 
-## npm
-
-For applications with a build step. Gives you types, tree-shaking and a version
-locked in your lockfile rather than in a URL.
-
-```bash
-npm install @flipbase/player
-```
-
-```js
-import { createPlayer } from '@flipbase/player';
-
-const player = createPlayer({ element: ref.current, video_id, player_id });
-player.mount();
-```
-
 ## Which to choose
 
 | Situation                                        | Pattern        |
 | ------------------------------------------------ | -------------- |
 | An ATS or CMS where you can only add markup       | Custom element |
 | A server-rendered app with no build step          | Script tag     |
-| A React, Vue or Svelte app                        | npm            |
-| You need the smallest possible payload            | npm            |
 | You cannot deploy on our release cadence          | Script tag, pinned |
 
 ## Where the components run

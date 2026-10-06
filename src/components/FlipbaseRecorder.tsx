@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
-const RECORDER_SCRIPT_SRC = '//app.flipbase.com/recorder.js';
+// Same host the documented embed uses; see ScriptHost.tsx.
+const RECORDER_SCRIPT_SRC = 'https://cdn.flipbase.com/recorder/recorder.js';
 
 interface RecorderOptions {
   recorderId: string;
@@ -28,18 +29,32 @@ declare global {
   }
 }
 
+/*
+ * One promise per source, shared by everything that asks for it.
+ *
+ * This used to resolve immediately whenever a matching `<script>` tag was
+ * already in the document — which is true the instant the first recorder
+ * appends it, long before it has loaded. So with two recorders on a page the
+ * second resolved straight away, found `window.Flipbase` still undefined, and
+ * returned without rendering. The page showed one recorder while describing
+ * two, and said nothing about it.
+ */
+const loading = new Map<string, Promise<void>>();
+
 function loadScript(src: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) {
-      resolve();
-      return;
-    }
+  const existing = loading.get(src);
+  if (existing) return existing;
+
+  const promise = new Promise<void>((resolve, reject) => {
     const script = document.createElement('script');
     script.src = src;
     script.onload = () => resolve();
-    script.onerror = reject;
+    script.onerror = () => reject(new Error(`Could not load ${src}`));
     document.head.appendChild(script);
   });
+
+  loading.set(src, promise);
+  return promise;
 }
 
 function RecorderInner({ label, ...options }: FlipbaseRecorderProps) {
@@ -56,7 +71,14 @@ function RecorderInner({ label, ...options }: FlipbaseRecorderProps) {
 
     return () => {
       cancelled = true;
-      instanceRef.current?.destroy();
+      // The recorder's `destroy()` throws on the V2 line; an exception from a
+      // cleanup function propagates out of React's unmount and breaks whatever
+      // renders next.
+      try {
+        instanceRef.current?.destroy();
+      } catch {
+        /* the element is going away regardless */
+      }
       instanceRef.current = null;
     };
   }, [options.recorderId, options.selector]);

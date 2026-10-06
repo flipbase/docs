@@ -1,4 +1,12 @@
-import Playground from '@site/src/components/Playground';
+---
+hide_table_of_contents: true
+---
+
+import LiveExample from '@site/src/components/LiveExample';
+
+import ScriptHost from '@site/src/components/ScriptHost';
+
+import PlaygroundLink from '@site/src/components/PlaygroundLink';
 
 # Integrate the Flipbase player
 
@@ -7,6 +15,8 @@ The Flipbase Player can be integrated following the same steps as the Recorder. 
 ### How to integrate the Player?
 
 To show the Flipbase Player you have to integrate the code as shown below and replace the ‘player_id’ parameter with your own unique PlayerId.
+
+<ScriptHost />
 
 ```html
 <head>
@@ -40,6 +50,8 @@ To show the Flipbase Player you have to integrate the code as shown below and re
 </script>
 ```
 
+<LiveExample variant="player-v2" />
+
 :::note On pinning a version
 
 This loads `/player/v2/`, which moves when a v2 patch is released.
@@ -55,7 +67,7 @@ integrity hash.
 The code above will result in this — and you can change every option here and
 watch the player rebuild:
 
-<Playground version="2.1.3" />
+<PlaygroundLink to="/playground/player?v=2.1.3" />
 
 ### Secure mode
 
@@ -95,3 +107,23 @@ Add this `signature` property to the options object literal when invoking the Fl
 * Safari 9.1+
 * Android Browser 5+ (WebKit 537.36 Chrome 37)
 * IOS Safari 10+
+
+### Migrating from v1
+
+v1 is deprecated. It still loads — it is served from `app.flipbase.com/player.js`
+and has not been withdrawn — but it receives no changes, and it is the one
+component never published to the CDN.
+
+**What is different in v2**
+
+- A different host and path: `https://cdn.flipbase.com/player/v2/player.min.js`
+- A different constructor: `FlipbasePlayer`
+- `mount` and `unmount`, so you control when the player enters and leaves the
+  DOM rather than it being tied to page load
+- A custom element, `<flipbase-player></flipbase-player>`, if you would rather
+  write markup than JavaScript
+- Fullscreen playback
+
+The rewrite was not only about features. v1 is a single 411 kB file against
+v2's 144 kB, and the smaller surface is what makes the rest of this page
+possible.

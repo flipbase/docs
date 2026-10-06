@@ -1,4 +1,11 @@
-import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
+---
+hide_table_of_contents: true
+---
+
+import LiveExample from '@site/src/components/LiveExample';
+
+import ScriptHost from '@site/src/components/ScriptHost';
+
 
 # Integrate the Flipbase Recorder (V2)
 
@@ -12,9 +19,11 @@ import FlipbaseRecorder from '@site/src/components/FlipbaseRecorder';
 
 In order to use the Recorder V2, place the HTML-code in your page as shown below. Load the `recorder.js` library and initialize the recorder against an HTML element using its `id`.
 
+<ScriptHost />
+
 ```html
 <!-- Load the JavaScript Recorder V2 library -->
-<script src="https://app.flipbase.com/recorder/recorderv2/recorder.js"></script>
+<script src="https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js"></script>
 
 <!-- Place an element at the spot where you would like to show the Recorder -->
 <div id="recorder1"></div>
@@ -23,10 +32,13 @@ In order to use the Recorder V2, place the HTML-code in your page as shown below
 <script>
   FlipbaseV2.recorder({
     selector: 'recorder1',
-    recorderId: 'your_unique_recorderId'
+    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407'
   });
 </script>
 ```
+
+
+<LiveExample variant="recorder-v2" />
 
 When the user has successfully saved the video, the callback will receive the `videoId`. Store this UUID in your database to play back the video later using the Flipbase Player.
 
@@ -59,7 +71,7 @@ If you initialize the recorder without `allowUploadMethod` or `maxTakes`, the de
 ```javascript
 FlipbaseV2.recorder({
   selector: 'recorder1',
-  recorderId: 'your_unique_recorderId',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
   // allowUploadMethod: true  (default — upload option is visible)
   // maxTakes: 0              (default — unlimited takes)
 });
@@ -72,7 +84,7 @@ To hide the upload option and force users to record with their webcam:
 ```javascript
 FlipbaseV2.recorder({
   selector: 'recorder1',
-  recorderId: 'your_unique_recorderId',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
   allowUploadMethod: false,
 });
 ```
@@ -84,7 +96,7 @@ To restrict how many recording attempts a user can make:
 ```javascript
 FlipbaseV2.recorder({
   selector: 'recorder1',
-  recorderId: 'your_unique_recorderId',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
   maxTakes: 2, // user can record at most 2 takes
 });
 ```
@@ -96,7 +108,7 @@ An example of a fully customized recorder:
 ```javascript
 FlipbaseV2.recorder({
   selector: 'recorder1',
-  recorderId: 'your_unique_recorderId',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
   duration: 15,
   allowUploadMethod: false,
   maxTakes: 3,
@@ -128,13 +140,13 @@ Each recorder instance requires a unique `selector`. Use the returned object's `
 <script>
   var rec1 = FlipbaseV2.recorder({
     selector: 'recorder1',
-    recorderId: 'your_unique_recorderId',
+    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
     primaryColor: '#aeb00a',
   });
 
   var rec2 = FlipbaseV2.recorder({
     selector: 'recorder2',
-    recorderId: 'your_unique_recorderId',
+    recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
   });
 
   // Destroy an instance when you no longer need it
@@ -149,7 +161,7 @@ The `isUploading` method returns `true` while the user is uploading a video (not
 ```javascript
 var recorder = FlipbaseV2.recorder({
   selector: 'recorder1',
-  recorderId: 'your_unique_recorderId',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
 });
 
 console.log('Is uploading?', recorder.isUploading()); // false

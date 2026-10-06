@@ -9,10 +9,9 @@ import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
  * but navigable only by guessing the URL, and six more guides sat in a
  * `_guides` folder that Docusaurus skips because of the underscore.
  *
- * Version appears in exactly one place, Browser support, because it is the one
- * thing that genuinely differs: v3 drops Internet Explorer. Everything else
- * reads the same whichever version you are on, and duplicating it per version
- * is how documentation drifts out of date in two directions at once.
+ * Browser support lives on each component's own page, next to the thing it
+ * describes, rather than in a reference page that has to be kept in step
+ * with all of them.
  */
 const sidebars: SidebarsConfig = {
   integrationsSidebar: [
@@ -23,7 +22,6 @@ const sidebars: SidebarsConfig = {
       items: [
         { type: 'doc', id: 'README', label: 'Overview' },
         { type: 'doc', id: 'get-started/quick-start', label: 'Quick start' },
-        { type: 'doc', id: 'concepts/getting-started', label: 'API concepts' },
       ],
     },
     {
@@ -33,10 +31,6 @@ const sidebars: SidebarsConfig = {
       items: [
         { type: 'doc', id: 'concepts/data-flow', label: 'Data flow' },
         { type: 'doc', id: 'concepts/integration-patterns', label: 'Integration patterns' },
-        { type: 'doc', id: 'concepts/organizations', label: 'Organizations' },
-        { type: 'doc', id: 'concepts/collections', label: 'Collections' },
-        { type: 'doc', id: 'concepts/videos', label: 'Videos' },
-        { type: 'doc', id: 'concepts/signatures', label: 'Signatures' },
         { type: 'doc', id: 'concepts/gdpr', label: 'GDPR' },
       ],
     },
@@ -64,7 +58,6 @@ const sidebars: SidebarsConfig = {
           link: { type: 'doc', id: 'player/v2/docs' },
           items: [
             { type: 'doc', id: 'player/v2/docs', label: 'V2 (current)' },
-            { type: 'doc', id: 'player/v2/migrating_v1', label: 'Migrating from V1' },
             { type: 'doc', id: 'player/v1/docs', label: 'V1 (legacy)' },
           ],
         },
@@ -73,13 +66,12 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Reference',
+      label: 'API',
       collapsible: false,
       items: [
-        { type: 'doc', id: 'reference/browser-support', label: 'Browser support' },
         {
           type: 'category',
-          label: 'API',
+          label: 'Documentation',
           collapsible: true,
           collapsed: true,
           link: { type: 'doc', id: 'api/v1/README' },
@@ -117,7 +109,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'link',
-          label: 'API explorer (Postman)',
+          label: 'Explorer (Postman)',
           href: 'https://documenter.getpostman.com/view/900009/S11DT24G',
         },
       ],
