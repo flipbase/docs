@@ -78,7 +78,15 @@
               /* v1 replaces an input rather than filling a container. */
               var input = document.createElement('input');
               input.id = 'fb-embed';
-              input.type = 'flipbase';
+              /*
+               * setAttribute, not `.type =`. On <input> the property reflects to
+               * the attribute so either works, but on <video> there is no `type`
+               * IDL property at all — assigning it sets a JavaScript expando and
+               * the attribute never appears, which is how player v1 came to
+               * render an inert <video> the script then ignored. Same call on
+               * both so the two cannot drift again.
+               */
+              input.setAttribute('type', 'flipbase');
               el.appendChild(input);
               window.Flipbase.recorder(
                 Object.assign({ selector: 'fb-embed', recorderId: DEMO.recorderId }, extra)
@@ -101,7 +109,7 @@
             mount: function (el) {
               var video = document.createElement('video');
               video.id = 'fb-embed';
-              video.type = 'flipbase';
+              video.setAttribute('type', 'flipbase');
               video.setAttribute('data-video-id', DEMO.videoId);
               el.appendChild(video);
               window.Flipbase.player({ playerId: DEMO.playerId });
