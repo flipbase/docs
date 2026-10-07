@@ -17,4 +17,6 @@ Using this endpoint you can create a default page (/form) which users can use to
 
 **Response**
 
-    Response is not documented.
+Not documented. The response body of this endpoint has never been written up,
+and we would rather say so than publish a guess at its fields. Ask us, or call
+it against your sandbox organization and read what comes back.

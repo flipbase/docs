@@ -35,10 +35,16 @@ You can use signed request to fetch a JWT token or a username/password combinati
 **Response**
 
     {
-      "token": eyJhbGcxtyafdsafnR5cCI6privatekpXVCJ9.eyJ1c2VyX2lkIjofesht625ve1124WFkZjg3IiwiZXhwIjoxNTM1MveXQiOjE1MzfeDd9.BFtWEFaeplZ4nGKfefeazSATL6YpDvfels
-      "expires_at": 1535185487000
+      "token": "eyJhbGcxtyafdsafnR5cCI6privatekpXVCJ9.eyJ1c2VyX2lkIjofesht625ve1124WFkZjg3IiwiZXhwIjoxNTM1MveXQiOjE1MzfeDd9.BFtWEFaeplZ4nGKfefeazSATL6YpDvfels",
+      "expires_at": 1535185487000,
       "created_at": 1534926287909
     }
+
+`expires_at` and `created_at` are **milliseconds** since the Unix epoch, not
+seconds — thirteen digits, as in the example. Dividing by 1000 before comparing
+against a seconds-based clock is the usual mistake.
+
+Send the token on subsequent requests as `Authorization: JWT <token>`.
 
 ## Authenticate using signed requests
 

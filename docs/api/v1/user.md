@@ -5,7 +5,7 @@ hide_table_of_contents: true
 # User API
 
 - [Get your user profile](#get-user-profile)
-- [List a users organizatoins](#list-a-users-organizations)
+- [List a user's organizations](#list-a-users-organizations)
 - [Delete your profile](#delete-your-profile)
 
 ## Get user profile
@@ -21,10 +21,13 @@ This API endpoint can only be used when authenticated with a JSON Web Token!
 
 **Response**
 
-    A 204 status message
+Not documented. This page previously said the response was "a 204 status
+message", which cannot be right for a read — a 204 has no body, and this
+endpoint exists to return the profile. The real response body has not been
+written down, so rather than guess at its fields: ask us, or call the endpoint
+against your sandbox organization and read what comes back.
 
-
-## List a users' organizations
+## List a user's organizations
 
 **Request**
 

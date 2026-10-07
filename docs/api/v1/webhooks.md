@@ -4,14 +4,26 @@ hide_table_of_contents: true
 
 # Webhooks
 
-  - [Create a collection](#create-a-collection)
-  - [Read a collection](#read-a-collection)
-  - [Update a collection](#update-a-collection)
-  - [Delete a collection](#delete-a-collection)
+A webhook asks Flipbase to call a URL of yours when something happens in one of
+your organizations.
 
-## Create a collection
+:::caution This page is incomplete
 
-Create a collection within an existing organization.
+Only *creating* a webhook is documented, and only one event name is known. The
+payload Flipbase sends, how to verify it came from us, how to list or delete a
+webhook, and what happens when your endpoint is down are **not documented** —
+not here and not anywhere else. They are being written up; until then, ask us
+rather than inferring the shape from the example below.
+
+If you are polling the video list waiting for `encoding_state` to reach
+`finished`, that is currently the documented way to do it. See
+[Videos](videos.md).
+
+:::
+
+## Create a webhook
+
+Register a webhook on an existing organization.
 
 **Request**
 
@@ -31,21 +43,23 @@ Create a collection within an existing organization.
       }
     }
 
+| Attribute | Description                                                      |
+|:----------|:-----------------------------------------------------------------|
+| `url`     | The URL Flipbase calls.                                           |
+| `method`  | HTTP method used for the call.                                    |
+| `event`   | The event to subscribe to. `pages.submitted` is the only one documented. |
+
 **Response**
 
-    {
-      "data": {
-        "type": "collections",
-        "id": "5370df982b2779cf60e03217",
-        "attributes": {
-          "name": "Collection ABC",
-          "description": "ABC corporate recruitment related videos",
-          "secure_mode": true,
-          "delete_after_days": 365,
-          "type": "employer_branding",
-          "allowed_privacy": "public",
-          "player_id": "2419b1eb-fcfc-45b0-bde8-9a3c4d43c804",
-          "recorder_id": "1a4ba320-7a4c-4040-9b67-c02490809cf1"
-        }
-      }
-    }
+Not documented. The response previously shown on this page was a copy of the
+[Collections](collections.md) example and described a collection, not a webhook,
+so it has been removed rather than left to mislead.
+
+## What is not documented yet
+
+- The body Flipbase sends to your URL, for any event.
+- Whether the call is signed, and if so how to verify it.
+- Listing, updating and deleting webhooks.
+- Retry behaviour and timeouts when your endpoint fails or is slow.
+- Any event other than `pages.submitted` — in particular, whether there is one
+  for a video finishing encoding.
