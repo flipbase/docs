@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Batching express requests
 
 A library that allows you to receive and respond to POST /batch requests when using Express.js. This library is moddeld after [Facebook's Batch API](https://developers.facebook.com/docs/graph-api/making-multiple-requests).

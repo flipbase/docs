@@ -63,26 +63,69 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    /*
+     * Keep the dev-server overlay for our own mistakes, and only for ours.
+     *
+     * The recorder V2 bundle throws on every initialisation — V2 deleted
+     * `providers/FlashProvider.js` but `controllers/FlashController.js` still
+     * reaches for it, and `views/View.js` calls `controllers['flash'].render()`
+     * unconditionally. It is a real bug on the recorder's V2 line, reproducible
+     * with nothing but the documented snippet in a plain HTML page, and it is
+     * being fixed there rather than here.
+     *
+     * Until it is, the pages that embed a live recorder put a full-screen red
+     * overlay over the documentation every time they load — in `npm start`
+     * only; the built site has no overlay.
+     *
+     * What is suppressed is `Script error.` exactly: the placeholder a browser
+     * substitutes when a *cross-origin* script throws and no CORS header lets
+     * the page read the detail. It carries no message, file or line, so the
+     * overlay can tell you nothing you could act on — the real error is in the
+     * console. Every cross-origin script on these pages is one of our own CDN
+     * bundles, and anything thrown by the site itself is same-origin and still
+     * raises the overlay with its message intact.
+     */
+    function devServerOverlay() {
+      return {
+        name: 'flipbase-dev-overlay',
+        configureWebpack() {
+          return {
+            devServer: {
+              client: {
+                overlay: {
+                  errors: true,
+                  warnings: false,
+                  runtimeErrors: (error?: Error) =>
+                    (error?.message ?? '') !== 'Script error.',
+                },
+              },
+            },
+          };
+        },
+      };
+    },
+  ],
+
   themeConfig: {
     navbar: {
-      title: 'Flipbase Docs',
+      /*
+       * No `title`. The logo is already a link to the homepage, so the wordmark
+       * beside it was a second control doing the same thing.
+       */
       logo: {
-        alt: 'Flipbase Logo',
+        alt: 'Flipbase — back to the docs homepage',
         src: 'img/logo.png',
+        href: '/',
       },
-      items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'integrationsSidebar',
-          position: 'left',
-          label: 'Integrations',
-        },
-        {
-          href: 'https://documenter.getpostman.com/view/900009/S11DT24G',
-          label: 'API Reference',
-          position: 'left',
-        },
-      ],
+      /*
+       * Empty on purpose. Both items that were here duplicated the sidebar:
+       * "Integrations" opened the only sidebar there is, and "API Reference"
+       * pointed at the same Postman collection as "API explorer (Postman)"
+       * under Reference. Four navigation mechanisms competing for one page is
+       * three too many; the logo still links home.
+       */
+      items: [],
     },
     footer: {
       style: 'dark',

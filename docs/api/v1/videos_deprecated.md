@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Videos (deprecated)
 
 Below API's will be deprecated per 01-08-2019.

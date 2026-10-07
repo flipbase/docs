@@ -1,9 +1,19 @@
 /**
- * Flipbase brand colors
- * Primary: #A42952
+ * Flipbase developer documentation theme.
+ *
+ * The layout and scale follow the design at flipbase.com/docs — generous
+ * heading sizes, tight tracking, uppercase accent labels for sidebar sections.
+ *
+ * The typeface does not. That design uses Inter; this uses freight-sans-pro,
+ * which is the brand face, is already delivered by the Typekit stylesheet in
+ * `docusaurus.config.ts`, and was being loaded on every page without a single
+ * rule ever referring to it. Using it costs nothing and avoids pulling a font
+ * from a third-party CDN, which for an EU company documenting a product that
+ * handles candidate data is a question worth not raising.
  */
 
 :root {
+  /* Brand */
   --ifm-color-primary: #a42952;
   --ifm-color-primary-dark: #931f48;
   --ifm-color-primary-darker: #8b1d44;
@@ -11,7 +21,29 @@
   --ifm-color-primary-light: #b53360;
   --ifm-color-primary-lighter: #bd3866;
   --ifm-color-primary-lightest: #c94878;
-  --ifm-code-font-size: 95%;
+
+  /* Ink */
+  --fb-ink: #242230;
+  --fb-body: #2a2838;
+  --fb-muted: #6b6779;
+  --fb-rule: #e9e3da;
+  --fb-surface: #faf7f4;
+
+  --ifm-font-family-base: 'freight-sans-pro', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --ifm-heading-font-family: var(--ifm-font-family-base);
+  --ifm-font-color-base: var(--fb-body);
+  --ifm-heading-color: var(--fb-ink);
+
+  --ifm-font-size-base: 17px;
+  --ifm-line-height-base: 1.65;
+  --ifm-heading-font-weight: 600;
+  --ifm-h1-font-size: 2.75rem;
+  --ifm-h2-font-size: 1.75rem;
+  --ifm-h3-font-size: 1.3rem;
+
+  --ifm-code-font-size: 90%;
+  --ifm-toc-border-color: var(--fb-rule);
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
@@ -23,5 +55,366 @@
   --ifm-color-primary-light: #e56d97;
   --ifm-color-primary-lighter: #e779a0;
   --ifm-color-primary-lightest: #ed9dbc;
+
+  --fb-ink: #f2f0f5;
+  --fb-body: #d6d3df;
+  --fb-muted: #9c98ab;
+  --fb-rule: #33303d;
+  --fb-surface: #26232e;
+
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* ------------------------------------------------------------------ headings */
+
+.markdown h1:first-child {
+  font-size: var(--ifm-h1-font-size);
+  letter-spacing: -0.025em;
+  margin-bottom: 0.6rem;
+}
+
+.markdown h2 {
+  letter-spacing: -0.015em;
+  margin-top: 2.6rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--fb-rule);
+}
+
+.markdown h3 {
+  letter-spacing: -0.01em;
+  margin-top: 1.8rem;
+}
+
+/*
+ * The opening paragraph carries the page: it is the one line a reader uses to
+ * decide whether they are in the right place.
+ */
+.markdown h1:first-child + p {
+  font-size: 1.2rem;
+  line-height: 1.55;
+  color: var(--fb-muted);
+  margin-bottom: 2rem;
+}
+
+/* --------------------------------------------------------------- the sidebar */
+
+.menu {
+  padding: 1.25rem 0.75rem !important;
+  font-size: 0.9rem;
+}
+
+/*
+ * Top-level groups read as section labels rather than as clickable items —
+ * uppercase, tracked out, in the brand colour. They are not links, so they
+ * should not look like one.
+ */
+.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link,
+.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category-level-1 > .menu__link {
+  font-size: 0.69rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+  padding-left: 0.75rem;
+  margin-top: 1.4rem;
+  cursor: default;
+  background: none !important;
+}
+
+.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category-level-1:first-child > .menu__link {
+  margin-top: 0;
+}
+
+/*
+ * The section labels had a hover state and did nothing when clicked. Styling
+ * the label alone was not enough: Docusaurus puts the hover background on the
+ * wrapper around it, so the highlight appeared on an element that is not a
+ * control. These groups are `collapsible: false` with no link — nothing to
+ * respond to a click, so nothing should invite one.
+ */
+.theme-doc-sidebar-menu
+  > .theme-doc-sidebar-item-category-level-1
+  > .menu__list-item-collapsible:hover,
+.theme-doc-sidebar-menu
+  > .theme-doc-sidebar-item-category-level-1
+  > .menu__list-item-collapsible
+  > .menu__link:hover {
+  background: none;
+  cursor: default;
+}
+
+/*
+ * The items directly under a section label sit flush with it — the label is a
+ * heading, not a parent, so indenting under it would imply a nesting that is
+ * not there.
+ */
+.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category-level-1 > .menu__list {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/*
+ * Deeper lists keep their indent. This used to be `.menu__list .menu__list`,
+ * which flattened every level — so "V2 (current)" and "V1 (legacy)" sat at the
+ * same offset as "Recorder" and read as siblings of it rather than as what
+ * opens underneath it.
+ */
+.theme-doc-sidebar-menu .menu__list .menu__list {
+  margin-left: 0;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.08));
+  margin-top: 0.15rem;
+}
+
+/*
+ * The caret started as a 1.25rem block with a heavy chevron, wider than the gap
+ * it sat in. The correction overshot — at 0.7rem it read as a speck rather than
+ * a control. This is the middle: legible as an affordance, still lighter than
+ * the label it belongs to, and it darkens with the row rather than on its own.
+ */
+.menu__caret {
+  padding: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  opacity: 0.55;
+  transition: opacity 120ms ease, transform 160ms ease;
+}
+
+.menu__caret::before {
+  width: 0.95rem;
+  height: 0.95rem;
+  background-size: 0.95rem 0.95rem;
+}
+
+/*
+ * Docusaurus draws this caret two different ways, and styling only one left
+ * "Deprecated" at 21px against 16px everywhere else.
+ *
+ * A category with a `link:` gets a separate `button.menu__caret` — the rule
+ * above. A category without one gets the caret as an `::after` on the link
+ * itself, at its own default size with its own background scale. Same size and
+ * weight from both, whichever Docusaurus picks for a given category.
+ *
+ * Scoped through `.theme-doc-sidebar-menu` for specificity, not for reach:
+ * Docusaurus's own rule sets width, height and background on this pseudo and
+ * loads after this file, so a bare `.menu__link--sublist-caret::after` lost
+ * every property it also declares — opacity came through, the size did not,
+ * which is why it stayed 21px while looking as though the rule had applied.
+ */
+.theme-doc-sidebar-menu .menu__link--sublist-caret::after {
+  /* Docusaurus floors this one with `min-width: 1.25rem`, so `width` alone
+     changed nothing and the caret stayed 21px. */
+  min-width: 0.95rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  background-size: 0.95rem 0.95rem;
+  opacity: 0.55;
+  transition: opacity 120ms ease, transform 160ms ease;
+}
+
+.theme-doc-sidebar-menu .menu__link--sublist-caret:hover::after {
+  opacity: 0.9;
+}
+
+.menu__list-item-collapsible:hover .menu__caret {
+  opacity: 0.9;
+  background: none;
+}
+
+.menu__caret:hover {
+  background: none;
+}
+
+.menu__link {
+  font-weight: 500;
+  color: var(--fb-body);
+  border-radius: 6px;
+  padding: 0.3rem 0.75rem;
+}
+
+.menu__link:hover {
+  background: var(--fb-surface);
+  color: var(--fb-ink);
+}
+
+/* The active page gets a rule in the margin rather than a filled block. */
+.menu__link--active:not(.menu__link--sublist) {
+  position: relative;
+  background: none;
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.menu__link--active:not(.menu__link--sublist)::before {
+  content: '';
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: -0.4rem;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--ifm-color-primary);
+}
+
+/* ------------------------------------------------------------------ the card */
+
+.fb-card {
+  margin: 1.75rem 0.25rem 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--fb-rule);
+  border-radius: 12px;
+  background: var(--fb-surface);
+}
+
+.fb-card__title {
+  margin: 0 0 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--fb-ink);
+}
+
+.fb-card__body {
+  margin: 0 0 0.7rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--fb-muted);
+}
+
+.fb-card__link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.fb-card__link:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------------ the rest */
+
+.navbar {
+  border-bottom: 1px solid var(--fb-rule);
+  box-shadow: none;
+}
+
+.table-of-contents {
+  font-size: 0.8rem;
+}
+
+.table-of-contents__link--active {
+  font-weight: 600;
+}
+
+article .markdown > :is(ul, ol) {
+  padding-left: 1.2rem;
+}
+
+.markdown table {
+  display: table;
+  width: 100%;
+  font-size: 0.92rem;
+}
+
+.markdown table th {
+  background: var(--fb-surface);
+  font-weight: 600;
+}
+
+/* Wide tables and code scroll inside themselves, never the page. */
+.markdown > div:has(> table),
+.markdown pre {
+  overflow-x: auto;
+}
+
+/* ------------------------------------------------- the script host notice */
+
+/*
+ * Quieter than an admonition. It appears above every embed snippet, so at
+ * admonition weight it would shout four times on a page someone is scanning
+ * for a script tag.
+ */
+.fb-script-host {
+  border-left: 3px solid var(--ifm-color-primary);
+  background: var(--fb-surface);
+  padding: 0.85rem 1rem;
+  margin: 0 0 1.25rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.92rem;
+}
+
+.fb-script-host p {
+  margin: 0;
+}
+
+.fb-script-host code {
+  font-size: 0.88em;
+}
+
+/* -------------------------------------------------- the playground button */
+
+.fb-playground-link {
+  margin: 1.5rem 0 2rem;
+}
+
+.fb-playground-link__button {
+  display: inline-block;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.fb-playground-link__button:hover,
+.fb-playground-link__button:focus-visible {
+  background: var(--ifm-color-primary-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+.fb-playground-link__note {
+  margin: 0.55rem 0 0;
+  font-size: 0.85rem;
+  color: var(--fb-muted, #6b6577);
+}
+
+/* -------------------------------------------------------- the live example */
+
+.fb-live-example {
+  margin: 1.5rem 0 2rem;
+}
+
+.fb-live-example__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fb-muted, #6b6577);
+  margin: 0 0 0.6rem;
+}
+
+/*
+ * A plain frame, not a card. The example is the subject of this part of the
+ * page, so it does not need to be lifted off it.
+ */
+.fb-live-example__stage {
+  border: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.08));
+  border-radius: 8px;
+  padding: 1rem;
+  background: var(--fb-surface);
+}
+
+/*
+ * The example runs in its own document — see LiveExample.tsx for why. The frame
+ * reports its height back, so this never scrolls inside itself; the transition
+ * keeps that adjustment from being a jolt as the embed loads its chrome.
+ */
+.fb-live-example__frame {
+  display: block;
+  width: 100%;
+  border: 0;
+  transition: height 180ms ease;
+}
+

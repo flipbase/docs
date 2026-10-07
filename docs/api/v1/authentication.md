@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Authentication
 
 When you want to use the API you need an `api_key` and an `api_secret`, provided by Flipbase. The `api_secret` will be used to generate (server side) signatures to send authenticated requests.
