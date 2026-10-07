@@ -12,6 +12,17 @@ import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
  * Browser support lives on each component's own page, next to the thing it
  * describes, rather than in a reference page that has to be kept in step
  * with all of them.
+ *
+ * Versions are listed newest first, so the one a new integration should use is
+ * the one at the top of the list.
+ *
+ * Versions are labelled by number alone. "(current)" and "(legacy)" had to be
+ * edited every time a version shipped, and a label that is wrong is worse than
+ * one that says less — the position in the list already carries the meaning.
+ * A deprecated version moves into a `Deprecated` subcategory instead, which is
+ * a change that cannot be forgotten halfway: the page has to move for the label
+ * to change. Only player v1 is deprecated today, so only the player has one —
+ * the recorder lists both its versions flat until one of them is retired.
  */
 const sidebars: SidebarsConfig = {
   integrationsSidebar: [
@@ -46,8 +57,8 @@ const sidebars: SidebarsConfig = {
           collapsed: true,
           link: { type: 'doc', id: 'recorder/v2/docs' },
           items: [
-            { type: 'doc', id: 'recorder/v2/docs', label: 'V2 (current)' },
-            { type: 'doc', id: 'recorder/v1/docs', label: 'V1 (legacy)' },
+            { type: 'doc', id: 'recorder/v2/docs', label: 'V2' },
+            { type: 'doc', id: 'recorder/v1/docs', label: 'V1' },
           ],
         },
         {
@@ -57,8 +68,15 @@ const sidebars: SidebarsConfig = {
           collapsed: true,
           link: { type: 'doc', id: 'player/v2/docs' },
           items: [
-            { type: 'doc', id: 'player/v2/docs', label: 'V2 (current)' },
-            { type: 'doc', id: 'player/v1/docs', label: 'V1 (legacy)' },
+            { type: 'doc', id: 'player/v3/docs', label: 'V3' },
+            { type: 'doc', id: 'player/v2/docs', label: 'V2' },
+            {
+              type: 'category',
+              label: 'Deprecated',
+              collapsible: true,
+              collapsed: true,
+              items: [{ type: 'doc', id: 'player/v1/docs', label: 'V1' }],
+            },
           ],
         },
         { type: 'doc', id: 'platform/docs', label: 'Platform' },

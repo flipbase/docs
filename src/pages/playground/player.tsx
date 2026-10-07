@@ -14,15 +14,18 @@ import { useLocation } from '@docusaurus/router';
  */
 
 /*
- * `index.html` is named explicitly rather than relying on the directory URL.
+ * `player/playground/`, not `playground/player/`. The playground moved on
+ * 2026-10-06 so that everything the player publishes sits under one prefix —
+ * version folders, aliases and the playground together — matching
+ * `recorder/playground/`. The old path was deleted, and this URL pointed at it
+ * until the deletion turned the frame into an S3 `NoSuchKey` page.
  *
- * The CDN's origin is the S3 REST endpoint, which has no directory-index
- * behaviour, and creating a folder in the S3 console leaves a zero-byte object
- * at that exact key. So `/playground/player/` answers 200 with
- * `content-type: application/x-directory` and no body — the frame loads an
- * empty document and never fires `load`.
+ * `index.html` is still named explicitly rather than relying on the directory
+ * URL. A CloudFront function does rewrite directory-shaped URLs now, so
+ * `/player/playground/` resolves on its own — but the frame does not need to
+ * depend on that, and naming the file costs nothing.
  */
-const PLAYGROUND_URL = 'https://cdn.flipbase.com/playground/player/index.html';
+const PLAYGROUND_URL = 'https://cdn.flipbase.com/player/playground/index.html';
 
 export default function PlayerPlayground(): JSX.Element {
   const { search } = useLocation();

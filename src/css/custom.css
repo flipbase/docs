@@ -167,21 +167,53 @@
 }
 
 /*
- * The caret was a 1.25rem block with a heavy chevron, wider than the gap it sat
- * in. Smaller, lighter, and it only darkens with the row it belongs to.
+ * The caret started as a 1.25rem block with a heavy chevron, wider than the gap
+ * it sat in. The correction overshot — at 0.7rem it read as a speck rather than
+ * a control. This is the middle: legible as an affordance, still lighter than
+ * the label it belongs to, and it darkens with the row rather than on its own.
  */
 .menu__caret {
   padding: 0;
-  width: 1.1rem;
-  height: 1.1rem;
-  opacity: 0.45;
+  width: 1.25rem;
+  height: 1.25rem;
+  opacity: 0.55;
   transition: opacity 120ms ease, transform 160ms ease;
 }
 
 .menu__caret::before {
-  width: 0.7rem;
-  height: 0.7rem;
-  background-size: 0.7rem 0.7rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  background-size: 0.95rem 0.95rem;
+}
+
+/*
+ * Docusaurus draws this caret two different ways, and styling only one left
+ * "Deprecated" at 21px against 16px everywhere else.
+ *
+ * A category with a `link:` gets a separate `button.menu__caret` — the rule
+ * above. A category without one gets the caret as an `::after` on the link
+ * itself, at its own default size with its own background scale. Same size and
+ * weight from both, whichever Docusaurus picks for a given category.
+ *
+ * Scoped through `.theme-doc-sidebar-menu` for specificity, not for reach:
+ * Docusaurus's own rule sets width, height and background on this pseudo and
+ * loads after this file, so a bare `.menu__link--sublist-caret::after` lost
+ * every property it also declares — opacity came through, the size did not,
+ * which is why it stayed 21px while looking as though the rule had applied.
+ */
+.theme-doc-sidebar-menu .menu__link--sublist-caret::after {
+  /* Docusaurus floors this one with `min-width: 1.25rem`, so `width` alone
+     changed nothing and the caret stayed 21px. */
+  min-width: 0.95rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  background-size: 0.95rem 0.95rem;
+  opacity: 0.55;
+  transition: opacity 120ms ease, transform 160ms ease;
+}
+
+.theme-doc-sidebar-menu .menu__link--sublist-caret:hover::after {
+  opacity: 0.9;
 }
 
 .menu__list-item-collapsible:hover .menu__caret {
@@ -374,117 +406,15 @@ article .markdown > :is(ul, ol) {
   background: var(--fb-surface);
 }
 
-/* ------------------------------------------------- the recorder playground */
-
-.fb-pg {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 2.5rem 1.5rem 4rem;
-}
-
-.fb-pg__header h1 {
-  font-size: 1.9rem;
-  margin: 0 0 0.5rem;
-}
-
-.fb-pg__header p {
-  color: var(--fb-muted, #6b6577);
-  max-width: 62ch;
-  margin: 0 0 2.5rem;
-}
-
-.fb-pg__split {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  gap: 2.5rem;
-  align-items: start;
-}
-
-@media (max-width: 860px) {
-  .fb-pg__split {
-    grid-template-columns: 1fr;
-  }
-}
-
-.fb-pg__controls {
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  position: sticky;
-  top: 1.5rem;
-}
-
-.fb-pg__field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.fb-pg__label {
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ifm-color-primary);
-  font-weight: 600;
-}
-
-.fb-pg__hint {
-  font-size: 0.78rem;
-  color: var(--fb-muted, #6b6577);
-}
-
-.fb-pg__field input[type='color'] {
+/*
+ * The example runs in its own document — see LiveExample.tsx for why. The frame
+ * reports its height back, so this never scrolls inside itself; the transition
+ * keeps that adjustment from being a jolt as the embed loads its chrome.
+ */
+.fb-live-example__frame {
+  display: block;
   width: 100%;
-  height: 2.1rem;
-  padding: 0;
-  border: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.12));
-  border-radius: 5px;
-  background: none;
-  cursor: pointer;
+  border: 0;
+  transition: height 180ms ease;
 }
 
-.fb-pg__field select,
-.fb-pg__field input[type='range'] {
-  width: 100%;
-}
-
-.fb-pg__field select {
-  padding: 0.35rem 0.4rem;
-  border: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.12));
-  border-radius: 5px;
-  background: var(--ifm-background-color, #fff);
-  color: inherit;
-  font: inherit;
-  font-size: 0.88rem;
-}
-
-.fb-pg__reset {
-  margin-top: 0.4rem;
-  padding: 0.45rem 0.7rem;
-  font: inherit;
-  font-size: 0.85rem;
-  border: 1px solid var(--fb-rule, rgba(0, 0, 0, 0.14));
-  border-radius: 5px;
-  background: none;
-  color: inherit;
-  cursor: pointer;
-}
-
-.fb-pg__reset:hover {
-  background: var(--fb-surface);
-}
-
-.fb-pg__code {
-  margin-top: 1.5rem;
-}
-
-.fb-pg__code summary {
-  cursor: pointer;
-  font-size: 0.85rem;
-  color: var(--fb-muted, #6b6577);
-}
-
-.fb-pg__code pre {
-  margin-top: 0.7rem;
-  font-size: 0.82rem;
-}
