@@ -13,6 +13,7 @@ import ScriptHost from '@site/src/components/ScriptHost';
 
 - [Getting started](#getting-started)
 - [Settings](#settings)
+- [The callback](#the-callback)
 - [Multiple recorders on a single page](#multiple-recorders-on-a-single-page)
 - [What you should know before you implement the recorder](#limitations)
 - [Browser support](#browser-support)
@@ -24,7 +25,8 @@ In order to use the Recorder V2, place the HTML-code in your page as shown below
 <ScriptHost />
 
 ```html
-<!-- Load the JavaScript Recorder V2 library -->
+<!-- Load the JavaScript Recorder V2 library.
+     The repeated `recorder/recorder/` segment is correct — see the note below. -->
 <script src="https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js"></script>
 
 <!-- Place an element at the spot where you would like to show the Recorder -->
@@ -44,7 +46,17 @@ In order to use the Recorder V2, place the HTML-code in your page as shown below
 
 <PlaygroundLink to="/playground/recorder?v=2.0.0-alpha.1">Open the recorder playground</PlaygroundLink>
 
-When the user has successfully saved the video, the callback will receive the `videoId`. Store this UUID in your database to play back the video later using the Flipbase Player.
+When the user has successfully saved the video, your `callback` receives the video's UUID. Store it in your database to play back the video later using the Flipbase Player.
+
+:::note Why the path says `recorder` twice
+
+`https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js` is the
+correct URL. The repeated segment looks like a mistake and is not: shortening it
+to `/recorder/recorderv2/` returns **403**, and an embed that was working stops
+working. `https://app.flipbase.com/recorder/recorderv2/recorder.js` serves the
+byte-identical bundle if you would rather load it from the application host.
+
+:::
 
 ## Settings
 
@@ -64,9 +76,49 @@ textColor | String | — | Text color. HEX format.
 locale | String | `nl-NL` | [See supported languages below](#supported-languages).
 maxWidth | Number | — | Maximum width in pixels. The recorder always maintains a 16:9 aspect ratio — it picks the most conservative dimension.
 maxHeight | Number | — | Maximum height in pixels. See `maxWidth` description.
-output | String | — | Leave undefined to receive a UUID in the callback. Set to `embedCode` to receive an embeddable iframe as the second callback argument.
-outputOptions | Object | — | Object with optional `pageName` and `privacy` properties.
-callback | Function | — | Called when the user saves a video. Invoked with `(videoId, output)`.
+output | String | — | Decides what the callback's first argument contains. Leave undefined for the video's UUID. Set to `embedCode` for an embeddable iframe instead — it *replaces* the UUID, it is not an extra argument.
+outputOptions | Object | — | Object with optional `pageName` and `privacy` properties. `pageName` is required when `output` is `embedCode`.
+callback | Function &#124; String | — | Called when the upload finishes. Invoked with `(output, element)` — see [The callback](#the-callback). A string is treated as the name of a function on `window`.
+
+### The callback {#the-callback}
+
+The option is named `callback`. There is no `onSubmit` — a recorder initialised
+with one registers no callback at all and never tells you the video exists.
+
+It is called once the upload has finished, with two arguments:
+
+```javascript
+FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+  callback: function (output, element) {
+    // `output` is a string, not an object. With no `output` option set it is
+    // the video's UUID — this is the value to store.
+    // `element` is the DOM element the recorder was mounted into.
+    console.log('video UUID:', output);
+  },
+});
+```
+
+| Argument  | Type        | What it is                                                                 |
+| --------- | ----------- | -------------------------------------------------------------------------- |
+| `output`  | String      | The video's UUID, or the embed code when `output: 'embedCode'` is set.      |
+| `element` | HTMLElement | The element the recorder was mounted into.                                  |
+
+The first argument is a **string**, so `output.uuid` is `undefined`; use the
+value itself.
+
+`callback` also accepts a string, which is treated as the name of a function on
+`window` and called with the same two arguments.
+
+:::note `Flipbase` and `FlipbaseV2` are the same object
+
+The bundle assigns `window.FlipbaseV2` and then `window.Flipbase = window.FlipbaseV2`,
+so `Flipbase.recorder(...)` and `FlipbaseV2.recorder(...)` call the same
+function. Examples here use `FlipbaseV2`; existing integrations on `Flipbase`
+do not need changing.
+
+:::
 
 ### Default behaviour
 
@@ -127,8 +179,10 @@ FlipbaseV2.recorder({
     privacy: 'public',
   },
   maxWidth: 640,
-  callback: function (id, output) {
-    console.log('Video saved. UUID:', id);
+  callback: function (output, element) {
+    // `output: 'embedCode'` is set above, so `output` here is the embed code,
+    // not the UUID.
+    console.log('Video saved. Embed code:', output);
   }
 });
 ```

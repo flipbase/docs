@@ -22,7 +22,9 @@ collection videos land in.
 Place an element, load the recorder, point it at your recorder id.
 
 ```html
-<script src="https://app.flipbase.com/recorder/recorderv2/recorder.js"></script>
+<!-- The repeated `recorder/recorder/` segment is correct. Do not shorten it:
+     the single-segment path returns 403. -->
+<script src="https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js"></script>
 
 <div id="recorder"></div>
 
@@ -30,16 +32,19 @@ Place an element, load the recorder, point it at your recorder id.
   FlipbaseV2.recorder({
     selector: 'recorder',
     recorderId: 'your-recorder-id',
-    onSubmit: function (video) {
+    callback: function (videoId) {
       // The only thing you have to keep.
-      console.log('video UUID:', video.uuid);
+      console.log('video UUID:', videoId);
     },
   });
 </script>
 ```
 
 The recorder handles camera permission, the viewfinder, retakes and the upload.
-When the candidate submits, your callback receives a **video UUID**.
+When the candidate submits, your `callback` receives a **video UUID** as its
+first argument. The option is called `callback`, and it is the only way to be
+told the video exists — see [Recorder v2](../recorder/v2/docs.mdx) for its full
+signature.
 
 :::caution Serve this over HTTPS
 
@@ -64,8 +69,8 @@ Later, hand the same UUID to the player.
 
 ```html
 <script
-  src="https://cdn.flipbase.com/player/v3.0.0-alpha.0/player.min.js"
-  integrity="sha384-PI5oUTsHmcski3Je6b8t0TL9QRlCTVxtI7zPD0GE/Ng4rOmD9Y2y7SgfuCsYQnJ0"
+  src="https://cdn.flipbase.com/player/v3.0.0/player.min.js"
+  integrity="sha384-eBPjrM3yXYJtqW6tLbK4bK/Sha7yqVK2/fBgStXvM0fHGzrpXOq6TndocA3rTW6/"
   crossorigin="anonymous"
 ></script>
 
@@ -89,8 +94,10 @@ That is the entire surface area.
 - **[Integration patterns](../concepts/integration-patterns.md)** — custom
   element and npm, and when each is the better choice.
 - **[Signatures](../api/v1/authentication.md)** — the example above plays a
-  *published* video. Anything private needs a server-generated signature, which
-  is what you want for a candidate's answer.
+  video that needs no signature. Whether one is needed is decided by the
+  collection's `secure_mode` and the video's `privacy`; see
+  [Private, published and secure mode](../concepts/data-flow.md#private-published-and-secure-mode).
+  For a candidate's answer you want the signed path.
 - **Browser support** — listed on each component's own page, because it is the
   one thing that differs by version.
 

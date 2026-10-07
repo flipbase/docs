@@ -55,7 +55,7 @@ Organizations are basically groups of users that are allowed to have access to t
       "data": {
         "type": "organizations",
         "attributes": {
-          "name": "Collection ABC",
+          "name": "Organization ABC",
           "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
@@ -69,7 +69,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "type": "organizations",
         "id": "5370df982b2779cf60e03217",
         "attributes": {
-          "name": "Collection ABC",
+          "name": "Organization ABC",
           "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
@@ -92,7 +92,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "type": "organizations",
         "id": "5370df982b2779cf60e03217",
         "attributes": {
-          "name": "Collection ABC",
+          "name": "Organization ABC",
           "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
@@ -113,7 +113,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "type": "organizations",
         "id": "5370df982b2779cf60e03217",
         "attributes": {
-          "name": "Collection ABC - department X",
+          "name": "Organization ABC - department X",
           "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }
@@ -127,7 +127,7 @@ Organizations are basically groups of users that are allowed to have access to t
         "type": "organizations",
         "id": "5370df982b2779cf60e03217",
         "attributes": {
-          "name": "Collection ABC - department X",
+          "name": "Organization ABC - department X",
           "employer_branding_license": true,
           "description": "ABC corporate recruitment related videos"
         }

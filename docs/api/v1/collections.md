@@ -50,7 +50,7 @@ Create a collection within an existing organization.
           "description": "ABC corporate recruitment related videos",
           "type": "employer_branding",
           "secure_mode": true,
-          "allowed_privacy": "public",
+          "allowed_privacy": "public"
         }
       }
     }
