@@ -1,4 +1,4 @@
-import type { Config } from '@docusaurus/types';
+import type { Config, Plugin } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import { themes as prismThemes } from 'prism-react-renderer';
 
@@ -86,10 +86,17 @@ const config: Config = {
      * bundles, and anything thrown by the site itself is same-origin and still
      * raises the overlay with its message intact.
      */
-    function devServerOverlay() {
+    function devServerOverlay(): Plugin {
       return {
         name: 'flipbase-dev-overlay',
         configureWebpack() {
+          /*
+           * `devServer` is a real webpack key and Docusaurus merges it straight
+           * through, but its `ConfigureWebpackResult` type does not model it —
+           * so this cast describes what actually happens rather than hiding a
+           * mistake. Without it `tsc --noEmit` fails on this file, which is why
+           * the CI workflow could never have gone green even once it ran.
+           */
           return {
             devServer: {
               client: {
@@ -101,7 +108,7 @@ const config: Config = {
                 },
               },
             },
-          };
+          } as ReturnType<NonNullable<Plugin['configureWebpack']>>;
         },
       };
     },
