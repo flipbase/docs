@@ -1,8 +1,16 @@
 name: CI
 
+# Triggered on the branches this repository actually uses.
+#
+# This said `branches: [main]`. There is no `main` here — the default branch is
+# `master` and work lands on `staging` first — so the workflow had never run
+# once since it was added. A check wired to a branch that does not exist is
+# indistinguishable from no check, except that it looks like one.
 on:
   pull_request:
-    branches: [main]
+    branches: [staging, master]
+  push:
+    branches: [staging, master]
 
 jobs:
   build:
@@ -14,7 +22,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # Matches buildspec.yml, which is what actually builds the deployed
+          # site. Two Node versions for one build is a difference that only
+          # shows up as a failure nobody can reproduce locally.
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -25,3 +36,7 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # The same build the deploy runs, so a broken link or a missing page is
+      # caught here rather than after it is live. This workflow does not deploy:
+      # that is `buildspec.yml` in CodeBuild, which has no trigger configured.
