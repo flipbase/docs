@@ -15,11 +15,11 @@ v2** — the same constructor, the same options, the same events, including the
 misspelled `scrubbTo` that existing integrations listen for. Moving a working v2
 embed to v3 is a change of one URL.
 
-:::caution This is a prerelease
+:::note v3 is released, and nothing has been moved onto it
 
-`3.0.0-alpha.1` is published for testing. Nothing is pinned to it and no alias
-points at it: `/player/latest/` and `/player/v2/` still serve v2 and will until
-v3 is stable. Use it to try the new build, not to ship.
+`3.0.0` is a stable release. But `/player/latest/` and `/player/v2/` still serve
+**v2**, and will until moving them is a deliberate decision — so nothing changes
+for an existing integration until you pin v3 yourself.
 
 :::
 
@@ -33,7 +33,7 @@ v3 is stable. Use it to try the new build, not to ship.
   <!--
     Load the JavaScript Player library in the HTML head section of your page
   -->
-  <script src="https://cdn.flipbase.com/player/v3.0.0-alpha.1/player.min.js"></script>
+  <script src="https://cdn.flipbase.com/player/v3.0.0/player.min.js"></script>
 </head>
 
 <!--
@@ -62,7 +62,7 @@ v3 is stable. Use it to try the new build, not to ship.
 :::note On pinning a version
 
 Pin the exact version, as above. From v3 onwards every version path is
-**immutable** — the bytes at `/player/v3.0.0-alpha.1/` will never change — and
+**immutable** — the bytes at `/player/v3.0.0/` will never change — and
 each release publishes a `manifest.json` beside the bundle naming the commit it
 was built from and a SHA-384 integrity hash per file.
 
@@ -71,7 +71,7 @@ process and do not all contain the same build as `/player/v2/`.
 
 :::
 
-<PlaygroundLink to="/playground/player?v=3.0.0-alpha.1" />
+<PlaygroundLink to="/playground/player?v=3.0.0" />
 
 ### What is new in v3
 
@@ -91,13 +91,87 @@ The public API is the same, so this is mostly about what stopped being broken.
 - **Smaller**: 66 kB minified, 24 kB gzipped, against v2's 144 kB — with every
   language included.
 
-Features held back from this baseline and shipping as their own minors: logo
-and presenter overlays in 3.1.0, subtitles in 3.2.0.
+Two features were held back from 3.0.0 so that one build could be published
+everywhere, and they return as their own minors. See
+[Overlays](#overlays) below for the first of them.
+
+### Overlays
+
+A logo and a presenter name, drawn over the video in any of four corners.
+Available from **`3.1.0-alpha.0`**.
+
+:::caution Still a prerelease
+
+`3.1.0-alpha.0` is published and immutable, and nothing is pinned to it. Use it
+to try the overlays; pin `3.0.0` for anything you are shipping.
+
+:::
+
+```html
+<script src="https://cdn.flipbase.com/player/v3.1.0-alpha.0/player.min.js"></script>
+```
+
+```js
+const player = new FlipbasePlayer({
+  video_id: '5120293b-583b-4534-90dc-0f44cd51705e',
+  player_id: '95f4d94b-86c0-4e4a-b23d-484158efd1a4',
+  selector: 'video-player-element',
+
+  logo: {
+    url: 'https://cdn.example.com/brand/logo.png',
+    position: 'top right',  // or top left, bottom left, bottom right
+    size: 'medium',         // small, medium, large
+    alt: ''                 // empty marks it decorative, which is usually right
+  },
+
+  presenter: {
+    name: 'Anna de Vries',
+    title: 'Recruiter · Flipbase',
+    position: 'bottom left',
+    size: 'medium'
+  }
+});
+```
+
+Both are optional and take the same `position` and `size`. For the web component
+they flatten into attributes — `logo-url`, `logo-position`, `presenter-name` and
+the rest — so the common cases need no script.
+
+Worth knowing:
+
+- Two overlays pinned to the same corner **stack** rather than overlapping.
+- A bottom overlay lifts clear of the control bar while it is on screen.
+- The layer is inert, so clicking a logo plays the video like clicking anywhere
+  else on it.
+- `logo.url` must be an `http(s)` or `data:image/*` URL. Anything else is
+  refused with a warning and the logo is dropped — the value usually comes from
+  a configuration UI, and the player runs inside someone else's page.
+- A logo that fails to load leaves no trace rather than a broken-image icon.
+
+**Subtitles** return the same way as `3.2.0`.
 
 ### Secure mode
 
 Unchanged from v2. Pass the `signature` property to the constructor; see
 [the v2 page](/player/v2/docs) for how to build the signature string.
+
+### Testing against staging
+
+From `3.0.0` the player is built against an environment, so there are two
+copies of every release:
+
+| | Loads from | Talks to |
+| --- | --- | --- |
+| production | `cdn.flipbase.com` | `app.flipbase.com` |
+| staging | `cdn.stg.flipbase.com` | `app.stg.flipbase.com` |
+
+```html
+<script src="https://cdn.stg.flipbase.com/player/v3.0.0/player.min.js"></script>
+```
+
+A video recorded through the staging recorder exists only in the staging
+database, so the staging player is the one that can play it. Before `3.0.0` the
+player had no notion of environment and always queried production.
 
 ### Browser Support
 
@@ -115,7 +189,7 @@ Change the script URL. That is the whole migration for most integrations:
 
 ```diff
 - <script src="https://cdn.flipbase.com/player/v2/player.min.js"></script>
-+ <script src="https://cdn.flipbase.com/player/v3.0.0-alpha.1/player.min.js"></script>
++ <script src="https://cdn.flipbase.com/player/v3.0.0/player.min.js"></script>
 ```
 
 Every method, option, event name and `flipbase-player-*` CSS class is kept. The
