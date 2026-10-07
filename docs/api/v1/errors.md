@@ -2,6 +2,7 @@
 hide_table_of_contents: true
 ---
 
+# Errors
 
 ## Error handling
 
@@ -13,9 +14,13 @@ hide_table_of_contents: true
       "message": "Bad credentials"
     }
 
-### Authorzation errors
+### Authorization errors
 
-
+Not documented. The response the API returns when the credentials are valid but
+the caller is not allowed to touch the resource has never been written down, and
+this section was an empty heading — with the word misspelled — rather than
+content that went missing. Ask us for the exact shape if you are handling it
+explicitly.
 
 ### Invalid request
 

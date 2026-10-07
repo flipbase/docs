@@ -59,6 +59,21 @@ for an existing integration until you pin v3 yourself.
 
 <LiveExample variant="player-v3" />
 
+:::note `new` is optional
+
+`FlipbasePlayer` is callable both ways, deliberately:
+
+```js
+const a = new FlipbasePlayer({ selector, video_id, player_id }); // works
+const b = FlipbasePlayer({ selector, video_id, player_id });     // also works
+```
+
+Both forms appear in the v2 documentation, so v3 declares both signatures and
+returns the same player object either way. Neither is deprecated; an integration
+written against one does not need changing.
+
+:::
+
 :::note On pinning a version
 
 Pin the exact version, as above. From v3 onwards every version path is
@@ -148,7 +163,99 @@ Worth knowing:
   a configuration UI, and the player runs inside someone else's page.
 - A logo that fails to load leaves no trace rather than a broken-image icon.
 
-**Subtitles** return the same way as `3.2.0`.
+**Subtitles** are the second held-back feature and arrive the same way, in
+`3.2.0`.
+
+### Options {#options}
+
+Everything below is in `3.0.0` unless the row says otherwise. The list is taken
+from the player's published type surface, so it is the whole of it — an option
+not named here is not an option.
+
+| Option             | Type                             | Default                     | What it does |
+| ------------------ | -------------------------------- | --------------------------- | ------------ |
+| `selector`         | String                           | —                           | Id of the element to render into. |
+| `element`          | HTMLElement                      | —                           | The element itself, instead of `selector`. |
+| `video_id`         | String                           | —                           | The video's UUID. |
+| `player_id`        | String                           | —                           | The player configuration id. |
+| `signature`        | String                           | —                           | Playback signature, for secure mode. |
+| `theme`            | String \| Object                 | —                           | A built-in theme name, or an object overriding individual colour tokens. |
+| `locale`           | String                           | `en`                        | Language of the control labels. 24 languages; regional tags resolve to their base language. |
+| `labels`           | Object                           | —                           | Per-string overrides. Takes precedence over `locale`. |
+| `collectStatistics`| Boolean                          | `true`                      | Registers the view-statistics plugin. Set `false` where you have no consent basis for behavioural analytics. |
+| `plugins`          | Array                            | —                           | Extra plugins to register at construction. |
+| `apiBaseUrl`       | String                           | `https://app.flipbase.com`  | Override the API origin. |
+| `muted`            | Boolean                          | `false`                     | Start muted, for autoplay policies that require it. |
+| `logo`             | Object                           | —                           | Logo overlay. **`3.1.0-alpha.0`** — see [Overlays](#overlays). |
+| `presenter`        | Object                           | —                           | Presenter overlay. **`3.1.0-alpha.0`** — see [Overlays](#overlays). |
+
+Theme tokens, for `theme` as an object: `primaryColor`, `buttonColor`,
+`secondarySliderColor`, `playButtonBackground`, `playButtonHover`,
+`buttonHover`, `loadingBackground`. Each also exists as a `--flipbase-*` custom
+property on the player root, so a host stylesheet can set it instead.
+
+`secondaryColor` is accepted and published as `--flipbase-secondary-color`, but
+the default stylesheet never reads it — neither did v2's — so setting it changes
+nothing on its own.
+
+Values that are not valid CSS colours are ignored with a warning rather than
+applied.
+
+### Events {#events}
+
+Subscribe with `player.on(name, listener)`. `on` returns an unsubscribe
+function; `player.off(name, listener)` also works.
+
+| Event              | Listener arguments              |
+| ------------------ | ------------------------------- |
+| `initialized`      | —                               |
+| `play`             | —                               |
+| `pause`            | —                               |
+| `playing`          | —                               |
+| `canplay`          | —                               |
+| `waiting`          | —                               |
+| `ended`            | —                               |
+| `error`            | `(error)`                       |
+| `timeupdate`       | `(currentTime, progress)`       |
+| `progress`         | `(progress)`                    |
+| `loadedmetadata`   | `(duration)`                    |
+| `fullscreenchange` | `(isFullscreen)`                |
+| `volumechange`     | `(volume)`                      |
+| `scrubbTo`         | `(seconds)`                     |
+| `scrubbingstarted` | `(currentTime)`                 |
+| `scrubbingended`   | `(currentTime, delta)`          |
+| `destroy`          | —                               |
+
+`scrubbTo`, `scrubbingstarted` and `scrubbingended` keep v2's spelling on
+purpose. They are part of the public contract and will not be renamed in v3.
+
+The `error` argument is an object with `code`, a `message` already translated
+into the viewer's locale, and `status` where there was an HTTP status. `code` is
+one of `no-video-id`, `no-player-id`, `no-element`, `not-found`, `network`,
+`malformed-response`, `processing-timeout`, `playback`.
+
+### Methods {#methods}
+
+| Method                       | What it does |
+| ---------------------------- | ------------ |
+| `mount()`                    | Render the player into its element. |
+| `unmount()`                  | Remove it from the DOM. `mount()` afterwards works. |
+| `destroy()`                  | Tear down for good; emits `destroy`. |
+| `play()`                     | Returns a promise. |
+| `pause()`                    | |
+| `togglePlay()`               | |
+| `toggleVolume()`             | Mute/unmute. |
+| `updateVolume(level)`        | |
+| `enterFullscreen()`          | |
+| `exitFullscreen()`           | |
+| `toggleFullscreen()`         | |
+| `getState()`                 | A read-only snapshot of player state. |
+| `addPlugin(registration)`    | |
+| `removePlugin(name)`         | |
+| `on(event, listener)`        | Returns an unsubscribe function. |
+| `off(event, listener)`       | |
+
+There is also a read-only `cid` property, the player instance's own id.
 
 ### Secure mode
 

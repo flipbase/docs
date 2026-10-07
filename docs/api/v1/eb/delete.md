@@ -6,7 +6,7 @@ hide_table_of_contents: true
 
 Using this endpoint you can delete ALL your Employer Branding related resources, including pages, email templates, emails and videos. All candidate screening resources are not deleted.
 
-**Important**: The members of an Employer Branding organization will not be deleted. If you are a partner, you can delete this using the `DELETE /users/me` API endpoint, when you are authenticated as the user itself.
+**Important**: The members of an Employer Branding organization will not be deleted. If you are a partner, you can delete a user with the [`DELETE /api/user/me`](../user.md#delete-your-profile) endpoint, when you are authenticated as that user. (This page used to name the endpoint `DELETE /users/me`, which does not exist.)
 
 **Request**
 

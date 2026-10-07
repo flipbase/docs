@@ -5,8 +5,18 @@ hide_table_of_contents: true
 # Videos
 
 - [List videos](#list-videos)
-- [Read a video](#delete-a-video)
+- [Read a video](#read-a-video)
 - [Delete a video](#delete-a-video)
+
+:::note File and thumbnail URLs are signed and short-lived
+
+Every `url` in a video response — thumbnails, `outputs`, `playback_urls`,
+`upload_url` — is a signed storage URL with an `expires` parameter on it,
+3600 seconds in the examples below. Store the **video UUID** and ask for the
+video again when you need to play it; a URL cached from an earlier response
+stops working.
+
+:::
 
 ### List videos
 
