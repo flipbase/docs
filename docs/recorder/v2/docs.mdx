@@ -12,6 +12,7 @@ import ScriptHost from '@site/src/components/ScriptHost';
 # Integrate the Flipbase Recorder (V2)
 
 - [Getting started](#getting-started)
+- [If your page loads an unversioned bundle](#unversioned-bundles)
 - [Settings](#settings)
 - [The callback](#the-callback)
 - [Multiple recorders on a single page](#multiple-recorders-on-a-single-page)
@@ -22,12 +23,16 @@ import ScriptHost from '@site/src/components/ScriptHost';
 
 In order to use the Recorder V2, place the HTML-code in your page as shown below. Load the `recorder.js` library and initialize the recorder against an HTML element using its `id`.
 
+There is one recorder code line, and it continues as 2.x. Every release is
+published to its own path, which never changes once it exists — so pin the
+version you tested against, as the snippet below does.
+
 <ScriptHost />
 
 ```html
-<!-- Load the JavaScript Recorder V2 library.
-     The repeated `recorder/recorder/` segment is correct — see the note below. -->
-<script src="https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js"></script>
+<!-- Load the JavaScript Recorder V2 library, pinned to an exact version.
+     A version path is immutable: these bytes will not change under you. -->
+<script src="https://cdn.flipbase.com/recorder/v2.0.0-alpha.2/recorder.js"></script>
 
 <!-- Place an element at the spot where you would like to show the Recorder -->
 <div id="recorder1"></div>
@@ -44,17 +49,47 @@ In order to use the Recorder V2, place the HTML-code in your page as shown below
 
 <LiveExample variant="recorder-v2" />
 
-<PlaygroundLink to="/playground/recorder?v=2.0.0-alpha.1">Open the recorder playground</PlaygroundLink>
+<PlaygroundLink to="/playground/recorder?v=2.0.0-alpha.2">Open the recorder playground</PlaygroundLink>
 
 When the user has successfully saved the video, your `callback` receives the video's UUID. Store it in your database to play back the video later using the Flipbase Player.
 
-:::note Why the path says `recorder` twice
+## If your page loads an unversioned bundle {#unversioned-bundles}
+
+This page documents the same recorder API that the older unversioned
+`recorderv2` bundle serves, so all of it applies to you unchanged — only the
+script URL differs. These are the two unversioned URLs to recognise:
+
+| What your page loads | Global | Documented on |
+| --- | --- | --- |
+| `https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js` | `FlipbaseV2` | this page |
+| `https://cdn.flipbase.com/recorder/recorder.js` | `Flipbase` | [Recorder V1](../v1/docs.mdx) |
+
+Both are frozen. They keep serving the bytes they serve today and they never
+receive a fix, because changing them would change what every page already
+loading them gets. Pin a version — the snippet above — to receive fixes.
+
+One thing about them is not frozen: each fetches its stylesheet at runtime from
+an unversioned URL on `app.flipbase.com`
+(`/recorder/css/style.css` for the older bundle,
+`/recorder/recorderv2/recorder/css/style.css` for this one), whichever host the
+script itself came from. So an unversioned integration depends on that host
+being reachable, and its appearance can change when that stylesheet is
+republished even though the script cannot. A versioned release has no such
+thread: its stylesheet sits inside the version folder next to the bundle, and
+is pinned by the same URL.
+
+:::note Why that path says `recorder` twice
 
 `https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js` is the
-correct URL. The repeated segment looks like a mistake and is not: shortening it
-to `/recorder/recorderv2/` returns **403**, and an embed that was working stops
-working. `https://app.flipbase.com/recorder/recorderv2/recorder.js` serves the
+correct URL for the unversioned bundle. The repeated segment looks like a
+mistake and is not: shortening it to `/recorder/recorderv2/` returns **403**,
+and an embed that was working stops working.
+`https://app.flipbase.com/recorder/recorderv2/recorder.js` serves the
 byte-identical bundle if you would rather load it from the application host.
+
+The versioned paths do not repeat the segment, and they are not served by
+`app.flipbase.com` at all — `https://cdn.flipbase.com/recorder/v2.0.0-alpha.2/recorder.js`
+is the whole URL.
 
 :::
 

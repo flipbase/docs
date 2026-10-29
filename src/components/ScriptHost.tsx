@@ -3,21 +3,39 @@ import React, { type JSX } from 'react';
 /**
  * The note that sits above every embed snippet.
  *
- * Both hosts serve the same bytes, but not by the same route.
- * `cdn.flipbase.com` is the CDN itself. `app.flipbase.com` is nginx on a single
- * EC2 instance in front of it — an extra hop, and one that can be down while
- * the CDN is fine. Integrations have historically pointed at `app` because that
- * is what these examples said, so the wording has to keep working for them
- * rather than imply they are broken.
+ * It used to say that `app.flipbase.com` serves the same file as
+ * `cdn.flipbase.com`, just through an extra hop. That was true of the
+ * unversioned paths and is **false of everything this site now documents**:
+ *
+ *   200  cdn.flipbase.com/recorder/v2.0.0-alpha.1/recorder.js
+ *   403  app.flipbase.com/recorder/v2.0.0-alpha.1/recorder.js
+ *   200  cdn.flipbase.com/player/v3.0.0/player.min.js
+ *   404  app.flipbase.com/player/v3.0.0/player.min.js
+ *
+ * nginx on the app host does not proxy versioned folders, so "swap the host if
+ * you prefer" was advice that turns a working embed into a 403. Hence three
+ * variants rather than one piece of prose: a versioned path is CDN-only, an
+ * unversioned legacy path genuinely is served by both hosts, and player v1 is
+ * served by the app alone.
+ *
+ * The purpose has not changed: tell someone starting out where to load from,
+ * without implying that an integration already pointing at `app` is broken. It
+ * is not. Those paths are frozen, not withdrawn.
  *
  * One component rather than an admonition per page, so the wording stays the
  * same everywhere it appears and changes in one edit when the hosting does.
  */
 export default function ScriptHost({
   appOnly = false,
+  unversioned = false,
 }: {
   /** For player v1, which is served from the app and has no CDN path. */
   appOnly?: boolean;
+  /**
+   * For the frozen unversioned recorder bundles, which — unlike a versioned
+   * path — really are served by both hosts.
+   */
+  unversioned?: boolean;
 }): JSX.Element {
   if (appOnly) {
     return (
@@ -35,17 +53,33 @@ export default function ScriptHost({
     );
   }
 
+  if (unversioned) {
+    return (
+      <div className="fb-script-host fb-script-host--app">
+        <p>
+          <strong>This is an unversioned path, and it is frozen.</strong> It
+          serves the same bytes it served the day you integrated and will keep
+          doing so — but it never receives a fix, because a fix would change a
+          URL thousands of pages already load. Both{' '}
+          <code>cdn.flipbase.com</code> and <code>app.flipbase.com</code> serve
+          it, so an integration on either host keeps working untouched. To
+          receive fixes you have to pin a version instead.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="fb-script-host">
       <p>
         <strong>
           Load from <code>cdn.flipbase.com</code>.
         </strong>{' '}
-        That is the CDN itself, so the request goes straight to the nearest
-        edge. <code>app.flipbase.com</code> serves the same file through a
-        reverse proxy on a single instance — existing integrations pointing at
-        it keep working, but it is one more thing between the browser and the
-        file.
+        A versioned path exists only there — <code>app.flipbase.com</code> does
+        not serve one, so swapping the host turns a working embed into a 403.
+        The old unversioned paths are the exception: they are served by both
+        hosts, and an existing integration pointing at <code>app</code> keeps
+        working exactly as it does today.
       </p>
     </div>
   );

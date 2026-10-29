@@ -169,13 +169,22 @@ single-segment path is a 403.
 200  app.flipbase.com/recorder/recorderv2/recorder.js
 ```
 
-Both pages now use the doubled CDN path and both say in so many words that the
-repeated segment is deliberate, because Bram is right that someone will
-otherwise "fix" it and break their embed.
+**Superseded for the snippets.** The recorder lines were collapsed into one and
+the getting-started snippets now load a pinned version
+(`cdn.flipbase.com/recorder/v<version>/recorder.js`), so no page tells a new
+integrator to type the doubled path. The explanation of it was kept — moved to
+[a section of its own](docs/recorder/v2/docs.mdx) on the recorder V2 page —
+because integrations are on that path and someone will search for it.
+
+Also verified while moving it: a versioned folder is **403 on
+`app.flipbase.com`**, which nginx does not proxy, so the CDN is the only host
+for a versioned URL. `ScriptHost` used to say the two hosts were
+interchangeable; it no longer does.
 
 - [ ] **Should we add a `/recorder/recorderv2/` alias on the CDN?** Not done —
-      this is a CDN change, not a docs change, and it is your call. If it is
-      added, both pages should switch to the short path and the notes come out.
+      this is a CDN change, not a docs change, and it is your call. It now
+      affects existing integrations only: if the alias is added, the note on the
+      V2 page can lose its "do not shorten it" warning.
 
 ---
 

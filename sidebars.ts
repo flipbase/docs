@@ -21,8 +21,11 @@ import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
  * one that says less — the position in the list already carries the meaning.
  * A deprecated version moves into a `Deprecated` subcategory instead, which is
  * a change that cannot be forgotten halfway: the page has to move for the label
- * to change. Only player v1 is deprecated today, so only the player has one —
- * the recorder lists both its versions flat until one of them is retired.
+ * to change. Recorder v1 is in one now: it documents the frozen unversioned
+ * bundle, which stays live for the integrations on it but receives no fixes,
+ * and that is what this subcategory means. Recorder v2 is left alone at the top
+ * of its list because it is the one code line — its pages describe the versions
+ * of 2.x, not a second line.
  */
 const sidebars: SidebarsConfig = {
   integrationsSidebar: [
@@ -58,7 +61,13 @@ const sidebars: SidebarsConfig = {
           link: { type: 'doc', id: 'recorder/v2/docs' },
           items: [
             { type: 'doc', id: 'recorder/v2/docs', label: 'V2' },
-            { type: 'doc', id: 'recorder/v1/docs', label: 'V1' },
+            {
+              type: 'category',
+              label: 'Deprecated',
+              collapsible: true,
+              collapsed: true,
+              items: [{ type: 'doc', id: 'recorder/v1/docs', label: 'V1' }],
+            },
           ],
         },
         {
