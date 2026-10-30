@@ -2,3 +2,11 @@ node_modules
 build
 .docusaurus
 .claude/launch.json
+
+# Agent worktrees — checkouts of this repo, nested inside it. Not content, and
+# an unignored one shows up as untracked in every `git status`. The sibling
+# repos ignore this for a sharper reason: there a release script reads
+# `git status --porcelain` and refuses to publish a "dirty" tree, so a stray
+# worktree blocks a release (flipbase/recorder#267). This repo has no such
+# check — here it is only noise — but the entry belongs in all of them.
+.claude/worktrees/
