@@ -29,7 +29,7 @@ export default function ScriptHost({
   appOnly = false,
   unversioned = false,
 }: {
-  /** For player v1, which is served from the app and has no CDN path. */
+  /** For player v1, whose bundle is frozen and lives at two fixed URLs. */
   appOnly?: boolean;
   /**
    * For the frozen unversioned recorder bundles, which — unlike a versioned
@@ -41,13 +41,12 @@ export default function ScriptHost({
     return (
       <div className="fb-script-host fb-script-host--app">
         <p>
-          <strong>
-            This version is served from <code>app.flipbase.com</code> only.
-          </strong>{' '}
-          Unlike the newer components it was never published to{' '}
-          <code>cdn.flipbase.com</code>, so the request goes through a reverse
-          proxy on a single instance rather than to a CDN edge. It is one reason
-          among several to move to a current version.
+          <strong>This bundle is frozen, at two URLs.</strong> The one below,{' '}
+          <code>app.flipbase.com/player.js</code>, goes through a reverse proxy
+          on a single instance rather than to a CDN edge. The same bytes are also
+          served from the CDN, at{' '}
+          <code>cdn.flipbase.com/player/app.min.js</code>. Neither receives
+          fixes, which is one reason among several to move to a current version.
         </p>
       </div>
     );
