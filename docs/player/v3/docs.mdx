@@ -10,16 +10,22 @@ import PlaygroundLink from '@site/src/components/PlaygroundLink';
 
 # Integrate the Flipbase player (v3)
 
-v3 is a rewrite of the player in TypeScript. **The embed API is unchanged from
-v2** — the same constructor, the same options, the same events, including the
-misspelled `scrubbTo` that existing integrations listen for. Moving a working v2
-embed to v3 is a change of one URL.
+v3 is a rewrite of the player in TypeScript. **Nothing in the v2 embed API was
+removed** — the same constructor, every v2 option, every v2 event name,
+including the misspelled `scrubbTo` that existing integrations listen for. v3
+adds to that surface rather than replacing it, so moving a working v2 embed to
+v3 is a change of one URL. (One exception, if you pass `theme` as an object:
+see [Migrating from v2](#migrating-from-v2).)
 
 :::note v3 is released, and nothing has been moved onto it
 
 `3.0.0` is a stable release. But `/player/latest/` and `/player/v2/` still serve
-**v2**, and will until moving them is a deliberate decision — so nothing changes
+**v2** — the same bytes as each other, and the same bytes they served before v3
+existed — and will until moving them is a deliberate decision. Nothing changes
 for an existing integration until you pin v3 yourself.
+
+There is no `/player/v3/` alias: that path returns 403. Pin an exact version
+instead, which is what you want anyway.
 
 :::
 
@@ -81,8 +87,24 @@ Pin the exact version, as above. From v3 onwards every version path is
 each release publishes a `manifest.json` beside the bundle naming the commit it
 was built from and a SHA-384 integrity hash per file.
 
-That was not true of v2: its exact-version paths predate the current release
-process and do not all contain the same build as `/player/v2/`.
+Because the bytes cannot change, you can hand the browser that hash and have it
+refuse anything else:
+
+```html
+<script
+  src="https://cdn.flipbase.com/player/v3.0.0/player.min.js"
+  integrity="sha384-eBPjrM3yXYJtqW6tLbK4bK/Sha7yqVK2/fBgStXvM0fHGzrpXOq6TndocA3rTW6/"
+  crossorigin="anonymous"
+></script>
+```
+
+The hash for any version is in its own
+[`manifest.json`](https://cdn.flipbase.com/player/v3.0.0/manifest.json). Do not
+put an `integrity` attribute on `/player/latest/` or `/player/v2/`: those paths
+move, and the browser would stop loading the player the moment they did.
+
+That immutability was not true of v2: its exact-version paths predate the
+current release process and do not all contain the same build as `/player/v2/`.
 
 :::
 
@@ -107,23 +129,16 @@ The public API is the same, so this is mostly about what stopped being broken.
   language included.
 
 Two features were held back from 3.0.0 so that one build could be published
-everywhere, and they return as their own minors. See
-[Overlays](#overlays) below for the first of them.
+everywhere, and they returned as their own minors. Both are now published:
+[Overlays](#overlays) in `3.1.0`, [Subtitles](#subtitles) in `3.2.0-alpha.0`.
 
 ### Overlays
 
 A logo and a presenter name, drawn over the video in any of four corners.
-Available from **`3.1.0-alpha.0`**.
-
-:::caution Still a prerelease
-
-`3.1.0-alpha.0` is published and immutable, and nothing is pinned to it. Use it
-to try the overlays; pin `3.0.0` for anything you are shipping.
-
-:::
+Available from **`3.1.0`**.
 
 ```html
-<script src="https://cdn.flipbase.com/player/v3.1.0-alpha.0/player.min.js"></script>
+<script src="https://cdn.flipbase.com/player/v3.1.0/player.min.js"></script>
 ```
 
 ```js
@@ -148,9 +163,11 @@ const player = new FlipbasePlayer({
 });
 ```
 
-Both are optional and take the same `position` and `size`. For the web component
-they flatten into attributes — `logo-url`, `logo-position`, `presenter-name` and
-the rest — so the common cases need no script.
+Both are optional and take the same `position` and `size`. Only `logo.url` and
+`presenter.name` are needed to make each overlay appear; everything else falls
+back to a default. For the web component they flatten into attributes —
+`logo-url`, `logo-position`, `presenter-name` and the rest — so the common cases
+need no script.
 
 Worth knowing:
 
@@ -162,9 +179,99 @@ Worth knowing:
   refused with a warning and the logo is dropped — the value usually comes from
   a configuration UI, and the player runs inside someone else's page.
 - A logo that fails to load leaves no trace rather than a broken-image icon.
+- `position` also accepts hyphenated and camelCase spellings (`top-right`,
+  `topRight`). `size` shrinks automatically on a narrow player.
+- **`presenter.title` defaults to `Recruiter`.** Omitting it does not give you
+  the name alone — pass `title: ''` for that.
 
-**Subtitles** are the second held-back feature and arrive the same way, in
-`3.2.0`.
+`3.1.0-alpha.0` is also still published and still immutable. It is the same
+feature, superseded; pin `3.1.0`.
+
+<PlaygroundLink to="/playground/player?v=3.1.0">Try the overlays</PlaygroundLink>
+
+### Subtitles {#subtitles}
+
+Captions, supplied by you rather than by the API. Available from
+**`3.2.0-alpha.0`**.
+
+:::caution Still a prerelease
+
+`3.2.0-alpha.0` is published and immutable, and nothing is pinned to it. Use it
+to try subtitles; pin `3.1.0` or `3.0.0` for anything you are shipping.
+
+:::
+
+```html
+<script src="https://cdn.flipbase.com/player/v3.2.0-alpha.0/player.min.js"></script>
+```
+
+The simplest form is a URL to a WebVTT file:
+
+```js
+const player = new FlipbasePlayer({
+  video_id: '5120293b-583b-4534-90dc-0f44cd51705e',
+  player_id: '95f4d94b-86c0-4e4a-b23d-484158efd1a4',
+  selector: 'video-player-element',
+
+  subtitles: 'https://cdn.example.com/subs/en.vtt'
+});
+```
+
+More usefully, hand it cues directly — which is the shape a transcription
+service already returns:
+
+```js
+subtitles: [
+  {
+    language: 'en',          // required, BCP-47
+    label: 'English',        // default: the language's own name
+    kind: 'subtitles',       // or 'captions'
+    default: true,           // show this one from the start
+    cues: [
+      { start: 0.4, end: 3.2, text: 'Hi, I am Bram.' },
+      { start: 3.4, end: 6.8, text: 'We build video for recruitment.', speaker: 'Bram' }
+    ]
+  },
+  { language: 'nl', src: 'https://cdn.example.com/subs/nl.vtt' }
+]
+```
+
+`start` and `end` are seconds, not timecode strings. A track takes either inline
+`cues` or a `src`, not both. A `speaker` becomes a WebVTT voice span, which is
+announced by screen readers and stylable through `::cue(v[voice='Bram'])`.
+
+One track gets a toggle in the control bar; several get a menu with an _Off_
+entry. **Nothing is shown unless a track is flagged `default`** — turning
+subtitles on for every viewer is your decision, not the player's.
+
+Worth knowing:
+
+- **Cues are rendered by the browser**, through a `<track>` element, not drawn
+  by the player. That keeps the OS-level caption preferences a viewer has set —
+  size, colour, background — and it is what keeps cues visible in fullscreen on
+  iPhone, where the native player takes over.
+- **Inline cues are served from a blob**, so they are same-origin and need no
+  CORS. Prefer them.
+- **A cross-origin `src` is contagious.** It forces `crossorigin` onto the
+  `<video>` element, and the video then needs CORS headers of its own — which
+  presigned URLs do not send. Either serve the `.vtt` from the embedding page's
+  own origin, or pass cues instead.
+- Cues are lifted clear of the control bar on Chrome, Edge and Safari. Firefox
+  keeps its own placement, because a browser only reserves room for its own
+  native controls and ours are not native.
+- Unusable cues — no text, an end before its start, a non-finite time — are
+  dropped with a warning. A broken subtitle never stops a video playing.
+- Cue text is escaped, so `<`, `&` and `-->` in a transcript are safe.
+
+For the web component, `subtitles-url` (with optional `subtitles-language` and
+`subtitles-label`) covers the single-file case. A cue array cannot be an
+attribute, so inline cues go through the `subtitles` property:
+
+```js
+document.querySelector('flipbase-player').subtitles = [{ language: 'en', cues }];
+```
+
+<PlaygroundLink to="/playground/player?v=3.2.0-alpha.0">Try subtitles</PlaygroundLink>
 
 ### Options {#options}
 
@@ -179,15 +286,16 @@ not named here is not an option.
 | `video_id`         | String                           | —                           | The video's UUID. |
 | `player_id`        | String                           | —                           | The player configuration id. |
 | `signature`        | String                           | —                           | Playback signature, for secure mode. |
-| `theme`            | String \| Object                 | —                           | A built-in theme name, or an object overriding individual colour tokens. |
+| `theme`            | String \| Object                 | `plain`                     | A built-in theme name — `plain`, `flipbase` or `ocean` — or an object overriding individual colour tokens. |
 | `locale`           | String                           | `en`                        | Language of the control labels. 24 languages; regional tags resolve to their base language. |
 | `labels`           | Object                           | —                           | Per-string overrides. Takes precedence over `locale`. |
 | `collectStatistics`| Boolean                          | `true`                      | Registers the view-statistics plugin. Set `false` where you have no consent basis for behavioural analytics. |
 | `plugins`          | Array                            | —                           | Extra plugins to register at construction. |
 | `apiBaseUrl`       | String                           | `https://app.flipbase.com`  | Override the API origin. |
 | `muted`            | Boolean                          | `false`                     | Start muted, for autoplay policies that require it. |
-| `logo`             | Object                           | —                           | Logo overlay. **`3.1.0-alpha.0`** — see [Overlays](#overlays). |
-| `presenter`        | Object                           | —                           | Presenter overlay. **`3.1.0-alpha.0`** — see [Overlays](#overlays). |
+| `logo`             | Object                           | —                           | Logo overlay. **`3.1.0`** — see [Overlays](#overlays). |
+| `presenter`        | Object                           | —                           | Presenter overlay. **`3.1.0`** — see [Overlays](#overlays). |
+| `subtitles`        | String \| Object \| Array        | —                           | A `.vtt` URL, one track, or several. **`3.2.0-alpha.0`** — see [Subtitles](#subtitles). |
 
 Theme tokens, for `theme` as an object: `primaryColor`, `buttonColor`,
 `secondarySliderColor`, `playButtonBackground`, `playButtonHover`,
@@ -221,6 +329,7 @@ function; `player.off(name, listener)` also works.
 | `loadedmetadata`   | `(duration)`                    |
 | `fullscreenchange` | `(isFullscreen)`                |
 | `volumechange`     | `(volume)`                      |
+| `subtitlechange`   | `(trackId)` — `null` when off. **`3.2.0-alpha.0`** |
 | `scrubbTo`         | `(seconds)`                     |
 | `scrubbingstarted` | `(currentTime)`                 |
 | `scrubbingended`   | `(currentTime, delta)`          |
@@ -249,6 +358,7 @@ one of `no-video-id`, `no-player-id`, `no-element`, `not-found`, `network`,
 | `enterFullscreen()`          | |
 | `exitFullscreen()`           | |
 | `toggleFullscreen()`         | |
+| `selectSubtitle(trackId)`    | Show a track by id, or `null` to turn subtitles off. **`3.2.0-alpha.0`** |
 | `getState()`                 | A read-only snapshot of player state. |
 | `addPlugin(registration)`    | |
 | `removePlugin(name)`         | |
@@ -282,13 +392,29 @@ player had no notion of environment and always queried production.
 
 ### Browser Support
 
-* Chrome 64+
-* Firefox 67+
-* Edge 79+
-* Safari 12+
-* iOS Safari 12+
+**Chrome 87+, Firefox 78+, Safari 15+, Edge 88+, iOS Safari 15+.** That is the
+`browserslist` the player is built and type-checked against, and the end-to-end
+suite runs on Chromium, Firefox, WebKit and an iPhone profile on every release —
+so it is the matrix that is actually tested, not an aspiration.
 
-v3 drops Internet Explorer 11, which v2 supported. If you need IE11, stay on v2.
+What the published bundle *needs* is a shorter list, and it is the more useful
+way to think about an unusual browser. `v3.0.0` and `v3.2.0-alpha.0` use:
+
+- **Optional chaining** (`?.`) — the newest syntax in either bundle. There are no
+  class static blocks, logical assignment operators or `Array.prototype.at`.
+- `fetch` and `AbortController`, for the one API call the player makes.
+- `ResizeObserver`, to lay the control bar out against the player's own width
+  rather than the viewport's.
+- `async`/`await`, `globalThis`, `URL`, `Promise`.
+
+`ResizeObserver` and optional chaining are the two that bite, and both land
+around Safari 13.1 / Chrome 80 / Firefox 74. A browser between there and the
+supported floor will probably run the player; nothing tests it, so nothing
+promises it.
+
+Internet Explorer 11 is not supported, and v2 genuinely was: it is transpiled to
+ES5, ships `core-js` polyfills and still sniffs the user agent for MSIE. If you
+need IE11, stay on v2.
 
 ### Migrating from v2
 
@@ -299,7 +425,24 @@ Change the script URL. That is the whole migration for most integrations:
 + <script src="https://cdn.flipbase.com/player/v3.0.0/player.min.js"></script>
 ```
 
-Every method, option, event name and `flipbase-player-*` CSS class is kept. The
-things to check are the ones that were broken rather than absent in v2 — if you
+Every method, option, event name and `flipbase-player-*` CSS class is kept —
+all fourteen v2 methods and all thirteen v2 events, under their v2 names. The
+things to check are the ones that were broken rather than absent in v2: if you
 worked around the theming or the remount behaviour, those workarounds are now
 acting on a player that behaves correctly.
+
+There is one shape change, and it is in `theme`:
+
+:::caution A v2 theme **object** does not carry over whole
+
+v2's theme object was nested — `sliders`, `buttons` and `play_button` each held
+their own colours. v3's tokens are flat. Passing a v2 theme object to v3 keeps
+`primaryColor`, `buttonColor`, `secondaryColor` and `secondarySliderColor`, and
+logs `Unknown theme key "sliders"` (and the same for the other two) while
+dropping those colours.
+
+The flat equivalents are `playButtonBackground`, `playButtonHover`,
+`buttonHover` and `loadingBackground` — see [Options](#options). A theme passed
+as a **name** (`'plain'`, `'flipbase'`) needs no change; `'ocean'` is new in v3.
+
+:::

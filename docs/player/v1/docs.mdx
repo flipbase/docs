@@ -110,4 +110,11 @@ It is also possible to just render a single video player. Then it is recommended
 
 Maximum width or height (deprecated)
 
-You are able to set the maximum height OR width (in pixels) of the Player. Please provide this setting as a number, not as a string. By default the height is 640 pixels and width is 360 pixels.
+You can set `maxWidth` or `maxHeight` (in pixels, as a number rather than a
+string) to cap the Player's size.
+
+**Neither has a default.** With both left out — which is the normal case — the
+Player takes the width of its parent element and derives its height from the
+video's own aspect ratio, falling back to 0.625 (a 16:10 shape) until the video
+reports its dimensions. The frequently repeated "640 by 360 by default" is not
+in this bundle; there is no such default to override.

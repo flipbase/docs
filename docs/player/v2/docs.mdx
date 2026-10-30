@@ -57,10 +57,16 @@ To show the Flipbase Player you have to integrate the code as shown below and re
 This loads `/player/v2/`, which moves when a v2 patch is released.
 
 The exact-version paths under `/player/v2.x.y/` predate our current release
-process and do not all contain the same build as `/player/v2/`, so pinning one
-would give you a player we are not serving to anyone else. Pin an exact version
-from **v3 onwards**, where every version path is immutable and carries an
-integrity hash.
+process and do not all contain the same build as `/player/v2/`. It is worse than
+it sounds: `/player/v2/`, `/player/latest/` and `/player/v2.1.3/` all announce
+themselves as `v2.1.3` in their banner comment, and the alias pair is six bytes
+shorter than the version path — a fix was once built and pushed to the aliases
+without being given a version of its own. Pinning `/player/v2.1.3/` would give
+you a player nobody else is running.
+
+So on v2, `/player/v2/` is the honest choice despite moving. Pin an exact
+version from **v3 onwards**, where every version path is immutable and carries
+an integrity hash.
 
 :::
 
@@ -68,6 +74,100 @@ The code above will result in this — and you can change every option here and
 watch the player rebuild:
 
 <PlaygroundLink to="/playground/player?v=2.1.3" />
+
+### Options {#options}
+
+v2 is frozen, so this is the whole of it — read off the source the published
+bundle was built from. An option not named here is not a v2 option; several of
+the ones on the [v3 page](/player/v3/docs#options) are v3 additions.
+
+| Option      | Type             | Default | What it does |
+| ----------- | ---------------- | ------- | ------------ |
+| `selector`  | String           | —       | **Required.** The `id` of the element to render into — passed to `getElementById`, so it is an id and not a CSS selector. v2 throws if it is missing or matches nothing. |
+| `video_id`  | String           | `data-video-id` on the element | The video's UUID. |
+| `player_id` | String           | `data-player-id` on the element | The player configuration id. |
+| `signature` | String           | `data-signature` on the element | Playback signature, for secure mode — see below. |
+| `theme`     | String \| Object | `plain` | `plain` or `flipbase`. An object overrides individual colours. |
+| `plugins`   | Array            | the view-statistics plugin | Replaces the default list, so passing `plugins` **turns view statistics off** unless you include it yourself. There is no `collectStatistics` flag in v2. |
+
+v2's theme object is nested, not flat:
+
+```js
+theme: {
+  primaryColor: '#a62551',
+  buttonColor: '#FFF',
+  secondaryColor: '#221e2f',
+  secondarySliderColor: '#a62551',
+  sliders:     { thumb: { label: '#FFF', hover: '#4b4d54' },
+                 track: { background: '', filled: '#d7dae2' } },
+  buttons:     { background: 'none', hover: 'rgba(51,53,56, 0.8)', label: '#FFFFFF' },
+  play_button: { background: 'rgba(30,31,33, 0.95)', hover: 'rgba(51,53,56, 0.8)', label: '#FFF' }
+}
+```
+
+An unknown key, an empty object or a non-string colour logs a warning. It is
+still accepted: v2 validates the theme and then builds its stylesheet by string
+concatenation, and two of the ten rule blocks are missing a brace, so part of
+what you set is discarded by the browser without saying so. This is fixed in
+[v3](/player/v3/docs), where the shape is flat — see its migration note before
+copying a theme across.
+
+There is no `element` option (v3 adds one), and no `locale` or `labels` — v2
+carries no translation files at all, so its control labels are English only. Nor
+is there an `apiBaseUrl`: `https://app.flipbase.com` is written into the bundle,
+so a v2 player cannot be pointed at staging. v3 adds all four.
+
+### Events {#events}
+
+Subscribe with `player.on(name, listener)`. v2 has no `off`.
+
+| Event              | Listener arguments        |
+| ------------------ | ------------------------- |
+| `initialized`      | —                         |
+| `play`             | —                         |
+| `pause`            | —                         |
+| `canplay`          | —                         |
+| `waiting`          | —                         |
+| `timeupdate`       | `(currentTime, progress)` |
+| `progress`         | `(progress)`              |
+| `loadedmetadata`   | `(duration)`              |
+| `fullscreenchange` | `(isFullscreen)`          |
+| `volumechange`     | `(volume)`                |
+| `scrubbTo`         | `(percent)`               |
+| `scrubbingstarted` | `(currentTime)`           |
+| `scrubbingended`   | `(currentTime, delta)`    |
+
+Thirteen events, and v3 keeps every one of these names. Note that `scrubbTo`
+carries a **percentage** in v2, not a time.
+
+v2 has no `ended`, `error`, `playing` or `destroy` event. A load failure sets
+`error` on the player state, where you can see it through `getState()`, but
+nothing is emitted — so there is no way to be told a video failed to load. v3
+adds all four.
+
+### Methods {#methods}
+
+| Method                    | What it does |
+| ------------------------- | ------------ |
+| `mount()`                 | Render the player into its element. |
+| `unmount()`               | Remove it from the DOM. Mounting again produces a player that looks right and does nothing — fixed in v3. |
+| `play()`                  | |
+| `pause()`                 | |
+| `togglePlay()`            | |
+| `toggleVolume()`          | Mute/unmute. |
+| `updateVolume(level)`     | |
+| `enterFullscreen()`       | |
+| `exitFullscreen()`        | |
+| `toggleFullscreen()`      | |
+| `getState()`              | A snapshot of player state. |
+| `addPlugin({ name, plugin })` | |
+| `removePlugin(name)`      | |
+| `on(event, listener)`     | Subscribe. There is no way to unsubscribe; v3 adds `off` and makes `on` return an unsubscribe function. |
+
+There is no `destroy()`. `unmount()` leaves the instance in a global store
+(`window.__FlipbasePlayerStore`) keyed by a `data-player-cid` attribute, which
+is also why constructing a player on an element that already has one hands back
+the existing instance rather than a new one.
 
 ### Secure mode
 
@@ -100,19 +200,32 @@ Add this `signature` property to the options object literal when invoking the Fl
 ```
 
 ### Browser Support
-* Chrome 37+
-* Firefox 40+
-* Internet Explorer 11+
-* Opera 25+
-* Safari 9.1+
-* Android Browser 5+ (WebKit 537.36 Chrome 37)
-* IOS Safari 10+
+
+v2 is the bundle written for Internet Explorer, and that is the useful way to
+describe it. The published bytes are ES5 — not one arrow function, `const` or
+`let` survives — with `core-js` polyfills compiled in, `XMLHttpRequest` instead
+of `fetch`, vendor-prefixed fullscreen calls for WebKit, Gecko and IE, and
+user-agent sniffing that swaps in a padded thumbnail for MSIE 9. That is why it
+is 144 kB against v3's 68 kB.
+
+So it runs on **Internet Explorer 11 and every browser newer than it**. The real
+floor is CSS rather than JavaScript: the control bar is laid out with flexbox,
+which puts it at roughly Safari 9, IE 11 and any version of Chrome, Firefox or
+Edge still in use.
+
+This section used to carry a list of specific version numbers, and the player's
+own README carried a different one promising Safari 4. Neither was derived from
+the code. The description above is.
+
+If you do not need IE11, [v3](/player/v3/docs) is the same embed API on a
+smaller, tested bundle.
 
 ### Migrating from v1
 
-v1 is deprecated. It still loads — it is served from `app.flipbase.com/player.js`
-and has not been withdrawn — but it receives no changes, and it is the one
-component never published to the CDN.
+v1 is deprecated. It still loads and has not been withdrawn, but it receives no
+changes. It is served from two URLs, which return identical bytes:
+`app.flipbase.com/player.js`, documented on the [v1 page](/player/v1/docs), and
+`cdn.flipbase.com/player/app.min.js`. Either keeps working; neither gets fixes.
 
 **What is different in v2**
 
@@ -121,7 +234,9 @@ component never published to the CDN.
 - `mount` and `unmount`, so you control when the player enters and leaves the
   DOM rather than it being tied to page load
 - A custom element, `<flipbase-player></flipbase-player>`, if you would rather
-  write markup than JavaScript
+  write markup than JavaScript. It needs a second script —
+  `https://cdn.flipbase.com/player/v2/player-web-component.min.js` — loaded
+  alongside the one above
 - Fullscreen playback
 
 The rewrite was not only about features. v1 is a single 411 kB file against
