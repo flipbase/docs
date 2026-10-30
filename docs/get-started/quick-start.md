@@ -107,9 +107,9 @@ well. Keep them that way. A version path never changes once published, so the
 bytes you test against are the bytes your candidates get.
 
 `/player/latest/` exists and moves on its own. It is convenient right up until
-the morning it is not. The recorder has no moving alias: every recorder path is
-an exact version, apart from the two frozen unversioned bundles that predate
-them — see [If your page loads an unversioned
+the morning it is not. The recorder has no moving alias today: every recorder
+path is an exact version, apart from the two frozen unversioned bundles that
+predate them — see [If your page loads an unversioned
 bundle](../recorder/v2/docs.mdx#unversioned-bundles) if your page is on one.
 
 Versioned recorder and player paths are served from `cdn.flipbase.com` only.
