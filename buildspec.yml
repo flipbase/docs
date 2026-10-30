@@ -1,5 +1,19 @@
 version: 0.2
 
+# SUPERSEDED by .github/workflows/deploy.yml, and kept only until a dispatched
+# production run of that workflow has gone green. Deleting it before then would
+# leave no way to deploy the docs at all if the workflow turns out to be
+# misconfigured.
+#
+# This is still the live deploy: CodePipeline `docs-flipbase-pipeline` runs
+# CodeBuild `docs-flipbase-build` against this file on every push to `master`.
+# `$CLOUDFRONT_ID` is not set here — it is an environment variable on the
+# CodeBuild project, where its value is E371TMZJQHNA9D.
+#
+# infra/DEPLOYMENT.md has the order to retire this in: attach the IAM policy,
+# set up the `production` environment, dispatch the workflow, disable the
+# pipeline trigger, then delete this file and the pipeline in a separate PR.
+
 env:
   variables:
     NODE_ENV: production
