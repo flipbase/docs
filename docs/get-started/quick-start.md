@@ -41,9 +41,10 @@ Place an element, load the recorder, point it at your recorder id.
 
 The recorder handles camera permission, the viewfinder, retakes and the upload.
 When the candidate submits, your `callback` receives a **video UUID** as its
-first argument. The option is called `callback`, and it is the only way to be
-told the video exists — see [Recorder v2](../recorder/v2/docs.mdx) for its full
-signature.
+first argument. The option is called `callback` — there is no `onSubmit`; see
+[Recorder v2](../recorder/v2/docs.mdx#the-callback) for its full signature, and
+[Upload events](../recorder/v2/docs.mdx#upload-events) if you want to follow the
+upload as it runs rather than only hear that it finished.
 
 :::caution Serve this over HTTPS
 

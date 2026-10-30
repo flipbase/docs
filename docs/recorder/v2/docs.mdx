@@ -15,6 +15,8 @@ import ScriptHost from '@site/src/components/ScriptHost';
 - [If your page loads an unversioned bundle](#unversioned-bundles)
 - [Settings](#settings)
 - [The callback](#the-callback)
+- [Upload events](#upload-events)
+- [The recorder instance](#instance)
 - [Multiple recorders on a single page](#multiple-recorders-on-a-single-page)
 - [What you should know before you implement the recorder](#limitations)
 - [Browser support](#browser-support)
@@ -101,19 +103,47 @@ Parameter | Type | Default | Description
 --- | --- | --- | ---
 recorderId | String | — | UUID provided by Flipbase. **Required.**
 selector | String | — | The `id` of the element to mount the recorder into. **Required.**
-allowUploadMethod | Boolean | `true` | When `true`, users can upload a video file in addition to recording with their webcam. Set to `false` to disable the upload option.
-maxTakes | Number | `0` | Maximum number of recording takes a user can make. `0` means unlimited.
 duration | Number | `30` | Maximum duration in seconds of a single take.
-primaryColor | String | — | Color of the most prominent buttons. HEX format.
-secondaryColor | String | — | Secondary button color. HEX format.
-backgroundColor | String | — | Background color of the application. HEX format.
-textColor | String | — | Text color. HEX format.
 locale | String | `nl-NL` | [See supported languages below](#supported-languages).
 maxWidth | Number | — | Maximum width in pixels. The recorder always maintains a 16:9 aspect ratio — it picks the most conservative dimension.
 maxHeight | Number | — | Maximum height in pixels. See `maxWidth` description.
+primaryColor | String | `#a62651` | Color of the most prominent buttons. HEX format.
+secondaryColor | String | `#ffffff` | Secondary button color. HEX format.
+backgroundColor | String | `#ffffff` | Background color of the application. HEX format.
+textColor | String | `#232322` | Text color. HEX format.
+allowRecordMethod | Boolean | `true` | Whether the home screen offers **Record**. See [Which methods the candidate is offered](#methods).
+allowUploadMethod | Boolean | `true` | Whether the home screen offers **Upload a video**. See [Which methods the candidate is offered](#methods).
+maxTakes | Number | `0` | How many webcam takes the candidate gets. `0` means unlimited. See [Takes](#takes).
+showTakesCounter | Boolean | follows `maxTakes` | Whether the "takes remaining" line is printed. See [Takes](#takes).
+recordingQuality | String | `auto` | Caps the resolution and bitrate of a webcam recording. See [Recording quality](#recording-quality).
+persistTake | Boolean | `true` | Keep a webcam take in IndexedDB until its upload succeeds, so a refresh mid-upload does not lose it. See [Surviving a refresh](#persist-take).
+takeKey | String | derived | Which stored take belongs to this recorder. See [Surviving a refresh](#persist-take).
+warnBeforeLeaving | Boolean | `true` | Confirm before the page is left with an upload in flight. See [While an upload runs](#waiting).
+uploadStallWarningSeconds | Number | `20` | After how many seconds of no bytes the upload screen tells the candidate the transfer has stopped. `0` or `false` turns the message off. See [While an upload runs](#waiting).
+minUploadScreenMs | Number | `900` | The shortest time the upload screen stays up, so a fast upload is not a flicker. Holds the screen only, never the transfer or your handlers. `0` turns it off.
+exitFullscreenOnSave | Boolean | `true` | Leave full screen when the candidate saves their take. See [Full screen](#full-screen).
+warnOnSilentMic | Boolean &#124; `'always'` | `true` | Warn the candidate when their microphone is picking up nothing. See [Silent microphones](#silent-mic).
+allowDeviceSwitch | Boolean | `true` | Let the candidate change microphone and camera from the navigation bar. See [Silent microphones](#silent-mic).
+prompt | Object | — | The question the candidate is answering: `{title, tips: []}`, both optional. Shown in full screen only. See [The question on screen](#prompt).
 output | String | — | Decides what the callback's first argument contains. Leave undefined for the video's UUID. Set to `embedCode` for an embeddable iframe instead — it *replaces* the UUID, it is not an extra argument.
 outputOptions | Object | — | Object with optional `pageName` and `privacy` properties. `pageName` is required when `output` is `embedCode`.
 callback | Function &#124; String | — | Called when the upload finishes. Invoked with `(output, element)` — see [The callback](#the-callback). A string is treated as the name of a function on `window`.
+onUploadStart <br/> onUploadProgress <br/> onUploadSuccess <br/> onUploadError <br/> onUploadAbort <br/> onTakeRestored | Function &#124; String | — | Follow an upload as it runs. See [Upload events](#upload-events).
+
+Every boolean above is read strictly: only an explicit `false` takes a feature
+away, so an options object built from a form that hands over `undefined` keeps
+the default rather than quietly switching something off.
+
+:::note `showFAQButton` is retired
+
+It switched a question-mark icon that opened a page which has answered 404 for
+years, and it was read inverted on top of that — the documented default `true`
+*hid* the icon. The option is now accepted and ignored: passing it is harmless,
+nothing a candidate sees changes either way, and the recorder logs one
+`console.warn` naming it so it can be taken out of your configuration whenever
+you next touch it.
+
+:::
 
 ### The callback {#the-callback}
 
@@ -155,42 +185,258 @@ do not need changing.
 
 :::
 
-### Default behaviour
+### Which methods the candidate is offered {#methods}
 
-If you initialize the recorder without `allowUploadMethod` or `maxTakes`, the defaults apply:
-
-```javascript
-FlipbaseV2.recorder({
-  selector: 'recorder1',
-  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
-  // allowUploadMethod: true  (default — upload option is visible)
-  // maxTakes: 0              (default — unlimited takes)
-});
-```
-
-### Disable upload method
-
-To hide the upload option and force users to record with their webcam:
+The home screen shows one prominent **Record** button with the maximum length
+under its label, and **Upload a video** underneath it. Both are on by default,
+and an explicit `false` removes one — removes, not hides, so what is left is
+the only thing in the frame.
 
 ```javascript
 FlipbaseV2.recorder({
   selector: 'recorder1',
   recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
-  allowUploadMethod: false,
+  allowUploadMethod: false, // record only
 });
 ```
 
-### Limit the number of takes
+Setting both to `false` would leave an empty frame, so that is ignored and both
+are offered.
 
-To restrict how many recording attempts a user can make:
+There are two methods and not three: recording covers the webcam and the
+phone's own camera, and which one is reached is the recorder's decision rather
+than a question put to the candidate. Where the browser has `getUserMedia` and
+`MediaRecorder`, Record opens the **webcam** — on a phone as well as on a
+desktop. Where it does not, which means an old browser or an insecure origin,
+Record falls back to the phone's own camera app, and on a desktop to the file
+picker. That last case is the one place a candidate reaches a file picker on an
+integration that passed `allowUploadMethod: false`; the alternative is a button
+that cannot work. Whichever path is taken, the method reported to your handlers
+is still `'webrtc'`, `'mobile'` or `'upload'`.
+
+### Takes {#takes}
+
+`maxTakes` limits **webcam** takes. A take is spent when the countdown starts,
+not when the recording stops — a candidate who sees themselves on camera and
+backs out has had the attempt, and counting at the end would let them restart
+endlessly by abandoning each one.
 
 ```javascript
 FlipbaseV2.recorder({
   selector: 'recorder1',
   recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
-  maxTakes: 2, // user can record at most 2 takes
+  maxTakes: 2,
 });
 ```
+
+The count lives in `localStorage` keyed by `recorderId`, so a refresh does not
+hand out a fresh set. Two recorders created with the same `recorderId` on one
+page therefore share a limit — give them different ids if each should have its
+own — and [`resetTakes()`](#instance) clears the count when you invite the same
+candidate to answer again.
+
+The phone-camera fallback and the file upload are never limited. The candidate
+hands over a finished file and there is no take to count.
+
+`showTakesCounter` decides whether the "takes remaining" line is printed, under
+the record button and under the after-take menu:
+
+```javascript
+FlipbaseV2.recorder({ maxTakes: 3 })                          // "Takes remaining: 2"
+FlipbaseV2.recorder({ maxTakes: 3, showTakesCounter: false }) // nothing
+FlipbaseV2.recorder({ maxTakes: 0, showTakesCounter: true })  // "unlimited takes"
+FlipbaseV2.recorder({ maxTakes: 0 })                          // nothing
+```
+
+It hides the line and not the limit: with `showTakesCounter: false` the
+candidate still gets three takes and the re-record button still goes dead once
+they are gone. Use it where your own page already says how many attempts there
+are, or where a counter would only add pressure.
+
+### Recording quality {#recording-quality}
+
+How large a webcam recording is allowed to be — `auto` (the default), `1080p`,
+`720p`, `480p` or `360p`. A level sets the resolution asked of the camera and
+the bitrate given to `MediaRecorder`, because either alone does very little.
+
+| Level | Asked of the camera | Video bitrate | 30 seconds at most |
+| --- | --- | --- | --- |
+| `auto` | nothing | the browser's own default | no ceiling |
+| `1080p` | 1920x1080, 30 fps | 4 Mbps | 15 MB |
+| `720p` | 1280x720, 30 fps | 2 Mbps | 8 MB |
+| `480p` | 854x480, 30 fps | 1 Mbps | 4 MB |
+| `360p` | 640x360, 24 fps | 0.6 Mbps | 3 MB |
+
+Two things to know before picking one. The resolution is a preference and not a
+demand — every dimension is sent as `ideal`, so a camera that cannot produce it
+negotiates something close rather than failing. And `1080p` or `720p` can make
+a recording *larger* than `auto` on a browser whose unconstrained default is
+smaller, Chrome's being 640x480: they cap the bitrate and raise the frame size.
+Choose `480p` or `360p` to be sure of a smaller file.
+
+An unknown value logs a warning naming the levels and records at `auto`, so a
+typo cannot stop somebody recording. A bare number is accepted, so `720` reads
+as `'720p'`.
+
+It applies to the **webcam** method only. On the phone-camera fallback the
+phone's own Camera app makes the recording, at whatever the phone is set to,
+and a 30-second clip from a handset shooting 4K is several hundred megabytes —
+nothing any recorder option can change.
+
+### Surviving a refresh {#persist-take}
+
+A webcam take is written to IndexedDB as it is recorded, and a recorder that
+comes up on a page where one is waiting restores it rather than starting empty.
+The candidate lands back on **play / re-record / save**, and
+[`onTakeRestored`](#upload-events) tells your page it happened. This is on by
+default; `persistTake: false` turns it off and writes nothing.
+
+Worth knowing:
+
+- **Saving a restored take uploads it from the beginning.** The interrupted
+  upload is not resumed and nothing in the interface suggests it is.
+- The webcam method only — the phone-camera fallback hands over a file of
+  hundreds of megabytes, which is not something to copy onto the phone's own
+  storage while an upload is already struggling.
+- A stored take is deleted the moment its upload succeeds, and kept when an
+  upload fails or is cancelled, which is when the candidate needs it. Anything
+  older than 24 hours is swept on the next page load.
+- A recording cut off mid-sentence by the reload is not restored, and nothing
+  is restored over an element that already carries a submitted value.
+- Where there is no IndexedDB — private browsing, blocked site data, an
+  exceeded quota — every operation is a no-op and nothing is said to the
+  candidate, because nothing has gone wrong with their recording.
+
+`takeKey` says which stored take belongs to which recorder. Left alone it is
+derived from the `recorderId`, the element, `location.pathname` and an id for
+the browsing session, which means a take is recoverable across a refresh of the
+same tab and not beyond it. That session boundary is deliberate: on a machine
+more than one person uses, everything else in the key describes the page, so
+two candidates applying for the same vacancy would otherwise produce the same
+key and the second would be handed the first one's recording.
+
+One case the recorder cannot work out for itself is two applications reached at
+the same path, through the same recorder, in one browsing session. Pass the
+application's own id there:
+
+```javascript
+FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+  takeKey: 'application-4711',
+});
+```
+
+A `takeKey` you pass is used exactly as given, **without** the session part — so
+make sure it identifies the application and not just the page.
+
+### While an upload runs {#waiting}
+
+Three things guard a candidate on a bad connection who has already recorded.
+
+**The screen is held awake** where the browser has
+[`navigator.wakeLock`](https://developer.mozilla.org/docs/Web/API/Screen_Wake_Lock_API),
+because a phone that locks its screen mid-upload freezes the socket rather than
+closing it. There is no option for this: the lock is taken when the transfer
+starts and released however it ends. If you embed the recorder in an iframe, add
+`screen-wake-lock` to the frame's `allow` attribute, or the request is refused
+there.
+
+**Leaving the page asks for confirmation** while a transfer is in flight, since
+leaving loses the take. The wording is the browser's own; nothing you pass is
+shown. Pass `warnBeforeLeaving: false` if your own page already asks, because
+two prompts in a row are worse than one.
+
+**A transfer that stops moving says so**, after `uploadStallWarningSeconds`, and
+offers the candidate a way out. The transport is still retrying underneath that
+message — see `fatal` in [Upload events](#upload-events).
+
+`minUploadScreenMs` is unrelated to all three: it keeps the upload screen up for
+at least 900 ms so that a fast upload registers as a screen rather than a
+flicker. It holds the interface only. The transfer is not slowed and neither is
+`callback` or `onUploadSuccess`.
+
+### Full screen {#full-screen}
+
+The navigation bar carries a full-screen button, and the recorder goes full
+screen by itself on a phone or tablet when the candidate starts recording.
+
+This is **not** the browser's Fullscreen API, which needs a user gesture, is
+refused inside a cross-origin iframe without an `allow` attribute, and on iOS
+Safari does not exist for anything but a `<video>`. The recorder instead fixes
+itself over the viewport with `position: fixed` and a `z-index` of 9999, which
+works everywhere it is embedded — a page whose own stacking puts something above
+that z-index will see it overlap.
+
+Full screen also sets `document.body.style.overflow = 'hidden'`. That is the one
+thing the recorder changes outside its own subtree, and your page's own value is
+saved and put back rather than deleted.
+
+**Saving a take leaves full screen**, and the moment it happens is the
+candidate's tap rather than the end of the upload — so a failed, cancelled or
+still-running upload all land out of full screen, with the take in front of the
+candidate at the recorder's embedded size. Pass `exitFullscreenOnSave: false`
+only if your page manages full screen itself; the failure it guards against is a
+candidate left on a page they cannot scroll, unable to reach the rest of your
+form.
+
+### Silent microphones, and changing device {#silent-mic}
+
+`warnOnSilentMic` measures the live microphone while the camera is open and,
+after about three unbroken seconds of near-silence, shows a bar reading *"No
+sound detected. Please check your microphone settings."* It appears before
+recording, while the candidate has not yet spent a take, and during a recording,
+because a headset can be muted at any point.
+
+**It warns and does nothing else.** It cannot stop a recording, a save or an
+upload, and the candidate can close it. Three values:
+
+| Value | What it does |
+| --- | --- |
+| `true` | The default. Measures where the level reading is worth trusting. |
+| `'always'` | Measures on Apple engines too, where it is suppressed by default because a flat-zero reading there produces false positives for working microphones. Pass it if you measure your own Apple traffic and know what it does. |
+| `false` | Off entirely. No `AudioContext` is created and nothing is measured. |
+
+`allowDeviceSwitch` is the other half of it: the microphone and camera buttons
+in the navigation bar, which let the candidate record on a different input.
+Telling someone their microphone is picking up nothing and offering no way to
+change it is half a feature.
+
+The buttons appear only once the camera is open, only before a take, and only
+when the browser reports more than one input of that kind — `enumerateDevices()`
+answers before permission with blank names, a switch replaces the stream the
+`MediaRecorder` is attached to, and a menu with one item in it is noise. What a
+candidate chooses is kept for that recorder and not written to storage, so the
+next page load starts from the browser's own choice again.
+
+Pass `allowDeviceSwitch: false` where the inputs are not the candidate's to
+choose — a kiosk with a fixed camera rig. Nothing is listed at all then.
+
+Both apply to the **webcam** method only: the other two methods hand over a
+finished file, and there is no live microphone to measure.
+
+### The question on screen {#prompt}
+
+The question the candidate is answering, shown **in full screen only** — which
+is the problem it exists for, the recorder covering the page the question was
+printed on.
+
+```javascript
+var recorder = FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+  prompt: {
+    title: 'Tell us about a time you changed someone\'s mind at work',
+    tips: ['Keep it to one example', 'Say what changed afterwards'],
+  },
+});
+
+// A screening that asks several questions through one recorder
+recorder.setPrompt({ title: 'Question two' });
+```
+
+Both parts are optional, and leaving `prompt` out renders nothing. Beside an
+embedded recorder you already have your own page to put the question on.
 
 ### Full example
 
@@ -208,6 +454,8 @@ FlipbaseV2.recorder({
   backgroundColor: '#242b3c',
   textColor: '#FFFFFF',
   locale: 'en-US',
+  recordingQuality: '480p',
+  takeKey: 'application-4711',
   output: 'embedCode',
   outputOptions: {
     pageName: 'my-page',
@@ -218,9 +466,140 @@ FlipbaseV2.recorder({
     // `output: 'embedCode'` is set above, so `output` here is the embed code,
     // not the UUID.
     console.log('Video saved. Embed code:', output);
+  },
+  onUploadError: function (info) {
+    if (info.fatal) showError(info.reason);
   }
 });
 ```
+
+## Upload events {#upload-events}
+
+`callback` tells you a video exists. These tell you how the upload is going,
+which is what a page needs to disable a submit button, show its own progress, or
+log a failure.
+
+| Handler | When it fires | `info` carries |
+| --- | --- | --- |
+| `onUploadStart` | The file has been accepted and the transfer begins, before the video document exists. | `method` (`'webrtc'`, `'upload'` or `'mobile'`), `bytesTotal` |
+| `onUploadProgress` | Every progress event from the transfer. | `percentage` (0–100, rounded), `bytesSent`, `bytesTotal` |
+| `onUploadSuccess` | The upload finished. Fires after `callback`, and after `isUploading()` has gone false, so a handler may submit your form. | `videoId`, `output` |
+| `onUploadError` | The upload failed, the file was refused, or the transfer has stopped moving. | `reason`, `fatal`, `error` |
+| `onUploadAbort` | The upload was cancelled, by the recorder's own cancel button or by `abort()`. | — |
+| `onTakeRestored` | A webcam take from a previous page load was recovered, shortly after the recorder is created. Not an upload event — see [Surviving a refresh](#persist-take). | `method` (always `'webrtc'`), `bytesTotal`, `duration` (seconds), `recordedAt` (ms since the epoch) |
+
+Every handler is optional, and every one takes either a function or **the name
+of a function on `window`**, the same as `callback` always has — the name is
+looked up when the event fires, so a global defined further down the page still
+works. A handler that throws is logged and otherwise ignored: a mistake in your
+form validation cannot break an upload or stop the other handlers.
+
+Exactly one of `onUploadSuccess`, `onUploadError` and `onUploadAbort` ends an
+upload, and nothing fires after it. A new take is a new upload and reports again
+from the start.
+
+### `reason`, and the one error that is not the end
+
+`reason` is one of `invalid_file`, `image_provided`, `invalid_file_size`,
+`timeout`, `upload_failed` or `upload_stalled`. The first three are files the
+recorder refuses, and they arrive **without a preceding `onUploadStart`**,
+because no transfer ever began. `error` is the underlying error, whose shape is
+not part of this contract.
+
+`upload_stalled` is the exception: `fatal` is `false` on it and `true` on every
+other `onUploadError`. It means the transfer has delivered no bytes for
+`uploadStallWarningSeconds` and the candidate has been shown a way out — the
+transport is still retrying underneath it, so a success, an abort or a fatal
+error is still to come. It can fire more than once if an upload recovers and
+stops again. Branch on `fatal` if you are counting failures:
+
+```javascript
+FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+  onUploadProgress: function (info) {
+    bar.style.width = info.percentage + '%';
+  },
+  onUploadError: function (info) {
+    if (!info.fatal) return track('upload stalled', info); // still going
+    showError(info.reason);
+  },
+  onUploadSuccess: function (info) {
+    form.submit(); // the UUID is already on the element
+  },
+});
+```
+
+:::caution Do not subscribe through `window._fb`
+
+`window._fb` and `window.FlipbaseV2.RecordersStore` are the internal store, on
+`window` for historical reasons rather than as an API. `addChangeHandler` on
+them holds one handler per recorder and replaces it silently — and the handler
+it replaces is the recorder's own view, so a page that subscribes
+*unsubscribes the interface*: it renders once and then never updates again,
+with nothing thrown and nothing logged. The events above exist so there is no
+reason to go near it.
+
+:::
+
+## The recorder instance {#instance}
+
+`FlipbaseV2.recorder(...)` returns an object with six methods.
+
+| Method | What it does |
+| --- | --- |
+| `isUploading()` | `true` while a video is uploading — not while recording. Requires `selector` to be set. |
+| `abort()` | Cancels the upload in flight and tells S3 to release the parts. |
+| `resume()` | Starts an interrupted upload again, keeping the parts S3 has already acknowledged. |
+| `resetTakes()` | Clears the take count, giving the candidate their takes back. See [Takes](#takes). |
+| `setPrompt(prompt)` | Replaces the question on screen. See [The question on screen](#prompt). |
+| `destroy()` | Takes the recorder off the page. |
+
+```javascript
+var recorder = FlipbaseV2.recorder({
+  selector: 'recorder1',
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+});
+
+console.log('Is uploading?', recorder.isUploading()); // false
+```
+
+`abort()` and `resume()` are for a page with its own "start over" or "retry"
+button, which cannot press the one inside the interface. Both are safe to call
+at any time and do nothing when no upload is in flight. `resume()` is rarely
+needed: the uploader already resumes itself when the page becomes visible again
+or the connection comes back, and the **try again** button on a stalled upload
+calls the same thing.
+
+### `destroy()`
+
+Removes the interface and its `<style>` element, stops the camera and the
+`MediaRecorder`, abandons an upload in flight, and releases every listener and
+timer the recorder took out — the `resize` handler, the uploader's
+`visibilitychange` and `online` handlers, the leave-page confirmation and the
+screen wake lock. Your own element is left where it was, still holding the
+value your page submits. A webcam take kept under `persistTake` is deliberately
+**not** deleted: a page being torn down is the case that exists to survive.
+
+It is callable at any moment and more than once — a second call does nothing —
+including from inside a handler the recorder has just called, which is how a
+framework integration always reaches it:
+
+```javascript
+const recorder = FlipbaseV2.recorder({
+  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
+  selector: 'recorder1',
+  callback: (output) => setVideoId(output), // React unmounts us from here
+});
+
+useEffect(() => () => recorder.destroy(), []);
+```
+
+By the time any handler is called the recorder has finished with that take: the
+output is on the element, the interface is in its finished state and
+`isUploading()` is false. A recorder torn down while in full screen gives your
+page its `body` scrolling back, even when the page removed the recorder's
+elements first — the order most frameworks unmount in.
 
 ## Multiple recorders on a single page
 
@@ -247,22 +626,10 @@ Each recorder instance requires a unique `selector`. Use the returned object's `
 </script>
 ```
 
-## Check if upload is in progress
-
-The `isUploading` method returns `true` while the user is uploading a video (not while recording). It requires the `selector` property to be set.
-
-```javascript
-var recorder = FlipbaseV2.recorder({
-  selector: 'recorder1',
-  recorderId: '9eaf41fd-4f3f-4fdb-b8ca-de84eeaed407',
-});
-
-console.log('Is uploading?', recorder.isUploading()); // false
-
-setTimeout(function () {
-  console.log('Is uploading?', recorder.isUploading()); // true if user started uploading
-}, 30000);
-```
+Two recorders sharing a `recorderId`, as above, share one take count — see
+[Takes](#takes). Give them different ids if each should have its own. They are
+separated for [`persistTake`](#persist-take) without anything being passed,
+because the element is part of the derived key.
 
 ## Limitations
 
@@ -302,22 +669,38 @@ Below you will find a list of all supported languages and their `locale` configu
 - Kirghiz: ky
 - Romanian: ro, ro-RO
 
-##### Webcam
-* Chrome 24.0+
-* Firefox 16.0+
-* Safari 4+
-* Opera 10.6+
+##### What the recorder requires
 
-##### Mobile
-* Android browser 4.1+
-* Chrome for Android 46+
-* iOS Safari 7.1+
+The recorder decides what to offer from what the browser actually has, at
+runtime, rather than from a version list — so this is the list of capabilities
+it tests.
 
-##### Upload
-* Safari iOS 7.1+
-* Android 4.0+
-* Internet Explorer 10+
-* Chrome 35.0+
-* Firefox 31.0+
-* Safari 5.1+
-* Opera 25+
+**Webcam recording** needs `MediaRecorder`, `getUserMedia`, native promises and
+`Blob`, plus the file-upload set below. It also needs a **secure origin**:
+browsers only grant camera access over HTTPS, with `localhost` counting as
+secure. In practice that is any current Chrome, Edge, Firefox, Safari or Opera
+on the desktop, and **iOS Safari 14.3 or newer** on a phone.
+
+**File upload** needs `FormData`, `XMLHttpRequest.upload` and
+`URL.createObjectURL`, which every browser still receiving updates has.
+
+Where webcam recording is unavailable — an old browser, or any page served over
+plain HTTP — the recorder does not fail. Record falls back to the phone's own
+camera app on a phone, and to the file picker on a desktop, where there is no
+camera for the browser to reach at all. See
+[Which methods the candidate is offered](#methods).
+
+##### Features that degrade quietly
+
+Each of these checks for itself and does nothing where it is unavailable. None
+of them stops a candidate recording or submitting.
+
+| Feature | Needs | Without it |
+| --- | --- | --- |
+| [`persistTake`](#persist-take) | IndexedDB | Nothing is stored, and nothing is said — private browsing and blocked site data are the usual cases. |
+| [`warnOnSilentMic`](#silent-mic) | Web Audio | No measurement, no warning. Suppressed on Apple engines unless you pass `'always'`. |
+| [`allowDeviceSwitch`](#silent-mic) | `enumerateDevices`, and more than one input | No buttons in the navigation bar. |
+| The screen wake lock | `navigator.wakeLock` | The upload runs exactly as before. Add `screen-wake-lock` to the `allow` attribute if you embed the recorder in an iframe. |
+
+Flash is not involved anywhere. Browsers removed the plugin in January 2021 and
+nothing in this line asks for it.
