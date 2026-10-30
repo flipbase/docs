@@ -2,8 +2,6 @@
 hide_table_of_contents: true
 ---
 
-<script src="//app.flipbase.com/recorder.js"></script>
-
 # Flipbase developer documentation
 
 Flipbase enables you to add video recording and playback capabilities to your website, web application or recruitment-system, with 1 line of Javascript code. Flipbase exists of a [recorder.js Javascript library](/recorder/v2/docs), a [player.js Javascript library](/player/v2/docs), [Flipbase Platform](/platform/docs) and an [API](https://documenter.getpostman.com/view/900009/S11DT24G).

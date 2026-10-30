@@ -22,9 +22,8 @@ collection videos land in.
 Place an element, load the recorder, point it at your recorder id.
 
 ```html
-<!-- The repeated `recorder/recorder/` segment is correct. Do not shorten it:
-     the single-segment path returns 403. -->
-<script src="https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js"></script>
+<!-- Pinned to an exact version. A version path never changes once published. -->
+<script src="https://cdn.flipbase.com/recorder/v2.0.0-alpha.2/recorder.js"></script>
 
 <div id="recorder"></div>
 
@@ -42,9 +41,10 @@ Place an element, load the recorder, point it at your recorder id.
 
 The recorder handles camera permission, the viewfinder, retakes and the upload.
 When the candidate submits, your `callback` receives a **video UUID** as its
-first argument. The option is called `callback`, and it is the only way to be
-told the video exists — see [Recorder v2](../recorder/v2/docs.mdx) for its full
-signature.
+first argument. The option is called `callback` — there is no `onSubmit`; see
+[Recorder v2](../recorder/v2/docs.mdx#the-callback) for its full signature, and
+[Upload events](../recorder/v2/docs.mdx#upload-events) if you want to follow the
+upload as it runs rather than only hear that it finished.
 
 :::caution Serve this over HTTPS
 
@@ -103,9 +103,15 @@ That is the entire surface area.
 
 ## A note on versions
 
-The player URL above pins an exact version with an integrity hash. Keep it that
-way. A version path never changes once published, so the bytes you test against
-are the bytes your candidates get.
+Both URLs above pin an exact version — the player's with an integrity hash as
+well. Keep them that way. A version path never changes once published, so the
+bytes you test against are the bytes your candidates get.
 
 `/player/latest/` exists and moves on its own. It is convenient right up until
-the morning it is not.
+the morning it is not. The recorder has no moving alias today: every recorder
+path is an exact version, apart from the two frozen unversioned bundles that
+predate them — see [If your page loads an unversioned
+bundle](../recorder/v2/docs.mdx#unversioned-bundles) if your page is on one.
+
+Versioned recorder and player paths are served from `cdn.flipbase.com` only.
+`app.flipbase.com` does not serve them, so do not swap the host.

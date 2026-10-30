@@ -8,7 +8,22 @@ import ScriptHost from '@site/src/components/ScriptHost';
 
 import PlaygroundLink from '@site/src/components/PlaygroundLink';
 
-# Integrate the Flipbase recorder
+# Integrate the Flipbase recorder (V1)
+
+:::danger This bundle is frozen — do not build a new integration on it
+
+`https://cdn.flipbase.com/recorder/recorder.js` is unversioned and receives no
+fixes, no features and no browser-support work. It stays live indefinitely,
+because pages have loaded it for years and changing it would change what all of
+them get — that is the same reason it cannot be fixed.
+
+This page is here so that an integration already on it has documentation, and
+for nothing else. For anything new, and to receive fixes, use
+[Recorder V2](../v2/docs.mdx), which pins an exact version — and see
+[If your page loads an unversioned bundle](../v2/docs.mdx#unversioned-bundles)
+for the one part of this bundle that is not frozen.
+
+:::
 
 - [Getting started](#getting-started)
 - [Settings](#settings)
@@ -20,10 +35,13 @@ import PlaygroundLink from '@site/src/components/PlaygroundLink';
 
 In order to use the Recorder app, place the HTML-code in your code, as shown below. The recorder.js application is based on a HTML `<input type="flipbase"/>` element and the JavaScript recorder.js library.
 
-<ScriptHost />
+<ScriptHost unversioned />
 
 ```html
-<!--  Load the JavaScript Recorder library  -->
+<!--  Load the JavaScript Recorder library.
+      Unversioned and frozen: these bytes are what you get, permanently.
+      `https://app.flipbase.com/recorder.js` is the byte-identical file on the
+      application host — note the path there has no `/recorder/` segment.  -->
 <script src="https://cdn.flipbase.com/recorder/recorder.js" ></script>
 
 <!-- Place an HTML input element at the spot were you would like to show the Recorder -->
@@ -41,7 +59,10 @@ In order to use the Recorder app, place the HTML-code in your code, as shown bel
 
 <LiveExample variant="recorder-v1" />
 
-<PlaygroundLink to="/playground/recorder?v=1.0.0-alpha.1">Open the recorder playground</PlaygroundLink>
+<PlaygroundLink
+  to="/playground/recorder?v=legacy-v1"
+  note="Opens in a new tab. Loads this frozen unversioned bundle — the same bytes your page loads today. Use the playground's version picker to compare it against a released version."
+>Open the recorder playground</PlaygroundLink>
 
 When the user has succesfully saved the video, the `input` node will be provided with a videoId, as shown below:
 
