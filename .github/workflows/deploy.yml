@@ -1,0 +1,243 @@
+name: Deploy
+
+# Replaces `buildspec.yml`, which is run by the `docs-flipbase-pipeline`
+# CodePipeline in account 435557921244 on every push to `master`. That pipeline
+# works — it deployed `2aa18ab` (PR #60) on 2026-10-30 — so this is a move, not
+# a repair. What it is not is visible: the build log lives in CloudWatch under
+# `/codebuild/docs-flipbase` and the only way to find out whether a merge
+# deployed is to open the AWS console. Everything below runs in the same place
+# as the pull request that caused it.
+#
+# `master` only, not `staging`, and that is a finding rather than a preference:
+# there is no staging docs site to deploy to. Account 435557921244 has exactly
+# one docs bucket (`docs.flipbase.com`) and one distribution serving it
+# (`E371TMZJQHNA9D`, "Docusaurus site"). `docs.stg.flipbase.com` resolves to
+# 18.185.109.250 and answers on neither port 80 nor 443;
+# `docs-staging.flipbase.com` serves an unrelated `<title>Flipbase | </title>`
+# page, not Docusaurus. So a `push: [staging]` trigger here would fail on every
+# merge into `staging` — which is the normal route to `master` in this repo —
+# and a red cross on the usual path is worse than no check at all. `ci.yml`
+# already builds every push to `staging`, so nothing goes unverified.
+#
+# Unlike the player and recorder, which are `workflow_dispatch` only: those
+# publish immutable version folders to a CDN that customers' pages load
+# directly, so a publish reaches third parties and `latest` must never move by
+# accident. This is one documentation site at one hostname with no pinning and
+# nothing downstream of it. The useful property here is that `master` and
+# docs.flipbase.com agree, which auto-deploy gives and manual dispatch does not
+# — the same reasoning as admin-dashboard's `deploy.yml`.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: >-
+          Where to deploy from the current ref. Only `production` is configured
+          today; `staging` is here so it works the day a staging bucket exists,
+          and stops with a readable message until then.
+        type: choice
+        required: true
+        default: production
+        options: [production, staging]
+
+# Never two deploys into one bucket at once: `aws s3 sync --delete` from two
+# runs can interleave into a half-replaced site. Not cancel-in-progress — a
+# cancelled sync is what leaves one behind.
+concurrency:
+  group: deploy-${{ inputs.environment || 'production' }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build & deploy
+    runs-on: ubuntu-latest
+
+    # The GitHub Environment holds the AWS credentials and the bucket and
+    # distribution ids, and is where a required reviewer goes if a production
+    # deploy should ever need a second pair of eyes. Nothing identifying the
+    # target is written in this file, so a staging deploy cannot name the
+    # production bucket by falling through to a default.
+    environment: ${{ inputs.environment || 'production' }}
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # 22, matching `buildspec.yml`'s `runtime-versions: nodejs: 22` and
+          # `ci.yml`. There is no `.nvmrc` in this repo to read it from; adding
+          # one belongs in its own change, not in the deploy move.
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve environment
+        id: env
+        env:
+          CHOSEN: ${{ inputs.environment || 'production' }}
+        run: |
+          echo "name=$CHOSEN" >> "$GITHUB_OUTPUT"
+          echo "Deploying to $CHOSEN"
+
+      # Fail before touching AWS rather than half-way through, and say what is
+      # missing. Only `production` is configured today — see the header.
+      - name: Check the environment is configured
+        env:
+          BUCKET: ${{ vars.S3_BUCKET }}
+          DISTRIBUTION: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          missing=
+          [ -z "$BUCKET" ] && missing="$missing S3_BUCKET"
+          [ -z "$DISTRIBUTION" ] && missing="$missing CLOUDFRONT_DISTRIBUTION_ID"
+
+          if [ -n "$missing" ]; then
+            echo "The '${{ steps.env.outputs.name }}' environment is missing:$missing" >&2
+            echo >&2
+            echo "Set them as Environment variables on the" >&2
+            echo "'${{ steps.env.outputs.name }}' environment in repository settings." >&2
+            echo "The values for production, and the runbook for creating a staging" >&2
+            echo "bucket and distribution, are in infra/DEPLOYMENT.md." >&2
+            exit 1
+          fi
+
+      # `NODE_ENV: production` because `buildspec.yml` sets it. Docusaurus sets
+      # its own mode for `docusaurus build`, so this changes nothing today — it
+      # is carried across so the two builds cannot diverge on it later.
+      - name: Build
+        env:
+          NODE_ENV: production
+        run: npm run build
+
+      # The two syncs below both carry --delete, so a build that produced
+      # nothing but exited 0 would empty the bucket. Docusaurus does not fail
+      # that way, but the blast radius is the whole public site, so it is
+      # checked rather than assumed.
+      - name: Check the build looks like a site
+        run: |
+          test -f build/index.html || { echo "build/index.html is missing" >&2; exit 1; }
+
+          pages=$(find build -name '*.html' | wc -l | tr -d ' ')
+          echo "Built $pages HTML pages"
+          if [ "$pages" -lt 10 ]; then
+            echo "Only $pages HTML pages in build/ — expected the whole docs site." >&2
+            echo "Refusing to sync with --delete over a build this small." >&2
+            exit 1
+          fi
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # The docs bucket is in eu-central-1 (confirmed via
+          # get-bucket-location), which is also what CodeBuild ran in.
+          aws-region: ${{ vars.AWS_REGION || 'eu-central-1' }}
+
+      # Two passes, same split and same cache headers as `buildspec.yml`, and
+      # the order is the point. Everything except HTML first: Docusaurus names
+      # those files with a content hash, so they are immutable and get a year.
+      # HTML last, with no-cache, because it is the only thing that names the
+      # new hashes — upload it first and a browser can fetch new HTML while the
+      # assets it points at are still going up.
+      - name: Sync hashed assets
+        env:
+          BUCKET: ${{ vars.S3_BUCKET }}
+        run: |
+          aws s3 sync build "s3://$BUCKET" \
+            --delete \
+            --exclude '*.html' \
+            --cache-control 'public,max-age=31536000,immutable'
+
+      # One deliberate difference from `buildspec.yml`: --delete here too.
+      #
+      # `aws s3 sync` applies --include/--exclude to the destination listing as
+      # well as the source, so the asset pass above never considered an HTML key
+      # for deletion and this pass had no --delete at all. Between them, no HTML
+      # object was ever pruned: every page ever published to docs.flipbase.com is
+      # still being served, including ones deleted from the repo.
+      #
+      # Verified rather than reasoned: `--delete --exclude '*' --include '*.html'`
+      # run with --dryrun against the live bucket listed 1 deletion, all of it
+      # HTML, and 0 non-HTML keys, with hundreds of non-HTML objects in the
+      # bucket. The filters bound the deletion to HTML.
+      - name: Sync HTML
+        env:
+          BUCKET: ${{ vars.S3_BUCKET }}
+        run: |
+          aws s3 sync build "s3://$BUCKET" \
+            --delete \
+            --exclude '*' \
+            --include '*.html' \
+            --cache-control 'no-cache'
+
+      # Without this the distribution keeps serving the previous HTML, which
+      # names assets the sync above just deleted. `/*` because this site is a
+      # few hundred small files and every HTML page can change in one commit;
+      # there is no cheaper path list worth maintaining. Query strings are not
+      # an option — the distribution does not key on them, so `?v=` buys
+      # nothing. Waited on so "Verify what landed" below means something.
+      - name: Invalidate CloudFront
+        env:
+          DISTRIBUTION: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          id=$(aws cloudfront create-invalidation \
+            --distribution-id "$DISTRIBUTION" \
+            --paths '/*' \
+            --query 'Invalidation.Id' --output text)
+          echo "Invalidation $id created"
+          aws cloudfront wait invalidation-completed \
+            --distribution-id "$DISTRIBUTION" --id "$id"
+
+      # Fetch the site back and confirm it names the bundle this run built. An
+      # upload that reported success and a site still serving the previous build
+      # look identical from the workflow log otherwise — which is exactly the
+      # failure the CodeBuild deploy could not tell you about either.
+      - name: Verify what landed
+        env:
+          BASE: ${{ vars.PUBLIC_URL }}
+        run: |
+          # Anchored on the asset path, not just the filename: Docusaurus also
+          # emits `runtime~main.<hash>.js`, and an unanchored
+          # /(main\.[0-9a-f]+\.js)/ matches the runtime chunk's hash first — it
+          # would still detect a change, but it would name the wrong file.
+          main=$(node -e "
+            const fs = require('fs');
+            const html = fs.readFileSync('build/index.html', 'utf8');
+            const m = html.match(/\/assets\/js\/(main\.[0-9a-f]+\.js)/);
+            if (!m) { console.error('No main bundle in build/index.html'); process.exit(1); }
+            console.log(m[1]);
+          ")
+          echo "This build's entry bundle is $main"
+
+          if [ -z "$BASE" ]; then
+            echo "No PUBLIC_URL set for this environment; skipping the fetch-back check."
+            exit 0
+          fi
+
+          served=$(curl -fsS "$BASE/")
+          if printf '%s' "$served" | grep -q "$main"; then
+            echo "$BASE serves $main"
+          else
+            echo "$BASE does not reference $main yet." >&2
+            echo "Either the invalidation has not taken effect or the sync did not land." >&2
+            exit 1
+          fi
+
+      - name: Summary
+        env:
+          BUCKET: ${{ vars.S3_BUCKET }}
+          BASE: ${{ vars.PUBLIC_URL }}
+        run: |
+          {
+            echo "### Deployed to ${{ steps.env.outputs.name }}"
+            echo
+            echo "- commit \`$(git rev-parse --short HEAD)\` on \`${{ github.ref_name }}\`"
+            echo "- bucket \`s3://$BUCKET\`"
+            [ -n "$BASE" ] && echo "- $BASE"
+          } >> "$GITHUB_STEP_SUMMARY"
