@@ -89,7 +89,14 @@ function Inner({ variant }: { variant: Variant }): JSX.Element {
           src={`/embed/?variant=${variant}`}
           height={height}
           /* The recorder needs both; the players need neither but asking is harmless. */
-          allow="camera; microphone; fullscreen"
+          /*
+           * `screen-wake-lock` because the recorder asks for one while an
+           * upload runs, and the request is refused in a cross-origin frame
+           * without it. This frame is same-origin, where it is granted anyway —
+           * it is here so the attribute the documentation tells integrators to
+           * add is the attribute our own example uses.
+           */
+          allow="camera; microphone; fullscreen; screen-wake-lock"
           loading="lazy"
         />
       </div>

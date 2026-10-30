@@ -73,6 +73,7 @@
          */
         var VARIANTS = {
           'recorder-v1': {
+            /* Unversioned on purpose: the v1 page documents this frozen path. */
             src: 'https://cdn.flipbase.com/recorder/recorder.js',
             mount: function (el) {
               /* v1 replaces an input rather than filling a container. */
@@ -92,7 +93,14 @@
             },
           },
           'recorder-v2': {
-            src: 'https://cdn.flipbase.com/recorder/recorder/recorderv2/recorder.js',
+            /*
+             * The pinned version the v2 page's snippet shows, not the old
+             * unversioned path. These have to match: the point of this page is
+             * that the reader sees the documented integration running, and a
+             * frame quietly running different bytes is worse than no frame.
+             * `script.onerror` below says so plainly if the version is missing.
+             */
+            src: 'https://cdn.flipbase.com/recorder/v2.0.0-alpha.2/recorder.js',
             mount: function (el) {
               var div = document.createElement('div');
               div.id = 'fb-embed';
